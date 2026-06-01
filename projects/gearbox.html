@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two-Stage Reduction Gearbox — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Projects</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="project-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      All Projects
+    </a>
+    <div class="project-meta-row">
+      <div class="meta-chip">Year <span>2025</span></div>
+      <div class="meta-chip">Team <span>Stevens Baja SAE</span></div>
+      <div class="meta-chip">Role <span>Powertrain Lead</span></div>
+    </div>
+    <h1>Two-Stage Reduction Gearbox Redesign</h1>
+    <p class="lede">
+      After a catastrophic failure during testing, I redesigned the Baja SAE gearbox from
+      the ground up — applying gear stress analysis to understand why the previous one failed,
+      then building a substantially stronger replacement with a permanent fix for the chronic
+      oil leak problem.
+    </p>
+  </div>
+
+  <div class="project-hero-img">
+    <!-- Add: ../images/gearbox-hero.jpg — best photo of the finished gearbox -->
+    <img src="../images/gearbox-hero.jpg" alt="Finished two-stage reduction gearbox" onerror="this.style.display='none'">
+    <div class="img-ph" id="gearbox-hero-ph">../images/gearbox-hero.jpg — finished gearbox photo</div>
+  </div>
+
+  <div class="project-content">
+
+    <h2>Background</h2>
+    <p>
+      Baja SAE is a collegiate off-road racing competition. The Stevens car runs a stock Briggs
+      &amp; Stratton 10hp engine through a CVT (continuously variable transmission), and then
+      through a reduction gearbox before the rear axle. The reduction gearbox is a critical
+      component — it multiplies the torque from the CVT output shaft and steps down the speed
+      to a range suitable for the wheels.
+    </p>
+    <p>
+      During testing, the previous gearbox failed catastrophically. By "catastrophically" I mean
+      complete gear tooth fracture — not gradual wear, not a bearing failure, not a seal issue,
+      but the gear teeth themselves snapping off under load. This is a sign that the gears were
+      stressed beyond their ultimate strength, not just their yield strength, meaning the factor
+      of safety on the previous design was dangerously low.
+    </p>
+    <p>
+      As Powertrain Lead, I was responsible for the redesign. The goals were clear: dramatically
+      increase factor of safety, fix the chronic oil leaks that had plagued previous gearboxes,
+      and document the analysis so future leads could understand the design rationale.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <!-- Add: ../images/gearbox-fail.jpg — photo of failed gearbox/broken gears if available -->
+        <img src="../images/gearbox-fail.jpg" alt="Failed gearbox" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-fail">../images/gearbox-fail.jpg<br>Failed gearbox / broken gear teeth</div>
+        <figcaption>The previous gearbox after catastrophic failure during testing</figcaption>
+      </figure>
+      <figure>
+        <!-- Add: ../images/gearbox-cad.jpg — CAD screenshot of redesigned gearbox -->
+        <img src="../images/gearbox-cad.jpg" alt="Gearbox CAD model" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-cad">../images/gearbox-cad.jpg<br>CAD model / screenshot</div>
+        <figcaption>CAD model of the redesigned two-stage gearbox</figcaption>
+      </figure>
+    </div>
+
+    <h2>Gear Stress Analysis</h2>
+    <p>
+      Before designing anything new, I needed to understand what the previous gearbox was
+      actually rated for — and why it failed. I used the <strong>Lewis equation</strong> for
+      gear tooth bending stress, which models a gear tooth as a cantilever beam with a load
+      applied at the tip:
+    </p>
+
+    <div class="callout">
+      <strong>Lewis Equation:</strong> &sigma; = W<sub>t</sub> / (F &middot; m &middot; Y)<br><br>
+      Where: &sigma; is the bending stress at the root of the tooth, W<sub>t</sub> is the
+      tangential load on the tooth, F is the face width, m is the module (tooth size), and Y is
+      the Lewis form factor (depends on number of teeth and tooth geometry).
+    </div>
+
+    <p>
+      Working from the known inputs — the engine's peak torque (~18.5 ft-lb), the CVT ratio
+      at full engagement, and the first-stage gear ratio — I calculated the maximum tangential
+      force on the first-stage gear pair. Plugging this into the Lewis equation with the
+      previous gearbox's gear dimensions gave me the bending stress the old gears were
+      experiencing, and from that, the factor of safety against the material's allowable
+      bending stress.
+    </p>
+    <p>
+      The result confirmed the failure: the old factor of safety was inadequate, and it was
+      even lower once I accounted for impact loading. Off-road terrain — especially the
+      obstacles in a Baja SAE competition — routinely produces shock loads 2–3× higher
+      than the steady-state torque. A gearbox designed with a tight factor of safety on
+      steady-state loads will fail eventually under peak off-road conditions.
+    </p>
+    <p>
+      For the redesign, I sized both gear stages to a substantially higher factor of safety,
+      with explicit margin for the shock loading multiplier. I also ran the analysis on both
+      stages separately, since the loading differs between the two mesh points.
+    </p>
+
+    <h2>Material Selection</h2>
+
+    <table class="spec-table">
+      <tbody>
+        <tr><td>Housing</td><td><strong>6061-T6 Aluminum</strong> — Excellent machinability, lightweight, corrosion resistant. The housing doesn't experience gear mesh loads directly; it supports bearing loads and maintains shaft alignment.</td></tr>
+        <tr><td>Gears</td><td><strong>4140 Chromoly Steel, heat-treated to HRC 50</strong> — High strength steel with good hardenability. The heat treatment to HRC 50 meaningfully increases the allowable bending stress and dramatically improves surface fatigue life (pitting resistance).</td></tr>
+        <tr><td>Bearings</td><td>Deep groove ball bearings sized for the radial and thrust loads at each shaft location</td></tr>
+        <tr><td>Seal</td><td><strong>Laser-cut Buna-N (nitrile rubber) gasket</strong> — see Oil Leak section below</td></tr>
+        <tr><td>Fasteners</td><td>Steel cap screws, torqued to specification</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The previous design used what appeared to be unhardened or minimally hardened steel.
+      Hardening to HRC 50 moves the material into the range where gear tooth bending fatigue
+      strength and surface durability are both substantially improved. The cost in machinability
+      is acceptable because the gears can be roughed before heat treatment and finished-ground
+      after.
+    </p>
+
+    <h2>Fixing the Oil Leak</h2>
+    <p>
+      Previous gearboxes on the Stevens Baja car had a persistent oil leak problem. The
+      previous sealing method was RTV (room-temperature vulcanization) silicone applied as a
+      bead around the mating housing faces before bolting together.
+    </p>
+    <p>
+      RTV works, but it has failure modes. It's applied as a bead of variable thickness, which
+      means the compression is uneven across the sealing surface. It degrades with repeated
+      thermal cycling. And there's no reproducible way to apply it — every assembly is slightly
+      different.
+    </p>
+    <p>
+      The redesigned gearbox uses a <strong>Buna-N (nitrile rubber) gasket</strong> that was
+      laser-cut to the exact geometry of the mating face. Nitrile rubber is the standard
+      material for oil seals precisely because it's resistant to petroleum-based lubricants.
+      Laser cutting gives a consistent, repeatable thickness with no variation between
+      assemblies. The result is a defined, uniform compression around the entire sealing
+      perimeter — and it's replaceable: if it ever needs to be recut, the same CAD file
+      produces an identical replacement.
+    </p>
+
+    <h2>Prototyping</h2>
+    <p>
+      Before any metal was cut, I 3D-printed the housing design in PLA. This served as a
+      fit check: I could press in dummy bearings, install the shafts, and verify that the
+      gear spacing and bearing pocket geometry were correct. Assembly and disassembly
+      procedure could also be worked out without worrying about damaging metal parts.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <!-- Add: ../images/gearbox-proto1.jpg — 3D printed prototype -->
+        <img src="../images/gearbox-proto1.jpg" alt="3D printed prototype" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-proto1">../images/gearbox-proto1.jpg<br>First 3D printed prototype</div>
+        <figcaption>3D printed PLA prototype — first fit check</figcaption>
+      </figure>
+      <figure>
+        <!-- Add: ../images/gearbox-proto2.jpg — later prototype or fit check with gears -->
+        <img src="../images/gearbox-proto2.jpg" alt="Prototype with gears" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-proto2">../images/gearbox-proto2.jpg<br>Prototype with gears/shafts installed</div>
+        <figcaption>Prototype with shafts and dummy bearings installed</figcaption>
+      </figure>
+    </div>
+
+    <p>
+      The prototype stage caught two issues. First, one bearing pocket was slightly undersized
+      — the bearing pressed in with too much interference and the pocket had to be enlarged in
+      CAD. Second, a bolt in the flange pattern created interference with a shaft during
+      assembly; the bolt had to be relocated. Both were simple fixes in CAD, but would have
+      been expensive mistakes in aluminum.
+    </p>
+
+    <h2>Machining &amp; Final Assembly</h2>
+    <p>
+      The housing was machined on a knee mill by our Baja machinists. The main operations were:
+      facing and squaring the housing halves, boring the bearing pockets to final diameter,
+      drilling and tapping the bolt pattern, and cutting the gasket face to flatness.
+    </p>
+    <p>
+      The gears were cut on a gear hobber, roughed while still soft, then sent out for heat
+      treatment. After heat treatment to HRC 50, the mating surfaces were finish-ground to
+      achieve proper tooth geometry and surface finish. The finished gears were pressed and
+      keyed onto their shafts.
+    </p>
+
+    <div class="fig">
+      <!-- Add: ../images/gearbox-machined.jpg — machined housing or assembled gearbox -->
+      <img src="../images/gearbox-machined.jpg" alt="Machined gearbox housing" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-machined">../images/gearbox-machined.jpg — machined aluminum housing</div>
+      <figcaption>Machined 6061 aluminum housing halves before assembly</figcaption>
+    </div>
+
+    <h2>Results</h2>
+    <p>
+      The redesigned gearbox was assembled with the Buna-N gasket, filled with gear oil, and
+      run on the car through a full testing session without failure. No oil leaks were
+      observed — a first for the Stevens Baja car's gearbox history.
+    </p>
+    <p>
+      The factor of safety on the new gear design is significantly higher than the failed
+      design, and explicitly accounts for the shock loading typical of off-road competition.
+      The full Lewis equation analysis has been documented and will be included in the
+      team's design package for future reference.
+    </p>
+
+    <div class="fig">
+      <!-- Add: ../images/gearbox-installed.jpg — gearbox installed in car -->
+      <img src="../images/gearbox-installed.jpg" alt="Gearbox installed in Baja car" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-installed">../images/gearbox-installed.jpg — gearbox installed in the car</div>
+      <figcaption>Redesigned gearbox installed in the Stevens Baja car</figcaption>
+    </div>
+
+    <h2>Key Specifications</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr><td>Type</td><td>Two-stage spur gear reduction</td></tr>
+        <tr><td>Housing material</td><td>6061-T6 Aluminum</td></tr>
+        <tr><td>Gear material</td><td>4140 Chromoly Steel</td></tr>
+        <tr><td>Gear hardness</td><td>HRC 50 (heat treated)</td></tr>
+        <tr><td>Seal</td><td>Laser-cut Buna-N gasket</td></tr>
+        <tr><td>Stress analysis</td><td>Lewis equation (both stages)</td></tr>
+        <tr><td>Status</td><td>Installed and tested on vehicle</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  &nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.style.display = 'none');
+    img.addEventListener('load', () => {
+      // find sibling placeholder
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>

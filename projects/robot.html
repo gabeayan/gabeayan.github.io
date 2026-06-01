@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Navigation Robot — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Projects</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="project-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      All Projects
+    </a>
+    <div class="project-meta-row">
+      <div class="meta-chip">Year <span>2025</span></div>
+      <div class="meta-chip">Course <span>Engineering Design II</span></div>
+      <div class="meta-chip">Type <span>Robotics / Embedded</span></div>
+    </div>
+    <h1>Autonomous Navigation Robot</h1>
+    <p class="lede">
+      A ground-up robot design — custom chassis, three ultrasonic sensors, and a navigation
+      system that fused local obstacle detection with global positioning from an overhead camera
+      feeding position data over MQTT. The robot had to find and arrive at multiple target points
+      in an arena without human control.
+    </p>
+  </div>
+
+  <div class="project-hero-img">
+    <!-- Add: ../images/robot-hero.jpg — best photo of the completed robot -->
+    <img src="../images/robot-hero.jpg" alt="Autonomous navigation robot" onerror="this.style.display='none'">
+    <div class="img-ph" id="robot-hero-ph">../images/robot-hero.jpg — completed robot photo</div>
+  </div>
+
+  <div class="project-content">
+
+    <h2>The Challenge</h2>
+    <p>
+      The assignment was to build an autonomous robot capable of navigating a defined arena
+      and reaching multiple target points without human control. The arena had an overhead
+      fixed camera, and the infrastructure provided position data via MQTT — but the robot
+      still needed its own local sensing to handle obstacles.
+    </p>
+    <p>
+      The interesting design challenge here is the sensor fusion problem: you have global
+      positioning (where am I in the arena?) from the camera system, and local sensing
+      (what's directly in front of me?) from on-board sensors. The navigation system has
+      to combine both to make good decisions.
+    </p>
+
+    <h2>Chassis Design</h2>
+    <p>
+      I designed the chassis from scratch in CAD rather than buying an off-the-shelf kit.
+      This took more time up front but gave full control over sensor placement, motor
+      mounting geometry, and the overall form factor.
+    </p>
+
+    <div class="callout">
+      <strong>Drive configuration:</strong> Differential drive — two independently driven wheels
+      plus a trailing caster. This was the right choice for this application: the kinematics
+      are simple (speed difference between wheels = turning rate), it can turn in place, and
+      there's no Ackermann geometry to worry about. The alternative (a steered front wheel)
+      adds mechanical complexity with no benefit for arena navigation.
+    </div>
+
+    <p>
+      Key chassis design decisions:
+    </p>
+    <ul>
+      <li><strong>Wide wheelbase</strong> — more stable laterally, less likely to tip during sharp direction changes</li>
+      <li><strong>Low center of gravity</strong> — electronics and battery mounted low and centrally to minimize tipping tendency</li>
+      <li><strong>Dedicated sensor face</strong> — the front face was designed with three through-holes at specific angles (center, ±30°) for the ultrasonic sensors, so sensor positions were locked in by the structure rather than adjusted by hand</li>
+      <li><strong>Modular top plate</strong> — electronics mounted on a removable top plate for easy access during development and debugging</li>
+    </ul>
+
+    <div class="fig-grid">
+      <figure>
+        <!-- Add: ../images/robot-cad.jpg — CAD model screenshot -->
+        <img src="../images/robot-cad.jpg" alt="Robot CAD model" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-robot-cad">../images/robot-cad.jpg<br>Chassis CAD model</div>
+        <figcaption>CAD model of the chassis — sensor mounts integrated into front face</figcaption>
+      </figure>
+      <figure>
+        <!-- Add: ../images/robot-build.jpg — robot being assembled or completed -->
+        <img src="../images/robot-build.jpg" alt="Robot assembly" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-robot-build">../images/robot-build.jpg<br>Robot assembly / build photo</div>
+        <figcaption>Assembled robot with electronics installed</figcaption>
+      </figure>
+    </div>
+
+    <h2>Local Sensing: Ultrasonic Sensors</h2>
+    <p>
+      Three HC-SR04 ultrasonic sensors provide distance readings to objects in the robot's path.
+      The center sensor handles direct forward detection. The two side sensors, mounted at ±30°,
+      detect obstacles that aren't directly ahead but will become relevant within the next
+      move — giving earlier warning than a single forward-facing sensor.
+    </p>
+    <p>
+      The ±30° angle was a deliberate design choice rather than a default. A steeper angle (±45°)
+      gives earlier warning but detects objects that may never actually be in the path. A shallower
+      angle (±15°) misses obstacles until they're too close. At 30°, the coverage arc roughly
+      matches the robot's turning radius, so an object that triggers the side sensor will
+      intersect the robot's path if it continues on the same heading.
+    </p>
+    <p>
+      <strong>Noise filtering:</strong> Ultrasonic sensors produce occasional spurious readings,
+      usually reflections off angled surfaces. To handle this, the code takes three readings
+      per sensor per update cycle and median-filters them. The median filter discards outliers
+      without introducing the lag of a moving average — if two of three readings agree, the
+      outlier is discarded.
+    </p>
+
+    <h2>Global Positioning: MQTT + ArUco Markers</h2>
+    <p>
+      The arena had a camera mounted overhead that tracked robots via <strong>ArUco markers</strong>
+      — fiducial patterns that encode an ID and allow a camera to compute the marker's exact
+      position and orientation in 3D space. Think of them as QR codes that a computer vision
+      library can localize in a camera frame.
+    </p>
+    <p>
+      The camera system processed the frames and published each robot's position and heading
+      over MQTT at approximately 10 Hz. Our robot subscribed to its own position feed via a
+      WiFi-connected microcontroller. This gave us "global" positioning — we always knew exactly
+      where in the arena we were, expressed in arena coordinates, independent of any accumulated
+      dead-reckoning error.
+    </p>
+
+    <div class="fig">
+      <!-- Add: ../images/robot-aruco.jpg — ArUco marker on robot or arena camera view -->
+      <img src="../images/robot-aruco.jpg" alt="ArUco marker tracking" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-aruco">../images/robot-aruco.jpg — ArUco marker on robot / camera view</div>
+      <figcaption>ArUco marker on the robot — tracked by overhead camera and broadcast over MQTT</figcaption>
+    </div>
+
+    <h2>Navigation Strategy</h2>
+    <p>
+      With both global position (MQTT) and local obstacle detection (ultrasonic) available,
+      the navigation loop worked as follows:
+    </p>
+    <ol>
+      <li>Read current position and heading from the latest MQTT update</li>
+      <li>Compute heading error to the current target waypoint</li>
+      <li>If heading error is large: rotate in place to face the target</li>
+      <li>If heading error is small: drive forward toward the target</li>
+      <li>While driving, monitor ultrasonic sensors continuously</li>
+      <li>If an obstacle is detected within threshold distance: stop, select a detour direction, execute a short avoidance move, then resume navigation to the target</li>
+      <li>Declare arrival when within a distance threshold of the target, then advance to the next waypoint</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Dead-reckoning fallback:</strong> MQTT position updates came at ~10 Hz, but
+      WiFi latency was variable — occasionally an update would be delayed by 200–300ms.
+      During that window, the robot used encoder counts to dead-reckon its position: given
+      a known heading and wheel speed, it could estimate where it had moved since the last
+      good fix. This prevented the robot from executing a stale position update that would
+      cause it to overcorrect.
+    </div>
+
+    <h2>Testing &amp; Results</h2>
+    <p>
+      The robot successfully navigated to all required waypoints during testing. The main
+      failure mode encountered during development was heading overshoot — the robot would
+      rotate past the target heading and oscillate back and forth. This was addressed by
+      adding a simple proportional term to the turn rate: the robot slows its rotation as
+      it approaches the target heading.
+    </p>
+    <p>
+      The MQTT latency issue (described above) was the second significant challenge. The
+      dead-reckoning fallback resolved most cases, but in areas of the arena with poor WiFi
+      coverage, the robot would occasionally receive a burst of delayed updates and make
+      several rapid corrections in succession. In a follow-on version, switching to a
+      wired connection or a dedicated RF link would eliminate this.
+    </p>
+
+    <div class="fig">
+      <!-- Add: ../images/robot-testing.jpg — robot navigating arena or testing in progress -->
+      <img src="../images/robot-testing.jpg" alt="Robot testing" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-robot-test">../images/robot-testing.jpg — robot navigating in the arena</div>
+      <figcaption>Robot navigating the arena during a test run</figcaption>
+    </div>
+
+    <h2>Key Specifications</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr><td>Drive type</td><td>Differential drive (2WD + caster)</td></tr>
+        <tr><td>Chassis</td><td>Custom CAD design, 3D printed</td></tr>
+        <tr><td>Local sensors</td><td>3× HC-SR04 ultrasonic (center + ±30°)</td></tr>
+        <tr><td>Global positioning</td><td>ArUco marker tracking via overhead camera → MQTT</td></tr>
+        <tr><td>Noise filtering</td><td>3-sample median filter per sensor per cycle</td></tr>
+        <tr><td>Fallback</td><td>Encoder dead-reckoning during MQTT latency</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  &nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.style.display = 'none');
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
