@@ -18,18 +18,19 @@
 </nav>
 
 <div class="about-page">
-  <div class="about-hero">
-    <div class="about-photo">
+
+  <div class="hero">
+    <div class="hero-photo">
       <!-- Add: images/profile.jpg -->
       <img src="images/profile.jpg" alt="Gabe Ayan" onerror="this.style.display='none'">
-      <div class="about-photo-placeholder">
+      <div class="photo-ph">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.35"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         images/profile.jpg
       </div>
     </div>
-    <div class="about-intro">
+    <div class="hero-text">
       <h1>Gabe Ayan</h1>
-      <p class="role">Mechanical Engineering · Stevens Institute of Technology · Class of 2028</p>
+      <p>Mechanical Engineering · Stevens Institute of Technology · Class of 2028</p>
       <p>
         I'm a first-year ME student drawn to problems that sit at the intersection of mechanical
         design and electronics — where the answer involves both a carefully analyzed gear mesh
@@ -47,10 +48,10 @@
         I'm actively looking for summer internships in mechanical engineering, product design,
         aerospace, or automotive/robotics.
       </p>
-      <div class="hero-links" style="margin-top: 1.5rem;">
-        <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener" class="pill">LinkedIn</a>
-        <a href="Gabe_Ayan_Resume.docx" class="pill">Resume</a>
-        <a href="mailto:gabeayan@gmail.com" class="pill">gabeayan@gmail.com</a>
+      <div class="hero-btns">
+        <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+        <a href="Gabe_Ayan_Resume.docx" class="btn">Resume</a>
+        <a href="mailto:gabeayan@gmail.com" class="btn">gabeayan@gmail.com</a>
       </div>
     </div>
   </div>
@@ -67,7 +68,7 @@
         </div>
         <div class="exp-date">Oct 2024 – Present</div>
       </div>
-      <ul class="exp-points">
+      <ul class="exp-pts">
         <li>Stepped into Electrical Lead as a first-semester student with no handoff; self-directed ramp-up on all existing systems</li>
         <li>Redesigned a failed two-stage reduction gearbox from scratch; Lewis equation gear stress analysis, 6061 Al housing, 4140 steel gears at HRC 50</li>
         <li>Eliminated persistent oil leaks by replacing RTV sealant with a precision laser-cut Buna-N gasket</li>
@@ -85,7 +86,7 @@
         </div>
         <div class="exp-date">2022 – 2024</div>
       </div>
-      <ul class="exp-points">
+      <ul class="exp-pts">
         <li>Founded an FRC team from scratch after transferring to a school with no existing program; captain and mechanical lead for two seasons</li>
         <li>Led team to two World Championship qualifications; robot ranked among the best in New England one season</li>
         <li>Managed full team operations: mechanical design, electronics, strategy, logistics, and fundraising under significant resource constraints</li>
@@ -101,7 +102,7 @@
         </div>
         <div class="exp-date">2020 – 2022</div>
       </div>
-      <ul class="exp-points">
+      <ul class="exp-pts">
         <li>Competed in FRC for two seasons; developed core skills in mechanical design, electronics, and engineering collaboration</li>
         <li>Foundation that informed the technical depth and leadership approach brought to the founded team</li>
       </ul>
@@ -117,7 +118,7 @@
         </div>
         <div class="exp-date">Expected May 2028</div>
       </div>
-      <ul class="exp-points">
+      <ul class="exp-pts">
         <li>Hoboken, NJ</li>
         <li>Relevant coursework: Physics I &amp; II, Chemistry, Multivariable Calculus, Linear Algebra, Engineering Design</li>
         <li>Fall 2025: Statics, Dynamics, Thermodynamics, Materials Science</li>
@@ -126,39 +127,39 @@
 
     <h2>Skills</h2>
 
-    <div class="skill-groups">
+    <div class="skill-grid">
       <div>
-        <p class="skill-group-title">CAD</p>
-        <div class="skill-list">
-          <span class="skill-tag">Onshape</span>
-          <span class="skill-tag">SolidWorks</span>
-          <span class="skill-tag">Fusion 360</span>
+        <p class="skill-label">CAD</p>
+        <div class="skill-chips">
+          <span class="chip">Onshape</span>
+          <span class="chip">SolidWorks</span>
+          <span class="chip">Fusion 360</span>
         </div>
       </div>
       <div>
-        <p class="skill-group-title">Embedded &amp; Electronics</p>
-        <div class="skill-list">
-          <span class="skill-tag">Teensy 4.1</span>
-          <span class="skill-tag">Sensor Integration</span>
-          <span class="skill-tag">MQTT</span>
-          <span class="skill-tag">EasyEDA</span>
+        <p class="skill-label">Embedded &amp; Electronics</p>
+        <div class="skill-chips">
+          <span class="chip">Teensy 4.1</span>
+          <span class="chip">Sensor Integration</span>
+          <span class="chip">MQTT</span>
+          <span class="chip">EasyEDA</span>
         </div>
       </div>
       <div>
-        <p class="skill-group-title">Manufacturing</p>
-        <div class="skill-list">
-          <span class="skill-tag">FDM 3D Printing</span>
-          <span class="skill-tag">Milling</span>
-          <span class="skill-tag">Laser Cutting</span>
+        <p class="skill-label">Manufacturing</p>
+        <div class="skill-chips">
+          <span class="chip">FDM 3D Printing</span>
+          <span class="chip">Milling</span>
+          <span class="chip">Laser Cutting</span>
         </div>
       </div>
       <div>
-        <p class="skill-group-title">Engineering Analysis</p>
-        <div class="skill-list">
-          <span class="skill-tag">Gear Stress (Lewis Eq.)</span>
-          <span class="skill-tag">Factor of Safety</span>
-          <span class="skill-tag">CVT Tuning</span>
-          <span class="skill-tag">DFM</span>
+        <p class="skill-label">Engineering Analysis</p>
+        <div class="skill-chips">
+          <span class="chip">Gear Stress (Lewis Eq.)</span>
+          <span class="chip">Factor of Safety</span>
+          <span class="chip">CVT Tuning</span>
+          <span class="chip">DFM</span>
         </div>
       </div>
     </div>
@@ -168,22 +169,22 @@
 
 <footer>
   <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
-  &nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </footer>
 
 <script>
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', () => img.style.display = 'none');
     img.addEventListener('load', () => {
-      const ph = img.parentElement.querySelector('.about-photo-placeholder');
-      if (ph) ph.style.display = 'none';
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('photo-ph')) ph.style.display = 'none';
     });
     if (img.complete && img.naturalWidth > 0) {
-      const ph = img.parentElement.querySelector('.about-photo-placeholder');
-      if (ph) ph.style.display = 'none';
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('photo-ph')) ph.style.display = 'none';
     }
   });
 </script>
