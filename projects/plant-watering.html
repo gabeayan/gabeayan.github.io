@@ -9,28 +9,27 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
   <ul class="nav-links">
     <li><a href="../index.html">Projects</a></li>
     <li><a href="../about.html">About</a></li>
-    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
 </nav>
 
 <div class="project-page">
 
-  <div class="project-header">
+  <div class="proj-header">
     <a class="back-link" href="../index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       All Projects
     </a>
-    <div class="project-meta-row">
-      <div class="meta-chip">Year <span>2024 – 2025</span></div>
-      <div class="meta-chip">Course <span>Engineering Design I</span></div>
-      <div class="meta-chip">Type <span>IoT / Product Design</span></div>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2024 – 2025</div></div>
+      <div class="meta-item"><div class="meta-label">Course</div><div class="meta-val">Engineering Design I</div></div>
+      <div class="meta-item"><div class="meta-label">Type</div><div class="meta-val">IoT / Product Design</div></div>
     </div>
     <h1>Automated Plant Watering System</h1>
-    <p class="lede">
+    <p class="proj-lede">
       Most automated plant waterers are functional but ugly — they look like engineering
       experiments on your windowsill. This project had two equal-weight goals: build a
       system that actually keeps plants healthy, and design an enclosure that looks
@@ -38,13 +37,13 @@
     </p>
   </div>
 
-  <div class="project-hero-img">
+  <div class="proj-hero">
     <!-- Add: ../images/plant-hero.jpg — best photo of the finished device -->
     <img src="../images/plant-hero.jpg" alt="Automated plant watering system" onerror="this.style.display='none'">
     <div class="img-ph" id="plant-hero-ph">../images/plant-hero.jpg — finished device photo</div>
   </div>
 
-  <div class="project-content">
+  <div class="proj-body">
 
     <h2>Design Brief</h2>
     <p>
@@ -176,12 +175,12 @@
       was the starting constraint, and the electronics were packaged to fit it.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/plant-sketch.jpg — early sketches or CAD explorations -->
       <img src="../images/plant-sketch.jpg" alt="Enclosure design sketches" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-plant-sketch">../images/plant-sketch.jpg — early design sketches or CAD explorations</div>
       <figcaption>Early enclosure concept sketches — exploring forms that read as "plant" rather than "device"</figcaption>
-    </div>
+    </figure>
 
     <p>
       The housing prints in three parts:
@@ -236,12 +235,12 @@
       the soil probe or the LED ring until pointed out.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/plant-final.jpg — final device on shelf next to a real plant -->
       <img src="../images/plant-final.jpg" alt="Finished device in context" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-plant-final">../images/plant-final.jpg — finished device on shelf in context</div>
       <figcaption>Finished device — designed to blend into a plant shelf rather than stand out as electronics</figcaption>
-    </div>
+    </figure>
 
     <h2>Key Specifications</h2>
     <table class="spec-table">
@@ -261,10 +260,10 @@
 
 <footer>
   <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
-  &nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </footer>
 
 <script>

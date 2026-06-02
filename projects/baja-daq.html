@@ -9,29 +9,28 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
   <ul class="nav-links">
     <li><a href="../index.html">Projects</a></li>
     <li><a href="../about.html">About</a></li>
-    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
 </nav>
 
 <div class="project-page">
 
-  <div class="project-header">
+  <div class="proj-header">
     <a class="back-link" href="../index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       All Projects
     </a>
-    <div class="project-meta-row">
-      <div class="meta-chip">Year <span>2024 – Present</span></div>
-      <div class="meta-chip">Team <span>Stevens Baja SAE</span></div>
-      <div class="meta-chip">Role <span>Electrical Lead</span></div>
-      <div class="meta-chip">Status <span>In Progress</span></div>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2024 – Present</div></div>
+      <div class="meta-item"><div class="meta-label">Team</div><div class="meta-val">Stevens Baja SAE</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-val">Electrical Lead</div></div>
+      <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">In Progress</div></div>
     </div>
     <h1>Baja SAE Vehicle Data Acquisition System</h1>
-    <p class="lede">
+    <p class="proj-lede">
       Before this project, the Stevens Baja car went into competition with essentially no
       quantitative data about how it was performing. We tuned by feel and guessed at brake
       bias. This project builds the foundation to change that — a modular, expandable DAQ
@@ -39,13 +38,13 @@
     </p>
   </div>
 
-  <div class="project-hero-img">
+  <div class="proj-hero">
     <!-- Add: ../images/daq-hero.jpg — photo of the DAQ electronics/Teensy setup -->
     <img src="../images/daq-hero.jpg" alt="Baja SAE DAQ system" onerror="this.style.display='none'">
     <div class="img-ph" id="daq-hero-ph">../images/daq-hero.jpg — DAQ electronics / Teensy setup</div>
   </div>
 
-  <div class="project-content">
+  <div class="proj-body">
 
     <h2>Why This Matters</h2>
     <p>
@@ -91,12 +90,12 @@
       can be redesigned then.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/daq-wiring.jpg — wiring diagram or photo of wiring setup -->
       <img src="../images/daq-wiring.jpg" alt="DAQ system wiring" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-daq-wire">../images/daq-wiring.jpg — wiring diagram or electronics layout</div>
       <figcaption>DAQ system wiring layout — hub-and-spoke architecture with Teensy 4.1 at center</figcaption>
-    </div>
+    </figure>
 
     <h2>Sensors: Active</h2>
 
@@ -200,12 +199,12 @@
       significantly more demanding than a typical electronics enclosure application.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/daq-housing.jpg — 3D printed housing photo or CAD -->
       <img src="../images/daq-housing.jpg" alt="3D printed DAQ housing" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-housing">../images/daq-housing.jpg — 3D printed enclosure</div>
       <figcaption>Custom 3D-printed enclosure for the main electronics stack</figcaption>
-    </div>
+    </figure>
 
     <p>
       Key design features of the housings:
@@ -235,10 +234,10 @@
 
 <footer>
   <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
-  &nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </footer>
 
 <script>

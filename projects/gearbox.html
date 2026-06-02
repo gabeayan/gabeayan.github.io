@@ -9,28 +9,27 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
   <ul class="nav-links">
     <li><a href="../index.html">Projects</a></li>
     <li><a href="../about.html">About</a></li>
-    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
 </nav>
 
 <div class="project-page">
 
-  <div class="project-header">
+  <div class="proj-header">
     <a class="back-link" href="../index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       All Projects
     </a>
-    <div class="project-meta-row">
-      <div class="meta-chip">Year <span>2025</span></div>
-      <div class="meta-chip">Team <span>Stevens Baja SAE</span></div>
-      <div class="meta-chip">Role <span>Powertrain Lead</span></div>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2025</div></div>
+      <div class="meta-item"><div class="meta-label">Team</div><div class="meta-val">Stevens Baja SAE</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-val">Powertrain Lead</div></div>
     </div>
     <h1>Two-Stage Reduction Gearbox Redesign</h1>
-    <p class="lede">
+    <p class="proj-lede">
       After a catastrophic failure during testing, I redesigned the Baja SAE gearbox from
       the ground up — applying gear stress analysis to understand why the previous one failed,
       then building a substantially stronger replacement with a permanent fix for the chronic
@@ -38,13 +37,13 @@
     </p>
   </div>
 
-  <div class="project-hero-img">
+  <div class="proj-hero">
     <!-- Add: ../images/gearbox-hero.jpg — best photo of the finished gearbox -->
     <img src="../images/gearbox-hero.jpg" alt="Finished two-stage reduction gearbox" onerror="this.style.display='none'">
     <div class="img-ph" id="gearbox-hero-ph">../images/gearbox-hero.jpg — finished gearbox photo</div>
   </div>
 
-  <div class="project-content">
+  <div class="proj-body">
 
     <h2>Background</h2>
     <p>
@@ -204,12 +203,12 @@
       keyed onto their shafts.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/gearbox-machined.jpg — machined housing or assembled gearbox -->
       <img src="../images/gearbox-machined.jpg" alt="Machined gearbox housing" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-machined">../images/gearbox-machined.jpg — machined aluminum housing</div>
       <figcaption>Machined 6061 aluminum housing halves before assembly</figcaption>
-    </div>
+    </figure>
 
     <h2>Results</h2>
     <p>
@@ -224,12 +223,12 @@
       team's design package for future reference.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/gearbox-installed.jpg — gearbox installed in car -->
       <img src="../images/gearbox-installed.jpg" alt="Gearbox installed in Baja car" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-installed">../images/gearbox-installed.jpg — gearbox installed in the car</div>
       <figcaption>Redesigned gearbox installed in the Stevens Baja car</figcaption>
-    </div>
+    </figure>
 
     <h2>Key Specifications</h2>
     <table class="spec-table">
@@ -249,17 +248,16 @@
 
 <footer>
   <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
-  &nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </footer>
 
 <script>
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', () => img.style.display = 'none');
     img.addEventListener('load', () => {
-      // find sibling placeholder
       const ph = img.nextElementSibling;
       if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
     });

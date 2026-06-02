@@ -9,28 +9,27 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="../index.html">Gabe Ayan</a>
   <ul class="nav-links">
     <li><a href="../index.html">Projects</a></li>
     <li><a href="../about.html">About</a></li>
-    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
 </nav>
 
 <div class="project-page">
 
-  <div class="project-header">
+  <div class="proj-header">
     <a class="back-link" href="../index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       All Projects
     </a>
-    <div class="project-meta-row">
-      <div class="meta-chip">Year <span>2025</span></div>
-      <div class="meta-chip">Course <span>Engineering Design II</span></div>
-      <div class="meta-chip">Type <span>Robotics / Embedded</span></div>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2025</div></div>
+      <div class="meta-item"><div class="meta-label">Course</div><div class="meta-val">Engineering Design II</div></div>
+      <div class="meta-item"><div class="meta-label">Type</div><div class="meta-val">Robotics / Embedded</div></div>
     </div>
     <h1>Autonomous Navigation Robot</h1>
-    <p class="lede">
+    <p class="proj-lede">
       A ground-up robot design — custom chassis, three ultrasonic sensors, and a navigation
       system that fused local obstacle detection with global positioning from an overhead camera
       feeding position data over MQTT. The robot had to find and arrive at multiple target points
@@ -38,13 +37,13 @@
     </p>
   </div>
 
-  <div class="project-hero-img">
+  <div class="proj-hero">
     <!-- Add: ../images/robot-hero.jpg — best photo of the completed robot -->
     <img src="../images/robot-hero.jpg" alt="Autonomous navigation robot" onerror="this.style.display='none'">
     <div class="img-ph" id="robot-hero-ph">../images/robot-hero.jpg — completed robot photo</div>
   </div>
 
-  <div class="project-content">
+  <div class="proj-body">
 
     <h2>The Challenge</h2>
     <p>
@@ -137,12 +136,12 @@
       dead-reckoning error.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/robot-aruco.jpg — ArUco marker on robot or arena camera view -->
       <img src="../images/robot-aruco.jpg" alt="ArUco marker tracking" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-aruco">../images/robot-aruco.jpg — ArUco marker on robot / camera view</div>
       <figcaption>ArUco marker on the robot — tracked by overhead camera and broadcast over MQTT</figcaption>
-    </div>
+    </figure>
 
     <h2>Navigation Strategy</h2>
     <p>
@@ -184,12 +183,12 @@
       wired connection or a dedicated RF link would eliminate this.
     </p>
 
-    <div class="fig">
+    <figure>
       <!-- Add: ../images/robot-testing.jpg — robot navigating arena or testing in progress -->
       <img src="../images/robot-testing.jpg" alt="Robot testing" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-robot-test">../images/robot-testing.jpg — robot navigating in the arena</div>
       <figcaption>Robot navigating the arena during a test run</figcaption>
-    </div>
+    </figure>
 
     <h2>Key Specifications</h2>
     <table class="spec-table">
@@ -208,10 +207,10 @@
 
 <footer>
   <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
-  &nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </footer>
 
 <script>
