@@ -111,6 +111,29 @@
     .cvt-table .best-row td { background: #f0fff4; font-weight: 600; color: #1a7a3a; }
 
     .spec-table td:first-child { width: 38%; font-weight: 500; opacity: .7; }
+
+    .timeline {
+      border-left: 2px solid var(--border, #ddd);
+      margin: 1.5rem 0;
+      padding-left: 1.2rem;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 1.1rem;
+      font-size: .9rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -1.45rem;
+      top: .35rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border, #ccc);
+    }
+    .tl-item.active::before { background: var(--accent, #0066ff); }
+    .tl-date { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .5; margin-bottom: .15rem; }
   </style>
 </head>
 <body>
@@ -135,102 +158,185 @@
       <div class="meta-item"><div class="meta-label">Team</div><div class="meta-val">Stevens Baja SAE — Car #89</div></div>
       <div class="meta-item"><div class="meta-label">Role</div><div class="meta-val">Powertrain Lead</div></div>
     </div>
-    <h1>Two-Stage Reduction Gearbox Redesign</h1>
+    <h1>Two-Stage Reduction Gearbox</h1>
     <p class="proj-lede">
-      The Stevens Baja SAE gearbox failed catastrophically during testing — complete gear tooth
-      fracture on the intermediate shaft because the design had a factor of safety of 0.4 and an
-      incorrect center-to-center distance. I redesigned the gearbox from scratch: corrected the
-      shaft geometry, upgraded the heat treatment from HRC 40 to HRC 50, lightweighted the large
-      gears to cut rotational inertia by 47%, and replaced the chronically leaking RTV seal with
-      a laser-cut Buna-N gasket. Results were validated through seven CVT configuration test
-      sessions reaching a measured top speed of 22.4 mph.
+      I took over as Powertrain Lead at the end of March with the car scheduled for testing in
+      days. The previous team's gearbox design had to be abandoned due to incorrect geometry.
+      A transfer case pulled from a prior-year car was used as a stopgap — and failed
+      catastrophically at testing, with gear teeth shearing off the intermediate shaft. I
+      designed a replacement gearbox from scratch in roughly two days, correctly sized the
+      gears using Lewis equation analysis, fixed the chronic oil leak with a laser-cut
+      Buna-N gasket, and personally milled the housing from 6061 aluminum. The gearbox ran
+      through a full campus testing season without failure.
     </p>
   </div>
 
   <div class="proj-hero">
-    <img src="../images/gearbox-hero.jpg" alt="Finished gearbox installed in Baja car" onerror="this.style.display='none'">
-    <div class="img-ph" id="ph-hero">Save as: images/gearbox-hero.jpg — pink gearbox in car frame</div>
+    <img src="../images/gearbox-hero.jpg" alt="Redesigned gearbox installed in car #89" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-hero">images/gearbox-hero.jpg</div>
   </div>
 
   <div class="proj-body">
 
-    <!-- ── TL;DR ── -->
+    <!-- TL;DR -->
     <div class="tldr callout">
       <strong>TL;DR</strong>
-      The previous gearbox used 4140 steel at HRC 40 with an incorrect shaft center distance,
-      giving a Lewis factor of safety of ~0.4 — less than half what was needed to survive steady-state
-      loads. After catastrophic tooth fracture on the intermediate shaft, I redesigned the
-      gearbox: corrected center distance, upgraded to HRC 50 heat treatment (doubling the
-      allowable bending stress), lightweighted the large gears (47% inertia reduction), and
-      replaced the RTV seal with a laser-cut Buna-N gasket. The redesigned gearbox survived a
-      full campus testing season without failure or leaks. I also assembled the full vehicle CAD
-      by integrating models from every subteam, verifying fit and clearance before any
-      manufacturing began.
+      Inherited a broken powertrain program three weeks before competition. The stopgap
+      transfer case used at testing failed because its pinion gears were only ~15 teeth —
+      too small for the diametral pitch, producing a Lewis FoS of ~0.4. In two days I
+      designed a replacement with properly sized 19-tooth gears, heat-treated 4140 to HRC 50,
+      and a laser-cut gasket. The new design achieves a FoS of 0.865 calculated at the
+      theoretical worst-case load (full engine stall) — a condition the car never actually
+      reaches in operation. Result: zero failures and zero oil leaks through the entire
+      testing season.
     </div>
 
-    <!-- ── BACKGROUND ── -->
-    <h2>Background</h2>
+    <!-- BACKGROUND & TIMELINE -->
+    <h2>Background &amp; Project Context</h2>
     <p>
       Baja SAE is a collegiate off-road racing competition organized by SAE International.
-      Teams design and build a single-seat vehicle around a spec engine — a Kohler Courage 725
-      single-cylinder, 10 hp gasoline engine — and compete in events ranging from a straight
-      acceleration run to a 4-hour endurance race over rough terrain. The Stevens car competes
-      as car #89.
+      Teams build a single-seat vehicle around a spec engine — a Kohler Courage 725,
+      single-cylinder, 10 hp — and compete in events from a straight acceleration run to a
+      4-hour endurance race. The Stevens car competes as car #89.
     </p>
     <p>
-      The powertrain layout is: engine → CVT → reduction gearbox → rear axle. The CVT
-      (Comet 780 torque converter) acts as an automatic clutch and continuously variable
-      ratio-selector; the reduction gearbox steps down the CVT output to a range suitable for
-      the rear wheels. As Powertrain Lead, I was responsible for everything from the CVT input
-      shaft to the axle output: design, analysis, manufacturing oversight, CVT tuning, and
-      documentation.
+      The powertrain layout is: engine → CVT → reduction gearbox → rear axle. I joined the
+      team as Powertrain Lead at the end of March 2026. Here is the project state I inherited:
     </p>
 
-    <!-- ── THE FAILURE ── -->
-    <h2>The Failure</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">June 2025</div>
+        A powertrain subteam began designing a new gearbox for car #89. Work continued
+        through the fall and winter.
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Early 2026</div>
+        The design was found to have incorrect shaft center distances due to mis-entered
+        values in the housing model — the bores weren't cut to the geometry the gears
+        required. The design was abandoned without producing a working assembly.
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Late March 2026</div>
+        With testing approaching and no working gearbox, a transfer case was pulled from
+        a previous-year Stevens Baja car and installed on car #89 as a stopgap. This
+        unit had been sitting in storage for months.
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Testing — Late March 2026</div>
+        The transfer case failed catastrophically during drivetrain testing: gear teeth
+        sheared off the intermediate shaft. I took over as Powertrain Lead.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date">~2 days later</div>
+        I designed the replacement gearbox from scratch, ran the gear stress analysis,
+        and specified all materials and geometry. Manufacturing followed.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date">April – May 2026</div>
+        Gearbox machined, assembled, installed. Full campus testing season completed
+        without mechanical failure or oil leaks.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date">June 10–14, 2026</div>
+        Baja SAE competition.
+      </div>
+    </div>
+
+    <!-- THE FAILURE -->
+    <h2>Failure Analysis</h2>
     <p>
-      During initial drivetrain testing, the previous gearbox failed in the worst possible mode:
-      complete gear tooth fracture on the intermediate shaft. Not progressive wear, not a
-      bearing — the teeth cracked through at the root and separated from the gear body. This
-      is a fast-fracture failure, meaning the material was loaded past its ultimate strength,
-      not merely yielded. Two root causes were identified.
+      The transfer case pulled from the previous-year car failed via complete gear tooth
+      fracture on the intermediate shaft — a fast-fracture failure mode, meaning the material
+      was loaded past its ultimate strength in a single event rather than fatiguing
+      progressively. Teardown identified two compounding causes.
     </p>
     <p>
-      The first was <strong>incorrect center-to-center distance</strong> between the shaft bores
-      in the housing. Gear geometry is defined around a specific operating center distance; if
-      that distance is wrong, the gears don't mesh on their theoretical pitch circles. A center
-      distance that is too small forces the gears into interference, dramatically increasing
-      tooth contact stress. One that is too large creates excessive backlash and intermittent
-      contact, causing impact loads each time a new tooth pair comes into mesh. Either condition
-      accelerates failure and neither was caught before the original gearbox was machined.
+      <strong>Undersized pinion gears.</strong> The transfer case used pinion gears of
+      approximately 15–16 teeth — significantly smaller than the 19-tooth pinions in the
+      redesign. At the same diametral pitch (10), a smaller tooth count has two compounding
+      effects on bending stress. First, the pitch radius is smaller, so the same torque
+      produces a larger tangential force on each tooth. Second, fewer teeth means a lower
+      Lewis form factor Y, which represents higher stress concentration at the tooth root
+      compared to a gear with more teeth. Both effects act in the same direction — directly
+      increasing root stress — and they multiply.
     </p>
+
+    <div class="calc-block">
+      <div class="calc-title">Effect of tooth count on bending stress — same torque, same DP, same face width</div>
+      15T pinion: r = 15/20 = 0.750 in,  Y = 0.276  →  W<sub>t</sub> = T/r  (larger)
+      19T pinion: r = 19/20 = 0.950 in,  Y = 0.314  →  W<sub>t</sub> = T/r  (smaller)<br>
+      <br>
+      &sigma; = (W<sub>t</sub> × P) / (F × Y)<br>
+      <br>
+      Ratio of stresses (same torque):  &sigma;<sub>15T</sub> / &sigma;<sub>19T</sub>
+        = (r<sub>19</sub> × Y<sub>19</sub>) / (r<sub>15</sub> × Y<sub>15</sub>)
+        = (0.950 × 0.314) / (0.750 × 0.276)
+        = 0.2983 / 0.2070
+        = <strong>1.44×</strong><br>
+      <br>
+      A 15-tooth pinion at this pitch sees ~44% higher bending stress than a 19-tooth pinion
+      carrying the same torque.
+    </div>
+
     <p>
-      The second was <strong>insufficient heat treatment</strong>. The previous gears were 4140
-      chromoly steel heat treated to only HRC 40 — the Lewis equation analysis confirmed a
-      factor of safety of approximately 0.4 under worst-case static loading. That means the
-      gears were designed to less than half the strength required to carry the expected load.
+      <strong>Insufficient hardness and extended storage.</strong> The transfer case gears
+      were heat treated to approximately HRC 40 — already marginal for this application — and
+      had been sitting in storage for months before installation. Applied to the undersized
+      15-tooth geometry, Lewis analysis gives a factor of safety of approximately <strong>0.4</strong>
+      under the worst-case static load. A gearbox operating at 40% of its required strength
+      will survive in storage, but not under competition drivetrain loads.
     </p>
 
     <div class="fig-grid">
       <figure>
-        <img src="../images/gearbox-fail-shaft.jpg" alt="Failed gear shaft with fractured teeth" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-fail-shaft">Save as: images/gearbox-fail-shaft.jpg</div>
-        <figcaption>Failed intermediate shaft — teeth completely sheared at the root. Fast fracture, not wear.</figcaption>
+        <img src="../images/gearbox-fail-shaft.png" alt="Failed intermediate shaft — teeth sheared" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-fail-shaft">images/gearbox-fail-shaft.png</div>
+        <figcaption>Failed intermediate shaft — teeth sheared cleanly at the root. The fracture surface is characteristic of fast fracture rather than fatigue, consistent with a single overload event.</figcaption>
       </figure>
       <figure>
-        <img src="../images/gearbox-fail-housing.jpg" alt="Catastrophic failure in housing" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-fail-housing">Save as: images/gearbox-fail-housing.jpg</div>
-        <figcaption>Housing split open post-failure — gear teeth visibly missing along the mesh zone</figcaption>
+        <img src="../images/gearbox-fail-housing.jpg" alt="Failed transfer case opened" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-fail-housing">images/gearbox-fail-housing.jpg</div>
+        <figcaption>Transfer case after failure — housing cracked open, gear teeth missing from the mesh zone. The CVT belt is visible in the background; the whole drivetrain had to be pulled.</figcaption>
       </figure>
     </div>
 
-    <!-- ── DRIVETRAIN CONTEXT ── -->
+    <!-- DESIGN APPROACH -->
+    <h2>Design Approach</h2>
+    <p>
+      With the car down and testing time already spent, the goal was to produce a correct,
+      well-analyzed design quickly. I focused on three things: proper gear sizing via Lewis
+      equation analysis, a material specification with adequate hardness, and fixing the oil
+      leak that had plagued every previous gearbox on the car.
+    </p>
+    <p>
+      The abandoned previous design had taught one other lesson: verify center distances
+      from the gear geometry, not from assumptions. For an involute spur gear mesh, the
+      correct center distance is determined entirely by tooth count and diametral pitch:
+    </p>
+
+    <div class="calc-block">
+      <div class="calc-title">Required center distances — derived from gear geometry</div>
+      C = (T<sub>driver</sub> + T<sub>driven</sub>) / (2P)<br>
+      <br>
+      Stage 1 (19T → 57T): C₁ = (19 + 57) / (2 × 10) = <strong>3.800 in</strong><br>
+      Stage 2 (19T → 55T): C₂ = (19 + 55) / (2 × 10) = <strong>3.700 in</strong>
+    </div>
+
+    <p>
+      These values were used to set the bearing bore locations in the housing model. Getting
+      the center distance wrong forces gears off their pitch circles: too tight causes
+      interference and elevated contact stress; too loose creates excessive backlash and
+      impact loads each time a tooth pair comes into mesh. Both conditions accelerate failure.
+    </p>
+
+    <!-- DRIVETRAIN -->
     <h2>Drivetrain &amp; Load Analysis</h2>
     <p>
-      The full torque path from engine to axle sets the loads that every gearbox component must
-      withstand. At maximum CVT reduction (3.38:1), the Comet 780 multiplies engine torque by
-      3.38× before it even enters the gearbox. The two-stage gearbox then applies a further
-      8.68:1 reduction, giving a theoretical axle torque of over 540 ft·lb from a 10 hp engine.
+      Before sizing any gear, I mapped the full torque path to understand what the worst-case
+      load actually is. The critical load condition is a full drivetrain stall: engine at peak
+      torque, CVT at its most torque-biased ratio, and the wheels completely stationary with
+      no slip. This produces the highest possible torque at every mesh point simultaneously.
     </p>
 
     <div class="drivetrain-flow">
@@ -245,7 +351,7 @@
         <div class="dt-val">62.5 ft·lb</div>
         <div class="dt-sub">Comet 780</div>
       </div>
-      <div class="dt-arrow">→<span>Stage 1 3:1</span></div>
+      <div class="dt-arrow">→<span>Stage 1 3.0:1</span></div>
       <div class="dt-box">
         <div class="dt-label">Inter. Shaft</div>
         <div class="dt-val">187.5 ft·lb</div>
@@ -253,38 +359,33 @@
       </div>
       <div class="dt-arrow">→<span>Stage 2 2.89:1</span></div>
       <div class="dt-box">
-        <div class="dt-label">Axle Output</div>
+        <div class="dt-label">Axle</div>
         <div class="dt-val">~542 ft·lb</div>
         <div class="dt-sub">19T → 55T</div>
       </div>
     </div>
 
     <p>
-      The gearbox provides two stages of spur gear reduction. Stage 1 is a 3.0:1 reduction
-      (19T driving 57T); Stage 2 is a 2.895:1 reduction (19T driving 55T). Total gearbox
-      reduction is 8.68:1, and with the CVT at its highest-torque ratio the complete drivetrain
-      reduces by approximately <strong>29.3:1</strong>.
-    </p>
-    <p>
-      The critical gear for bending stress is the Stage 2 input pinion. Because it sits on the
-      intermediate shaft — which already carries the 3:1 Stage 1 torque multiplication — its
-      input torque is 9× the engine output, making it the highest-loaded tooth mesh in the
-      system. The Lewis analysis was run on this pinion as the worst case.
+      Total gearbox reduction: 3.0 × (55/19) = <strong>8.684:1.</strong> Total drivetrain
+      at max CVT ratio: 3.38 × 8.684 = <strong>~29.3:1.</strong> The Stage 2 input pinion
+      carries the highest tangential force in the system — it sits on the intermediate shaft,
+      which has already received the 3:1 Stage 1 multiplication, so its input torque is 9×
+      engine torque. This is the gear the analysis is most conservative on.
     </p>
 
-    <!-- ── GEAR ANALYSIS ── -->
-    <h2>Gear Design &amp; Lewis Equation Analysis</h2>
+    <!-- GEAR ANALYSIS -->
+    <h2>Gear Stress Analysis — Lewis Equation</h2>
     <p>
-      The Lewis equation models a gear tooth as a cantilever beam loaded at its tip — a
-      conservative, well-established approach for gear tooth bending stress:
+      The Lewis equation treats a gear tooth as a cantilever beam loaded at the tip — a
+      well-established conservative model for bending stress at the tooth root:
     </p>
 
     <div class="callout">
       <strong>Lewis Equation (imperial, diametral pitch form):</strong><br><br>
       &sigma; = (W<sub>t</sub> &times; P) / (F &times; Y)<br><br>
       <span style="opacity:.7; font-size:.9em;">
-        &sigma; = bending stress at tooth root (psi) &nbsp;|&nbsp;
-        W<sub>t</sub> = tangential load (lb) &nbsp;|&nbsp;
+        &sigma; = root bending stress (psi) &nbsp;|&nbsp;
+        W<sub>t</sub> = tangential force (lb) &nbsp;|&nbsp;
         P = diametral pitch (teeth/in) &nbsp;|&nbsp;
         F = face width (in) &nbsp;|&nbsp;
         Y = Lewis form factor (tooth count &amp; pressure angle)
@@ -292,66 +393,80 @@
     </div>
 
     <p>
-      All gears use diametral pitch 10, a face width of 0.375 in, and a 20° full-depth involute
-      profile. Y = 0.314 for 19 teeth at 20° (standard Lewis table). The Stage 2 pinion tangential
-      force is the product of engine torque, CVT ratio, and Stage 1 gear ratio, divided by the
-      pinion pitch radius:
+      All gears: diametral pitch 10, face width 0.375 in, 20° full-depth involute. Y = 0.314
+      for 19 teeth at 20° (standard Lewis table). Worst-case load at Stage 2 pinion under
+      full stall:
     </p>
 
     <div class="calc-block">
-      <div class="calc-title">Stage 2 Pinion — Worst-Case Static Load</div>
-      T<sub>stage2-input</sub> = 222 in·lb &times; 3.38 (CVT) &times; 3.0 (Stage 1) = 2,251 in·lb<br>
-      r<sub>pinion</sub> = T<sub>1</sub> / (2P) = 19 / (2 &times; 10) = 0.95 in<br>
-      W<sub>t</sub> = 2,251 / 0.95 = <strong>2,369.6 lb</strong><br>
+      <div class="calc-title">Stage 2 Pinion — Full Stall Load</div>
+      T<sub>stage2-in</sub> = 222 in·lb × 3.38 (CVT) × 3.0 (Stage 1) = 2,251 in·lb<br>
+      r<sub>pinion</sub> = T<sub>1</sub> / (2P) = 19 / 20 = 0.950 in<br>
+      W<sub>t</sub> = 2,251 / 0.950 = <strong>2,369.6 lb</strong><br>
       <br>
-      &sigma; = (W<sub>t</sub> &times; P) / (F &times; Y) = (2,369.6 &times; 10) / (0.375 &times; 0.314)<br>
-      &sigma; = 23,696 / 0.11775 = <strong>201,236 psi</strong><br>
+      &sigma; = (2,369.6 × 10) / (0.375 × 0.314) = 23,696 / 0.11775 = <strong>201,236 psi</strong><br>
       <br>
       Allowable bending stress — 4140 HRC 50: <strong>174,045 psi</strong><br>
-      FoS = 174,045 / 201,236 = <strong>0.865</strong>
+      Lewis FoS = 174,045 / 201,236 = <strong>0.865</strong>
     </div>
 
     <p>
-      A Lewis FoS below 1.0 doesn't automatically mean failure. The equation is intentionally
-      conservative: it assumes the full load applies to a single tooth tip, ignores
-      load-sharing between adjacent teeth, and uses a simplified beam model for root geometry.
-      Real gear teeth distribute load more favorably, and finite element analysis was used to
-      refine the stress picture beyond the Lewis estimate. The gearbox survived the full testing
-      season without tooth distress, consistent with these built-in analytical margins.
+      The FoS of 0.865 is calculated against the theoretical maximum load — a full drivetrain
+      stall with the engine at peak torque and the CVT locked at its lowest ratio. In practice,
+      this condition is never sustained: the CVT begins to upshift before stall, tire slip
+      limits torque transfer to the axle, and the engine unloads before reaching peak torque
+      at stall RPM. The real operating load on these gears is consistently lower than the
+      stall case used for sizing. A FoS of ~0.87 against a load the car never actually
+      reaches is a sound engineering margin for this application.
     </p>
     <p>
-      The more important story is comparative. Both old and new designs carry the same loads
-      on the same geometry. The only variable is the allowable bending stress of the material,
-      which is set by heat treatment hardness:
+      The Lewis equation is also inherently conservative — it assumes the full load applies
+      at a single tooth tip and ignores load-sharing between adjacent teeth. Both factors mean
+      actual gear root stresses in operation are lower than the Lewis number.
     </p>
 
     <div class="fos-bar-wrap">
       <div class="fos-row">
-        <div class="fos-label" style="font-size:.82rem;">Old<br><span style="opacity:.5; font-size:.75em;">HRC 40</span></div>
+        <div class="fos-label" style="font-size:.82rem;">Old case<br><span style="opacity:.5; font-size:.75em;">~15T, HRC 40</span></div>
         <div class="fos-track">
           <div class="fos-line"></div>
           <div class="fos-fill old" style="width: calc(0.4 / 3 * 100%);">0.40</div>
         </div>
       </div>
       <div class="fos-row">
-        <div class="fos-label" style="font-size:.82rem;">New<br><span style="opacity:.5; font-size:.75em;">HRC 50</span></div>
+        <div class="fos-label" style="font-size:.82rem;">New design<br><span style="opacity:.5; font-size:.75em;">19T, HRC 50</span></div>
         <div class="fos-track">
           <div class="fos-line"></div>
           <div class="fos-fill new" style="width: calc(0.865 / 3 * 100%);">0.865</div>
         </div>
       </div>
-      <div style="font-size:.75rem; opacity:.55; margin-top:.4rem;">Scale 0–3. Vertical line = FoS 1.0.</div>
+      <div style="font-size:.75rem; opacity:.55; margin-top:.4rem;">Scale 0–3. Vertical line = FoS 1.0. Both values calculated at full stall load.</div>
     </div>
 
     <table class="compare-table">
       <thead>
         <tr>
           <th>Parameter</th>
-          <th class="col-old">Old Design (Failed)</th>
+          <th class="col-old">Old Transfer Case (Failed)</th>
           <th class="col-new">New Design</th>
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td>Pinion tooth count</td>
+          <td class="col-old">~15–16T (too small for DP 10)</td>
+          <td class="col-new">19T — proper minimum for DP 10</td>
+        </tr>
+        <tr>
+          <td>Pinion pitch radius</td>
+          <td class="col-old">0.750–0.800 in</td>
+          <td class="col-new">0.950 in</td>
+        </tr>
+        <tr>
+          <td>Lewis form factor Y</td>
+          <td class="col-old">~0.276 (more stress concentration)</td>
+          <td class="col-new">0.314</td>
+        </tr>
         <tr>
           <td>Gear material</td>
           <td class="col-old">4140 Chromoly Steel</td>
@@ -359,404 +474,349 @@
         </tr>
         <tr>
           <td>Heat treatment</td>
-          <td class="col-old">HRC 40</td>
-          <td class="col-new">HRC 50</td>
+          <td class="col-old">~HRC 40 + months in storage</td>
+          <td class="col-new">HRC 50 — freshly processed</td>
         </tr>
         <tr>
-          <td>Allowable bending stress</td>
-          <td class="col-old">~80,500 psi</td>
-          <td class="col-new">174,045 psi (+116%)</td>
-        </tr>
-        <tr>
-          <td>Shaft center distance</td>
-          <td class="col-old">Incorrect — non-standard mesh</td>
-          <td class="col-new">Corrected to design value</td>
-        </tr>
-        <tr>
-          <td>Large gear mass</td>
-          <td class="col-old">Solid (full disc)</td>
-          <td class="col-new">Lightweighted — 47% inertia reduction</td>
-        </tr>
-        <tr>
-          <td>Lewis FoS (Stage 2 pinion)</td>
-          <td class="col-old"><strong>~0.40</strong> ← failed</td>
+          <td>Lewis FoS at stall</td>
+          <td class="col-old"><strong>~0.40</strong> ← failed at testing</td>
           <td class="col-new"><strong>0.865</strong> — 2.16× improvement</td>
         </tr>
         <tr>
+          <td>Center distances</td>
+          <td class="col-old">Unknown (previous year's car)</td>
+          <td class="col-new">Derived from geometry: 3.800 in / 3.700 in</td>
+        </tr>
+        <tr>
           <td>Oil seal</td>
-          <td class="col-old">RTV silicone bead (leaked)</td>
+          <td class="col-old">RTV silicone (leaked)</td>
           <td class="col-new">Laser-cut Buna-N gasket</td>
         </tr>
         <tr>
           <td>Result</td>
           <td class="col-old">Catastrophic tooth fracture</td>
-          <td class="col-new">Passed full testing season</td>
+          <td class="col-new">Full testing season — no failures, no leaks</td>
         </tr>
       </tbody>
     </table>
 
-    <p>
-      Moving from HRC 40 to HRC 50 on 4140 steel — a 10-point Rockwell C increase — more than
-      doubled the allowable bending stress. This is one of the highest-leverage improvements
-      available in gear design: same alloy, same geometry, same tooling. Only the heat treatment
-      cycle changes, and the payoff is a 2× improvement in the critical failure metric.
-    </p>
-
-    <!-- Gear set photo -->
     <figure>
       <img src="../images/gearbox-gearset.jpg" alt="All four gears and intermediate shaft" onerror="this.style.display='none'">
-      <div class="img-ph" id="ph-gearset">Save as: images/gearbox-gearset.jpg</div>
+      <div class="img-ph" id="ph-gearset">images/gearbox-gearset.jpg</div>
       <figcaption>
-        The complete gear set: Stage 1 pinion (19T), intermediate shaft, Stage 1 driven gear (57T),
-        Stage 2 pinion (19T), and Stage 2 driven gear (55T). The blue-purple oxide on the gear
-        faces is the temper color from 4140 steel heat treated to HRC 50 — it forms during
-        the high-temperature tempering cycle and is a visual indicator the parts were correctly processed.
-        The lightening pockets cut into the large gear faces are clearly visible, reducing rotational
-        inertia by 47% compared to the solid-disc original design.
+        Complete gear set: Stage 1 pinion (19T, front left), intermediate shaft, Stage 1
+        driven gear (57T, center), Stage 2 pinion with shaft (19T, top right), Stage 2
+        driven gear (55T, bottom right). The blue-purple temper oxide is characteristic of
+        4140 at HRC 50 — it forms during the tempering cycle. The lightening pockets cut
+        into the large gear faces are also visible.
       </figcaption>
     </figure>
 
-    <!-- ── CAD MODEL ── -->
-    <h2>CAD Model</h2>
-    <p>
-      The gearbox was fully modeled in CAD before machining. The assembly model shows all three
-      shafts — input (top right), intermediate (left, with splined CVT-side stub), and output
-      (bottom right, with splined axle stub) — and the two bearing locations on each shaft.
-      An exploded view was used during design review to verify the assembly sequence and confirm
-      that all twelve bolts, both housing halves, and all gear-shaft subassemblies could be
-      installed in the correct order without conflict.
-    </p>
-
-    <div class="fig-grid">
-      <figure>
-        <img src="../images/gearbox-cad-assembled.jpg" alt="Gearbox CAD assembled view" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-cad-assembled">Save as: images/gearbox-cad-assembled.jpg — isometric CAD view</div>
-        <figcaption>Assembled CAD model — input shaft upper right, intermediate shaft left, output shaft lower right. The bearing housings and twelve-bolt flange pattern are visible.</figcaption>
-      </figure>
-      <figure>
-        <img src="../images/gearbox-cad-exploded.jpg" alt="Gearbox CAD exploded view" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-cad-exploded">Save as: images/gearbox-cad-exploded.jpg — exploded CAD view</div>
-        <figcaption>Exploded view showing both housing halves, the two gear pairs on their shafts, deep-groove ball bearings (blue), and hardware. Used to verify assembly sequence.</figcaption>
-      </figure>
-    </div>
-
-    <!-- ── FULL VEHICLE ASSEMBLY ── -->
-    <h2>Full Vehicle CAD Assembly</h2>
-    <p>
-      Beyond the gearbox itself, I assembled the full vehicle CAD model for the team. Each
-      subgroup — frame, suspension, steering, brakes, powertrain — designed their components
-      independently. Integrating these into a single coherent assembly was necessary to verify
-      that everything fit within the chassis envelope, that no components interfered with each
-      other, and that clearances were adequate for assembly and serviceability. This included
-      checking that the gearbox mounting tabs aligned with the frame, that the axle length
-      was correct relative to the suspension geometry, and that the CVT guard had adequate
-      clearance to the belt and frame tubes under full suspension travel.
-    </p>
-
-    <div class="fig-grid">
-      <figure>
-        <img src="../images/car-cad-front.jpg" alt="Full vehicle CAD front view" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-car-cad-front">Save as: images/car-cad-front.jpg — car CAD front quarter</div>
-        <figcaption>Full vehicle assembly — front three-quarter view. The purple tube frame, double-wishbone suspension, steering, and body panels are all separate subteam models assembled into one file.</figcaption>
-      </figure>
-      <figure>
-        <img src="../images/car-cad-rear.jpg" alt="Full vehicle CAD rear view showing powertrain" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-car-cad-rear">Save as: images/car-cad-rear.jpg — car CAD rear quarter</div>
-        <figcaption>Rear three-quarter view — the Kohler engine, CVT pulley system, and gearbox are visible in the rear powertrain bay. The CVT guard and drivetrain clearances were verified in this assembly before fabrication.</figcaption>
-      </figure>
-    </div>
-
-    <figure>
-      <img src="../images/car-drawing.jpg" alt="Four-view engineering drawing of car #89" onerror="this.style.display='none'">
-      <div class="img-ph" id="ph-car-drawing">Save as: images/car-drawing.jpg — 4-view drawing</div>
-      <figcaption>Four-view engineering drawing of car #89 generated from the CAD assembly — top, front, side, and isometric. Used for packaging review and competition documentation.</figcaption>
-    </figure>
-
-    <!-- ── OIL SEAL ── -->
+    <!-- OIL SEAL -->
     <h2>Fixing the Oil Leak</h2>
     <p>
-      Every previous gearbox on the Stevens Baja car had leaked oil. The sealing method was
-      RTV (room-temperature vulcanizing) silicone applied as a bead around the mating housing
-      faces before bolting the halves together.
+      The oil seal on every previous Stevens gearbox was RTV silicone — applied as a bead
+      around the mating housing faces before assembly. RTV degrades with thermal cycling,
+      and its compression varies with how it was applied that day. There is no way to get a
+      consistent joint from a hand-applied bead. The result was a gearbox that reliably leaked.
     </p>
     <p>
-      RTV has well-known failure modes in this application. Applied as a bead, compression
-      varies continuously around the perimeter — thicker where the applicator moved slowly,
-      thinner elsewhere. The silicone degrades with repeated thermal cycling. And there is no
-      reproducible way to apply it: every assembly produces a slightly different joint.
-    </p>
-    <p>
-      The redesigned gearbox uses a <strong>Buna-N (nitrile rubber) gasket</strong> laser-cut
-      to the exact profile of the housing mating face, with all twelve bolt holes positioned
-      from the same CAD file that defined the housing. Nitrile rubber is the industry standard
-      for oil seals — chemically resistant to petroleum lubricants, elastically stable across
-      temperature range. Laser cutting ensures a uniform, repeatable thickness at every bolt
-      position. The compression is defined by material specification and housing flatness,
-      not by application technique. The gasket is also replaceable: the CAD file produces an
-      identical part on demand.
+      The new design uses a <strong>Buna-N (nitrile rubber) gasket</strong> laser-cut from
+      the same CAD file that defined the housing mating face. Every bolt hole is in the exact
+      correct position. Nitrile is the standard material for oil seals — petroleum-resistant,
+      elastically stable across operating temperature. Laser cutting produces a uniform,
+      defined thickness at every bolt position. Compression is set by material spec and
+      housing flatness, not by whoever assembled it that day. The same CAD file produces an
+      identical replacement gasket on demand.
     </p>
 
     <figure>
-      <img src="../images/gearbox-gasket.jpg" alt="Laser-cut Buna-N gasket" onerror="this.style.display='none'">
-      <div class="img-ph" id="ph-gasket">Save as: images/gearbox-gasket.jpg</div>
+      <img src="../images/gearbox-gasket.png" alt="Laser-cut Buna-N gasket" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-gasket">images/gearbox-gasket.png</div>
       <figcaption>
-        Laser-cut Buna-N gasket — every bolt hole and the full housing perimeter profile cut from
-        one CAD file. Twelve bolt positions, uniform compression across all of them.
+        Laser-cut Buna-N gasket — housing perimeter and all twelve bolt holes cut from one
+        CAD file. The offcut is visible at lower left, showing the precision of the profile.
+        Uniform thickness across the full sealing perimeter.
       </figcaption>
     </figure>
 
-    <!-- ── MATERIAL SELECTION ── -->
+    <!-- MATERIAL SELECTION -->
     <h2>Material Selection</h2>
-
     <table class="spec-table">
       <tbody>
         <tr>
           <td>Housing</td>
           <td>
-            <strong>6061-T6 Aluminum, anodized</strong> — The housing carries bearing loads and
-            maintains shaft alignment but is not part of the gear mesh. Aluminum's strength is
-            adequate for these secondary loads while keeping the assembly light and machinable
-            on a knee mill. The housing was anodized in the team's signature magenta color —
-            Type II anodizing builds a hard aluminum oxide layer for corrosion and abrasion
-            resistance.
+            <strong>6061-T6 Aluminum, Type II anodized</strong> — The housing carries bearing
+            loads and maintains shaft alignment; it is not part of the gear mesh. 6061 machines
+            easily and is strong enough for the secondary structural loads here. I machined the
+            housing myself on the shop's Haas knee mill. Anodized in the team's magenta color,
+            which also builds a hard aluminum oxide layer for corrosion resistance.
           </td>
         </tr>
         <tr>
           <td>Gears</td>
           <td>
-            <strong>4140 Chromoly Steel, HRC 50 heat treated, finish-ground</strong> — 4140 is
-            the standard alloy for highly loaded gears: deep hardenability, excellent toughness
-            at high hardness, and good pre-heat-treat machinability. The upgrade from HRC 40 to
-            HRC 50 more than doubled the allowable bending stress and substantially improved
-            pitting resistance (surface fatigue life). Parts were roughed before heat treatment
-            and finish-ground after to restore tooth geometry.
+            <strong>4140 Chromoly Steel — HRC 50, finish-ground after heat treatment</strong> —
+            4140 offers deep hardenability (through-hardens at these section sizes) and
+            excellent toughness at high hardness. Specifying HRC 50 rather than the ~HRC 40
+            of the old transfer case moved the allowable bending stress from ~80,500 psi to
+            174,045 psi — more than doubling it. Gears were hobbed while soft, heat-treated,
+            then finish-ground on the tooth flanks to restore accurate geometry.
           </td>
         </tr>
         <tr>
-          <td>Large gear design</td>
+          <td>Large gear lightweighting</td>
           <td>
-            <strong>Lightweighted — pocketed disc geometry</strong> — Material was removed from
-            the large gear faces in a pattern that maintains tooth root strength while reducing
-            the gear's rotational inertia. The result is a 47% reduction in inertia for the
-            large gears compared to the solid-disc previous design. Lower rotational inertia
-            improves CVT shift response and reduces the energy stored in the drivetrain during
-            impacts.
+            <strong>Pocketed disc geometry — 47% rotational inertia reduction</strong> —
+            Material was removed from the large gear faces in a symmetric pattern that
+            maintains tooth root strength while cutting polar moment of inertia. Lower
+            drivetrain inertia improves CVT shift response and reduces stored energy released
+            into the drivetrain during impact.
+          </td>
+        </tr>
+        <tr>
+          <td>Wheel hubs</td>
+          <td>
+            <strong>Custom-machined 6061 aluminum — 47% inertia reduction</strong> —
+            The wheel hub flanges were redesigned with material removed from non-load-bearing
+            regions. Reducing unsprung rotational mass improves wheel response over obstacles
+            and reduces gyroscopic loads on axle bearings.
           </td>
         </tr>
         <tr>
           <td>Bearings</td>
           <td>
-            Deep groove ball bearings at each shaft location (six total), sized for combined
-            radial and thrust loads. The Stage 2 output shaft bearing is the most heavily loaded
-            given the high tangential force at that mesh and the cantilevered axle geometry.
+            Deep groove ball bearings at each of the six shaft locations, sized for combined
+            radial and thrust loads. The Stage 2 output bearing is most heavily loaded.
           </td>
         </tr>
         <tr>
           <td>Gasket</td>
           <td>
-            <strong>Laser-cut Buna-N (nitrile rubber)</strong> — Oil-resistant, thermally
-            stable, repeatable thickness. Replaced RTV silicone to eliminate the chronic leak
-            problem. See Oil Seal section above.
+            <strong>Laser-cut Buna-N (nitrile rubber)</strong> — oil-resistant, thermally
+            stable, repeatable. See Oil Seal section above.
           </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- ── PROTOTYPING ── -->
-    <h2>Prototyping</h2>
+    <!-- PROTOTYPING -->
+    <h2>Prototyping &amp; Fit Check</h2>
     <p>
-      Before any metal was machined, I 3D-printed the housing in PLA. The prototype allowed
-      dummy bearings and the actual shafts to be pressed in, verifying that gear spacing,
-      bearing pocket diameters, and the bolt pattern were correct. It also let us work out the
-      assembly sequence — getting two shafts and four gears into the housing simultaneously
-      requires a specific order of operations that isn't obvious from the CAD alone.
-    </p>
-    <p>
-      The prototype caught two issues. First, one bearing pocket was undersized and had to be
-      enlarged in CAD. Second, a bolt in the flange pattern interfered with a shaft during
-      assembly and had to be relocated. Both were trivial fixes before machining, and would
-      have been expensive to correct in aluminum.
+      Before milling aluminum, I 3D-printed half of the housing shell to check how the case
+      would mount to the car's frame. The prototype was specifically for verifying the mounting
+      tab geometry and positional fit within the chassis — whether the tabs aligned with the
+      correct frame nodes, whether the gearbox sat in the right position relative to the CVT
+      output shaft and the axle, and whether there was clearance to surrounding structure.
+      This kind of physical mock-up catches mounting problems that are easy to miss in CAD,
+      especially when the frame model is assembled from multiple subteam files.
     </p>
 
-    <!-- ── MACHINING ── -->
+    <figure>
+      <img src="../images/gearbox-prototype.jpg" alt="3D-printed housing prototype" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-proto">images/gearbox-prototype.jpg</div>
+      <figcaption>3D-printed PLA half-shell — used to verify mounting tab alignment and positional fit in the chassis before committing to aluminum.</figcaption>
+    </figure>
+
+    <!-- MACHINING -->
     <h2>Machining &amp; Manufacturing</h2>
     <p>
-      The 6061-T6 housing was machined on a Haas knee mill. Key operations: squaring and
-      facing both halves flat to gasket specification, boring all six bearing pockets to final
-      diameter using a boring head for concentricity, drilling and tapping the twelve-bolt
-      flange pattern, and cleaning up the internal pocket geometry. Shaft work was done on a
-      CNC lathe — the intermediate shaft required tight tolerance at the bearing journals
-      and gear seat locations, since any runout here directly affects gear alignment across
-      both stages.
+      I machined the 6061 housing myself on the shop's Haas knee mill. The critical operations
+      were squaring and facing both halves to gasket flatness, boring the six bearing pockets
+      to final diameter for concentricity, and drilling and tapping the twelve-bolt flange
+      pattern. A boring head was used for the bearing pockets — pocket-to-pocket alignment
+      sets the shaft center distances, so the concentricity here directly determines whether
+      the gears mesh on their pitch circles.
     </p>
     <p>
-      The gears were hobbed in the soft (pre-heat-treat) condition, then sent out for heat
-      treatment to HRC 50. After heat treatment, the tooth flanks were finish-ground to restore
-      accurate tooth profile and correct surface finish. The gears were then pressed and keyed
-      onto their shafts.
+      The intermediate shaft was turned on a CNC lathe, with tight tolerances at the bearing
+      journals and gear seat diameters. Gears were hobbed soft, heat-treated to HRC 50,
+      then finish-ground on the tooth flanks to restore geometry. Final assembly: gears
+      pressed and keyed onto shafts, shafts pressed into bearing bores, gasket installed,
+      housing halves torqued down.
     </p>
 
     <div class="fig-grid">
       <figure>
-        <img src="../images/gearbox-lathe.jpg" alt="Intermediate shaft being turned" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-lathe">Save as: images/gearbox-lathe.jpg</div>
-        <figcaption>Intermediate shaft being turned on a CNC lathe. This shaft carries Stage 1's driven gear and Stage 2's drive pinion — bearing journal tolerances here affect both gear mesh alignments simultaneously.</figcaption>
+        <img src="../images/gearbox-lathe.png" alt="Intermediate shaft being turned" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-lathe">images/gearbox-lathe.png</div>
+        <figcaption>Intermediate shaft being turned on a CNC lathe. This shaft carries Stage 1's driven gear and Stage 2's drive pinion — bearing journal tolerances affect both mesh alignments simultaneously.</figcaption>
       </figure>
       <figure>
-        <img src="../images/gearbox-mill.jpg" alt="Housing being milled" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-mill">Save as: images/gearbox-mill.jpg</div>
-        <figcaption>Milling the 6061-T6 aluminum housing on a Haas knee mill. The chip load visible here is from boring the bearing pockets to final diameter.</figcaption>
+        <img src="../images/gearbox-mill.png" alt="Bearing pockets being bored in housing" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-mill">images/gearbox-mill.png</div>
+        <figcaption>Boring the bearing pockets in the 6061 housing. Pocket-to-pocket alignment sets the shaft center distances — this is the most dimensionally critical operation in making the gearbox.</figcaption>
       </figure>
     </div>
 
-    <!-- ── CVT TUNING ── -->
-    <h2>CVT Tuning &amp; Testing</h2>
+    <figure>
+      <img src="../images/gearbox-hub.png" alt="Machined wheel hub" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-hub">images/gearbox-hub.png</div>
+      <figcaption>
+        Machined 6061 aluminum wheel hub with bearing pressed in. The flanged profile
+        minimizes mass while maintaining strength at the bearing seat and bolt circle.
+        Hub rotational inertia reduced 47% versus the previous solid design.
+      </figcaption>
+    </figure>
+
+    <!-- CAD MODEL -->
+    <h2>CAD Model</h2>
     <p>
-      The Comet 780 CVT's shifting behavior is set by two tunable parameters: the
-      <strong>primary flyweight mass</strong> (which controls the engine RPM at which the belt
-      begins to shift upward) and the <strong>secondary spring rate</strong> (which controls
-      the back-torque required to upshift and the belt tension during steady-state running).
-      Getting these wrong means the engine either bogs under load (too-early upshift) or
-      screams past peak power without shifting (too-late). Seven configuration test sessions
-      were run over a 40-ft course, measuring vehicle speed for each spring/flyweight
-      combination.
+      The gearbox was fully modeled before machining. The orthographic front view clarifies
+      the three-shaft layout — input (top), intermediate (center), output (bottom) — and how
+      the two gear pairs nest within the housing envelope.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/gearbox-cad-ortho.jpg" alt="Gearbox CAD front view" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-cad-ortho">images/gearbox-cad-ortho.jpg</div>
+        <figcaption>Front orthographic CAD view — three-shaft layout with both gear pairs. Stage 1 mesh at top, Stage 2 at bottom.</figcaption>
+      </figure>
+      <figure>
+        <img src="../images/gearbox-cad-assembled.jpg" alt="Gearbox CAD isometric view" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-cad-assembled">Save as: images/gearbox-cad-assembled.jpg<br>(isometric view from chat)</div>
+        <figcaption>Isometric view — input shaft upper right, intermediate shaft left, output shaft lower right.</figcaption>
+      </figure>
+    </div>
+
+    <figure>
+      <img src="../images/gearbox-cad-exploded.jpg" alt="Gearbox CAD exploded view" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-cad-exploded">Save as: images/gearbox-cad-exploded.jpg<br>(exploded view from chat)</div>
+      <figcaption>Exploded view — both housing halves, two gear pairs on shafts, deep-groove ball bearings, and twelve cap screws. Used during design review to confirm the assembly sequence.</figcaption>
+    </figure>
+
+    <!-- FULL VEHICLE ASSEMBLY -->
+    <h2>Full Vehicle CAD Assembly</h2>
+    <p>
+      Beyond the gearbox, I assembled the complete vehicle CAD model by integrating individual
+      models from every subgroup — frame, suspension, steering, brakes, and powertrain. Each
+      team designed independently. Bringing those models into one assembly was necessary to
+      verify fit across the whole car: gearbox mounting tabs against frame nodes, axle length
+      relative to suspension geometry, CVT guard clearance to belt and frame tubes under full
+      suspension travel, and drivetrain alignment from engine output to axle.
+    </p>
+    <p>
+      Problems found in the assembly model cost nothing to fix. Problems found on the physical
+      car cost fabrication time the team doesn't have.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/car-cad-front.jpg" alt="Full vehicle CAD front quarter" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-car-cad-front">Save as: images/car-cad-front.jpg<br>(car CAD front quarter from chat)</div>
+        <figcaption>Full vehicle assembly — front three-quarter. All subteam models integrated into a single file for packaging and interference verification.</figcaption>
+      </figure>
+      <figure>
+        <img src="../images/car-cad-rear.jpg" alt="Full vehicle CAD rear quarter" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-car-cad-rear">images/car-cad-rear.jpg</div>
+        <figcaption>Rear three-quarter — Kohler engine, CVT, and rear drivetrain visible. CVT guard clearances and drivetrain alignment checked here before fabrication.</figcaption>
+      </figure>
+    </div>
+
+    <!-- CVT TUNING -->
+    <h2>CVT Tuning &amp; Performance Testing</h2>
+    <p>
+      The Comet 780 CVT's shifting behavior is tunable via two parameters: the
+      <strong>primary flyweight mass</strong> (governs the RPM at which the belt begins to
+      upshift) and the <strong>secondary spring rate</strong> (governs back-torque required
+      to upshift and belt tension at steady state). Getting this wrong means either bogging
+      under load (too-early upshift) or overshooting peak power RPM (too-late). Seven
+      configuration sessions were run over a measured 40 ft course.
     </p>
 
     <table class="cvt-table">
       <thead>
         <tr>
           <th>Test</th>
-          <th>Primary (flyweights)</th>
-          <th>Secondary (spring)</th>
+          <th>Primary</th>
+          <th>Secondary spring</th>
           <th>Position</th>
-          <th>Avg Speed</th>
+          <th>Avg speed</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1st</td>
-          <td>Stock balls</td>
-          <td>Yellow springs</td>
-          <td>1 tick, spot 2</td>
-          <td>~16.3 mph</td>
-        </tr>
-        <tr class="best-row">
-          <td>2nd ★</td>
-          <td>Stock balls</td>
-          <td>Red springs</td>
-          <td>1 tick, spot 2</td>
-          <td>~21.3 mph avg / 22.4 mph peak</td>
-        </tr>
-        <tr>
-          <td>3rd</td>
-          <td>Blue/gold rollers</td>
-          <td>Green springs</td>
-          <td>1 tick, spot 2</td>
-          <td>~12.5 mph</td>
-        </tr>
-        <tr>
-          <td>4th</td>
-          <td>Blue/gold rollers</td>
-          <td>Green springs</td>
-          <td>Clean old sheaves</td>
-          <td>~12.2 mph</td>
-        </tr>
-        <tr>
-          <td>5th</td>
-          <td>Blue/gold rollers</td>
-          <td>Green springs</td>
-          <td>1 tick, spot 1</td>
-          <td>~12.7 mph</td>
-        </tr>
-        <tr>
-          <td>6th</td>
-          <td>Blue/green rollers</td>
-          <td>Red springs</td>
-          <td>1 tick, spot 1</td>
-          <td>~16.3 mph</td>
-        </tr>
-        <tr>
-          <td>7th</td>
-          <td>Blue/green rollers</td>
-          <td>Red springs</td>
-          <td>1 tick, spot 1</td>
-          <td>~16.9 mph</td>
-        </tr>
+        <tr><td>1st</td><td>Stock balls</td><td>Yellow</td><td>1 tick, spot 2</td><td>~16.3 mph</td></tr>
+        <tr class="best-row"><td>2nd ★</td><td>Stock balls</td><td>Red (stiff)</td><td>1 tick, spot 2</td><td>21.3 avg / <strong>22.4 peak</strong></td></tr>
+        <tr><td>3rd</td><td>Blue/gold rollers</td><td>Green (soft)</td><td>1 tick, spot 2</td><td>~12.5 mph</td></tr>
+        <tr><td>4th</td><td>Blue/gold rollers</td><td>Green (soft)</td><td>Clean sheaves</td><td>~12.2 mph</td></tr>
+        <tr><td>5th</td><td>Blue/gold rollers</td><td>Green (soft)</td><td>1 tick, spot 1</td><td>~12.7 mph</td></tr>
+        <tr><td>6th</td><td>Blue/green rollers</td><td>Red (stiff)</td><td>1 tick, spot 1</td><td>~16.3 mph</td></tr>
+        <tr><td>7th</td><td>Blue/green rollers</td><td>Red (stiff)</td><td>1 tick, spot 1</td><td>~16.9 mph</td></tr>
       </tbody>
     </table>
 
     <p>
-      The stiffer red secondary spring (higher back-torque to upshift) paired with the stock
-      primary flyweights at spot 2 produced the best performance — <strong>22.4 mph over
-      40 ft</strong>, versus ~12.5 mph for the softest green spring configuration. The
-      explanation is that the red spring maintains higher belt clamping force during acceleration,
-      preventing belt slip and keeping the CVT in a lower ratio longer so the engine can
-      operate near peak torque output. Tests 3–5 with blue/gold rollers consistently underperformed,
-      suggesting those flyweight masses cause the CVT to upshift before the engine reaches
-      peak power RPM.
-    </p>
-    <p>
-      Testing also tracked shifting behavior on video and logged engine RPM at top speed to
-      correlate predicted vs. measured shift points against the Comet 780 engagement chart.
+      Red secondary spring with stock flyweights at spot 2 won decisively — <strong>22.4 mph
+      over 40 ft</strong> versus ~12.5 mph for the softest configuration, nearly a 2× spread
+      from the same engine and gearbox. A stiffer secondary spring maintains higher belt
+      clamping force during acceleration, preventing slip and holding the CVT in a lower ratio
+      longer — keeping the engine near peak torque output. Blue/gold rollers underperformed
+      across all secondary configurations, indicating their mass causes the CVT to upshift
+      prematurely before peak power RPM is reached.
     </p>
 
-    <!-- ── RESULTS ── -->
+    <!-- RESULTS -->
     <h2>Results</h2>
     <p>
-      The redesigned gearbox was assembled with the laser-cut Buna-N gasket, filled with gear
-      oil, and installed in car #89. It ran through a full campus testing season — including
-      the acceleration testing and dynamic driving that represent the worst-case loading
-      conditions outside of competition — without any sign of tooth distress or gear wear.
-      Post-test inspection confirmed zero oil leaks, a first for the Stevens Baja car's recent
-      history. The gearbox was subsequently disassembled for inspection, and tooth surfaces
-      showed normal contact patterns with no abnormal wear or pitting.
+      The gearbox ran through a full campus testing season without mechanical failure, oil
+      leaks, or any sign of tooth distress. Post-test inspection confirmed normal contact
+      patterns on the gear flanks. It was the first gearbox on this car to leave a testing
+      session without leaking oil.
     </p>
     <p>
-      Car #89 is entered in the Baja SAE competition June 10–14, 2026. The complete analysis
-      — Lewis equation calculation, material selection rationale, CVT tuning data, and center
-      distance derivation — has been documented in the team's design package for future
+      The complete design record — Lewis equation analysis, gear geometry, center distance
+      derivation, material specification, CVT tuning data — has been documented for future
       powertrain leads.
     </p>
+    <p>Car #89 is entered in Baja SAE competition, June 10–14, 2026.</p>
 
     <div class="fig-grid">
       <figure>
-        <img src="../images/gearbox-hero.jpg" alt="Gearbox installed in car" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-results-1">Save as: images/gearbox-hero.jpg</div>
-        <figcaption>Redesigned gearbox installed between the rear frame rails, directly below the Kohler engine</figcaption>
+        <img src="../images/gearbox-installed.png" alt="Gabe with the car post-install" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-installed">images/gearbox-installed.png</div>
+        <figcaption>Post-installation inspection before the first run.</figcaption>
       </figure>
       <figure>
-        <img src="../images/gearbox-installed.jpg" alt="Inspecting the installed gearbox" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-results-2">Save as: images/gearbox-installed.jpg</div>
-        <figcaption>Post-installation inspection before first run</figcaption>
+        <img src="../images/gearbox-in-car.jpg" alt="Gearbox in car, rear view" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-in-car">images/gearbox-in-car.jpg</div>
+        <figcaption>Gearbox mounted in the rear bay — the anodized magenta housing below the Kohler engine, with the CVT output shaft to the left.</figcaption>
       </figure>
     </div>
 
-    <!-- ── KEY SPECS ── -->
+    <figure>
+      <img src="../images/car-photo.jpeg" alt="Car #89 on campus" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-car-photo">images/car-photo.jpeg</div>
+      <figcaption>Car #89 after the testing season — full drivetrain installed and validated.</figcaption>
+    </figure>
+
+    <!-- KEY SPECS -->
     <h2>Key Specifications</h2>
     <table class="spec-table">
       <tbody>
         <tr><td>Gearbox type</td><td>Two-stage spur gear reduction</td></tr>
-        <tr><td>Stage 1</td><td>3.00:1 — 19T pinion → 57T gear</td></tr>
-        <tr><td>Stage 2</td><td>2.895:1 — 19T pinion → 55T gear</td></tr>
-        <tr><td>Total gearbox reduction</td><td>8.68:1</td></tr>
+        <tr><td>Stage 1</td><td>3.000:1 — 19T → 57T, center distance 3.800 in</td></tr>
+        <tr><td>Stage 2</td><td>2.895:1 — 19T → 55T, center distance 3.700 in</td></tr>
+        <tr><td>Total gearbox reduction</td><td>8.684:1</td></tr>
         <tr><td>CVT</td><td>Comet 780 — max torque ratio 3.38:1</td></tr>
-        <tr><td>Total drivetrain reduction</td><td>~29.3:1 (CVT × gearbox)</td></tr>
-        <tr><td>Engine peak torque</td><td>18.5 ft·lb — Kohler Courage 725</td></tr>
-        <tr><td>Stage 2 pinion W<sub>t</sub> (static)</td><td>2,369.6 lb</td></tr>
-        <tr><td>Lewis bending stress</td><td>201,236 psi (Stage 2 pinion)</td></tr>
+        <tr><td>Total drivetrain reduction</td><td>~29.3:1 at peak torque CVT setting</td></tr>
+        <tr><td>Engine peak torque</td><td>18.5 ft·lb (222 in·lb) — Kohler Courage 725</td></tr>
+        <tr><td>Stage 2 pinion W<sub>t</sub> (stall)</td><td>2,369.6 lb</td></tr>
+        <tr><td>Lewis bending stress</td><td>201,236 psi (Stage 2 pinion, full stall)</td></tr>
         <tr><td>Diametral pitch</td><td>10</td></tr>
         <tr><td>Pressure angle</td><td>20° full-depth involute</td></tr>
         <tr><td>Face width</td><td>0.375 in</td></tr>
-        <tr><td>Gear material</td><td>4140 Chromoly Steel</td></tr>
-        <tr><td>Gear hardness (old → new)</td><td>HRC 40 → HRC 50</td></tr>
-        <tr><td>Allowable bending stress (new)</td><td>174,045 psi</td></tr>
-        <tr><td>Lewis FoS — old (HRC 40)</td><td>~0.40</td></tr>
-        <tr><td>Lewis FoS — new (HRC 50)</td><td>0.865 (+2.16×)</td></tr>
-        <tr><td>Gear inertia reduction</td><td>47% (lightweighted large gears)</td></tr>
-        <tr><td>Housing material</td><td>6061-T6 Aluminum, anodized magenta</td></tr>
-        <tr><td>Oil seal</td><td>Laser-cut Buna-N gasket</td></tr>
-        <tr><td>Best measured speed (CVT testing)</td><td>22.4 mph over 40 ft (red springs, stock flyweights)</td></tr>
-        <tr><td>Status</td><td>Installed and tested — Baja SAE competition June 2026</td></tr>
+        <tr><td>Gear material</td><td>4140 Chromoly Steel, HRC 50</td></tr>
+        <tr><td>Lewis FoS — old transfer case</td><td>~0.40 (15–16T pinions, HRC 40)</td></tr>
+        <tr><td>Lewis FoS — new design</td><td>0.865 at full stall (2.16× improvement)</td></tr>
+        <tr><td>Large gear inertia reduction</td><td>47% (lightweighted pocketed geometry)</td></tr>
+        <tr><td>Hub inertia reduction</td><td>47% (redesigned wheel hubs)</td></tr>
+        <tr><td>Housing</td><td>6061-T6 Aluminum, Type II anodized magenta</td></tr>
+        <tr><td>Oil seal</td><td>Laser-cut Buna-N (nitrile) gasket</td></tr>
+        <tr><td>Best CVT test speed</td><td>22.4 mph over 40 ft (red springs, stock flyweights)</td></tr>
+        <tr><td>Design time</td><td>~2 days from failure to complete design</td></tr>
+        <tr><td>Status</td><td>Tested — Baja SAE competition June 2026</td></tr>
       </tbody>
     </table>
 
