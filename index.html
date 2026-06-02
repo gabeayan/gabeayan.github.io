@@ -10,11 +10,10 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="index.html">Gabe Ayan</a>
   <ul class="nav-links">
     <li><a href="index.html">Projects</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="mailto:gabeayan@gmail.com">Contact</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
 </nav>
 
@@ -23,27 +22,21 @@
     <!-- Add: images/profile.jpg -->
     <img src="images/profile.jpg" alt="Gabe Ayan" onerror="this.style.display='none'">
     <div class="photo-ph">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       images/profile.jpg
     </div>
   </div>
-  <div class="hero-text">
-    <h1>Mechanical engineer building at the intersection of design and embedded systems.</h1>
-    <p>
-      First-year ME student at Stevens Institute of Technology.
-      Baja SAE Electrical &amp; Powertrain Lead.
-      Four years of competitive robotics.
-    </p>
-    <div class="hero-btns">
-      <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
-      <a href="Gabe_Ayan_Resume.docx" class="btn">Resume</a>
-      <a href="mailto:gabeayan@gmail.com" class="btn">gabeayan@gmail.com</a>
-    </div>
+  <h1>Mechanical engineer building at the intersection of design and embedded systems.</h1>
+  <p>First-year ME student at Stevens Institute of Technology.</p>
+  <p>Baja SAE Electrical &amp; Powertrain Lead. Four years of competitive robotics.</p>
+  <div class="hero-btns">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+    <a href="Gabe_Ayan_Resume.docx" class="btn">Resume</a>
   </div>
 </div>
 
 <div class="projects">
-  <p class="grid-prompt">Click on a project to read more ↓</p>
+  <p class="grid-prompt">Click project photos below to learn more!</p>
 
   <div class="grid">
 
@@ -56,9 +49,10 @@
           images/gearbox-card.jpg
         </div>
       </div>
-      <p class="card-org">Baja SAE — Powertrain</p>
-      <p class="card-title">Two-Stage Reduction Gearbox Redesign</p>
-      <p class="card-year">2025</p>
+      <div class="card-meta">
+        <p class="card-title">Two-Stage Reduction Gearbox Redesign</p>
+        <p class="card-year">2025</p>
+      </div>
     </a>
 
     <a href="projects/baja-daq.html" class="card">
@@ -70,9 +64,10 @@
           images/daq-card.jpg
         </div>
       </div>
-      <p class="card-org">Baja SAE — Electrical</p>
-      <p class="card-title">Vehicle Data Acquisition System</p>
-      <p class="card-year">2024 – Present</p>
+      <div class="card-meta">
+        <p class="card-title">Vehicle Data Acquisition System</p>
+        <p class="card-year">2024 – Present</p>
+      </div>
     </a>
 
     <a href="projects/robot.html" class="card">
@@ -84,9 +79,10 @@
           images/robot-card.jpg
         </div>
       </div>
-      <p class="card-org">Engineering Design Course</p>
-      <p class="card-title">Autonomous Navigation Robot</p>
-      <p class="card-year">2025</p>
+      <div class="card-meta">
+        <p class="card-title">Autonomous Navigation Robot</p>
+        <p class="card-year">2025</p>
+      </div>
     </a>
 
     <a href="projects/plant-watering.html" class="card">
@@ -98,9 +94,10 @@
           images/plant-card.jpg
         </div>
       </div>
-      <p class="card-org">Engineering Design Course</p>
-      <p class="card-title">Automated Plant Watering System</p>
-      <p class="card-year">2024 – 2025</p>
+      <div class="card-meta">
+        <p class="card-title">Automated Plant Watering System</p>
+        <p class="card-year">2024 – 2025</p>
+      </div>
     </a>
 
   </div>
