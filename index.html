@@ -6,6 +6,9 @@
   <meta name="description" content="Gabe Ayan — Mechanical Engineering student at Stevens Institute of Technology. Projects in mechanical design, embedded systems, and robotics.">
   <title>Gabe Ayan</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(s===null&&d))document.documentElement.setAttribute('data-theme','dark');})();
+  </script>
 </head>
 <body>
 
@@ -15,6 +18,10 @@
     <li><a href="about.html">About</a></li>
     <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
 </nav>
 
 <div class="hero">
@@ -36,8 +43,6 @@
 </div>
 
 <div class="projects">
-  <p class="grid-prompt">Click project photos below to learn more!</p>
-
   <div class="grid">
 
     <a href="projects/gearbox.html" class="card">
@@ -72,11 +77,10 @@
 
     <a href="projects/robot.html" class="card">
       <div class="card-img">
-        <!-- Add: images/robot-card.jpg -->
-        <img src="images/robot-card.jpg" alt="Autonomous Navigation Robot" onerror="this.style.display='none'">
+        <img src="images/robot-hero.jpg" alt="Autonomous Navigation Robot" onerror="this.style.display='none'">
         <div class="card-img-ph">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M12 11V5"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/></svg>
-          images/robot-card.jpg
+          images/robot-hero.jpg
         </div>
       </div>
       <div class="card-meta">
@@ -85,18 +89,17 @@
       </div>
     </a>
 
-    <a href="projects/plant-watering.html" class="card">
+    <a href="projects/engr111.html" class="card">
       <div class="card-img">
-        <!-- Add: images/plant-card.jpg -->
-        <img src="images/plant-card.jpg" alt="Automated Plant Watering System" onerror="this.style.display='none'">
+        <img src="images/engr111-card.jpeg" alt="IoT Plant Watering System">
         <div class="card-img-ph">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M12 22V12M12 12C12 7 7 3 3 5c0 4 3 7 9 7zM12 12c0-5 5-9 9-7-1 4-4 7-9 7z"/></svg>
-          images/plant-card.jpg
+          images/engr111-card.jpeg
         </div>
       </div>
       <div class="card-meta">
-        <p class="card-title">Automated Plant Watering System</p>
-        <p class="card-year">2024 – 2025</p>
+        <p class="card-title">IoT Plant Watering System</p>
+        <p class="card-year">2024</p>
       </div>
     </a>
 
@@ -104,7 +107,7 @@
 </div>
 
 <footer>
-  <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
   <div class="footer-links">
     <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
@@ -122,6 +125,14 @@
       const ph = img.nextElementSibling;
       if (ph && (ph.classList.contains('card-img-ph') || ph.classList.contains('photo-ph'))) ph.style.display = 'none';
     }
+  });
+
+  // Dark mode toggle
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+    else { html.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
   });
 </script>
 </body>
