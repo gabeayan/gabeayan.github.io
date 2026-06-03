@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Automated Plant Watering System — Gabe Ayan</title>
   <link rel="stylesheet" href="../style.css">
+  <script>
+    (function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(s===null&&d))document.documentElement.setAttribute('data-theme','dark');})();
+  </script>
 </head>
 <body>
 
@@ -14,6 +17,10 @@
     <li><a href="../about.html">About</a></li>
     <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
 </nav>
 
 <div class="project-page">
@@ -131,13 +138,13 @@
         <!-- Add: ../images/plant-sensors.jpg — sensors laid out or installed -->
         <img src="../images/plant-sensors.jpg" alt="Sensor suite" onerror="this.style.display='none'">
         <div class="img-ph tall" id="ph-plant-sens">../images/plant-sensors.jpg<br>Sensor suite laid out</div>
-        <figcaption>Soil moisture probe, DHT22, and light sensor</figcaption>
+        
       </figure>
       <figure>
         <!-- Add: ../images/plant-electronics.jpg — PCB/electronics inside or schematic -->
         <img src="../images/plant-electronics.jpg" alt="Electronics" onerror="this.style.display='none'">
         <div class="img-ph tall" id="ph-plant-elec">../images/plant-electronics.jpg<br>Electronics / wiring inside</div>
-        <figcaption>Electronics assembly inside the housing</figcaption>
+        
       </figure>
     </div>
 
@@ -179,7 +186,7 @@
       <!-- Add: ../images/plant-sketch.jpg — early sketches or CAD explorations -->
       <img src="../images/plant-sketch.jpg" alt="Enclosure design sketches" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-plant-sketch">../images/plant-sketch.jpg — early design sketches or CAD explorations</div>
-      <figcaption>Early enclosure concept sketches — exploring forms that read as "plant" rather than "device"</figcaption>
+      
     </figure>
 
     <p>
@@ -196,13 +203,13 @@
         <!-- Add: ../images/plant-cad.jpg — CAD model of the enclosure -->
         <img src="../images/plant-cad.jpg" alt="Enclosure CAD model" onerror="this.style.display='none'">
         <div class="img-ph tall" id="ph-plant-cad">../images/plant-cad.jpg<br>Enclosure CAD model</div>
-        <figcaption>CAD model of the three-part housing</figcaption>
+        
       </figure>
       <figure>
         <!-- Add: ../images/plant-printed.jpg — 3D printed parts or assembly -->
         <img src="../images/plant-printed.jpg" alt="3D printed enclosure" onerror="this.style.display='none'">
         <div class="img-ph tall" id="ph-plant-print">../images/plant-printed.jpg<br>3D printed parts / assembly</div>
-        <figcaption>3D printed housing parts before final assembly</figcaption>
+        
       </figure>
     </div>
 
@@ -239,7 +246,7 @@
       <!-- Add: ../images/plant-final.jpg — final device on shelf next to a real plant -->
       <img src="../images/plant-final.jpg" alt="Finished device in context" onerror="this.style.display='none'">
       <div class="img-ph" id="ph-plant-final">../images/plant-final.jpg — finished device on shelf in context</div>
-      <figcaption>Finished device — designed to blend into a plant shelf rather than stand out as electronics</figcaption>
+      
     </figure>
 
     <h2>Key Specifications</h2>
@@ -259,7 +266,7 @@
 </div>
 
 <footer>
-  <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
   <div class="footer-links">
     <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
@@ -277,6 +284,14 @@
       const ph = img.nextElementSibling;
       if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
     }
+  });
+
+  // Dark mode toggle
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+    else { html.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
   });
 </script>
 </body>

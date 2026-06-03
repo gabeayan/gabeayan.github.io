@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vehicle DAQ System — Gabe Ayan</title>
   <link rel="stylesheet" href="../style.css">
+  <script>
+    (function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(s===null&&d))document.documentElement.setAttribute('data-theme','dark');})();
+  </script>
 </head>
 <body>
 
@@ -14,6 +17,10 @@
     <li><a href="../about.html">About</a></li>
     <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
 </nav>
 
 <div class="project-page">
@@ -33,7 +40,7 @@
     <p class="proj-lede">
       Before this project, the Stevens Baja car went into competition with essentially no
       quantitative data about how it was performing. We tuned by feel and guessed at brake
-      bias. This project builds the foundation to change that — a modular, expandable DAQ
+      bias. This project builds the foundation to change that: a modular, expandable DAQ
       system that logs sensor data throughout every testing session and competition run.
     </p>
   </div>
@@ -48,7 +55,7 @@
 
     <h2>Why This Matters</h2>
     <p>
-      The Stevens Baja SAE team does a lot of testing between competitions — CVT tuning,
+      The Stevens Baja SAE team does a lot of testing between competitions: CVT tuning,
       brake bias adjustment, suspension setup. Before this project, all of it was done
       qualitatively: how does the driver feel the car behaves? Does it feel like it's
       pulling? Does it feel like the brakes are balanced?
@@ -57,7 +64,7 @@
       Qualitative feedback has limits. A driver can tell you "the car pushed in the right
       corner," but can't tell you that the rear left wheel locked up for 40 milliseconds
       before turn-in, which caused the understeer. Data can. The goal of this DAQ system
-      is to give the team numbers — real numbers — to make decisions from.
+      is to give the team real numbers to make decisions from.
     </p>
     <p>
       Even in the short term, having GPS track logs, IMU data, and wheel speed lets us
@@ -69,9 +76,9 @@
     <h2>Architecture</h2>
     <p>
       The system is built around a <strong>Teensy 4.1</strong> microcontroller. The Teensy 4.1
-      runs a 600 MHz ARM Cortex-M7 processor — far more computing power than needed for
-      data logging, but that headroom means the system can take on more processing tasks
-      in the future (real-time display, anomaly detection) without hardware changes.
+      runs a 600 MHz ARM Cortex-M7 processor. That headroom far exceeds what data logging
+      requires, but it means the system can take on additional processing tasks in the future
+      (real-time display, anomaly detection) without hardware changes.
     </p>
 
     <div class="callout">
@@ -91,10 +98,8 @@
     </p>
 
     <figure>
-      <!-- Add: ../images/daq-wiring.jpg — wiring diagram or photo of wiring setup -->
-      <img src="../images/daq-wiring.jpg" alt="DAQ system wiring" onerror="this.style.display='none'">
-      <div class="img-ph" id="ph-daq-wire">../images/daq-wiring.jpg — wiring diagram or electronics layout</div>
-      <figcaption>DAQ system wiring layout — hub-and-spoke architecture with Teensy 4.1 at center</figcaption>
+      <img src="../images/daq-wiring.jpg" alt="DAQ system wiring layout" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-daq-wire">images/daq-wiring.jpg</div>
     </figure>
 
     <h2>Sensors: Active</h2>
@@ -107,8 +112,8 @@
       eventually the ability to overlay other sensor data on a track map.
     </p>
     <p>
-      GPS update rate is the limiting factor here — 10 Hz is fine for position tracking
-      but not fast enough to capture transient dynamics. That's where the IMU comes in.
+      GPS update rate is the limiting factor here. 10 Hz is sufficient for position tracking
+      but not fast enough to capture transient dynamics. That is where the IMU comes in.
     </p>
 
     <h3>IMU (Inertial Measurement Unit)</h3>
@@ -117,10 +122,10 @@
       us high-frequency data on:
     </p>
     <ul>
-      <li><strong>Lateral acceleration</strong> — cornering g-force, tells us how hard the car is cornering</li>
-      <li><strong>Longitudinal acceleration</strong> — braking and acceleration g-force</li>
-      <li><strong>Vertical acceleration</strong> — suspension events, bumps, jumps</li>
-      <li><strong>Roll, pitch, yaw rates</strong> — body dynamics during cornering and braking</li>
+      <li><strong>Lateral acceleration:</strong> cornering g-force, indicating how hard the car is cornering</li>
+      <li><strong>Longitudinal acceleration:</strong> braking and acceleration g-force</li>
+      <li><strong>Vertical acceleration:</strong> suspension events, bumps, jumps</li>
+      <li><strong>Roll, pitch, yaw rates:</strong> body dynamics during cornering and braking</li>
     </ul>
     <p>
       This is one of the most valuable datasets on the car. Combined with GPS and wheel
@@ -138,16 +143,12 @@
 
     <div class="fig-grid">
       <figure>
-        <!-- Add: ../images/daq-teensy.jpg — Teensy 4.1 close-up or mounted -->
         <img src="../images/daq-teensy.jpg" alt="Teensy 4.1" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-teensy">../images/daq-teensy.jpg<br>Teensy 4.1 close-up</div>
-        <figcaption>Teensy 4.1 — the system's central processor</figcaption>
+        <div class="img-ph tall" id="ph-teensy">images/daq-teensy.jpg</div>
       </figure>
       <figure>
-        <!-- Add: ../images/daq-sensors.jpg — sensors laid out or installed -->
-        <img src="../images/daq-sensors.jpg" alt="DAQ sensors" onerror="this.style.display='none'">
-        <div class="img-ph tall" id="ph-sensors">../images/daq-sensors.jpg<br>GPS/IMU sensors installed</div>
-        <figcaption>GPS and IMU modules installed on the chassis</figcaption>
+        <img src="../images/daq-sensors.jpg" alt="GPS and IMU modules installed on the chassis" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-sensors">images/daq-sensors.jpg</div>
       </figure>
     </div>
 
@@ -164,9 +165,9 @@
       GPS speed (vehicle speed), it lets us detect:
     </p>
     <ul>
-      <li><strong>Wheel lock-up during braking</strong> — wheel speed drops to zero while GPS speed doesn't</li>
-      <li><strong>Wheel spin during acceleration</strong> — wheel speed exceeds GPS speed</li>
-      <li><strong>Differential behavior</strong> — comparing front and rear, or left and right speeds</li>
+      <li><strong>Wheel lock-up during braking:</strong> wheel speed drops to zero while GPS speed does not</li>
+      <li><strong>Wheel spin during acceleration:</strong> wheel speed exceeds GPS speed</li>
+      <li><strong>Differential behavior:</strong> comparing front and rear, or left and right speeds</li>
     </ul>
     <p>
       I'm currently working on the target ring geometry (number of teeth, mounting to the
@@ -195,45 +196,50 @@
     <h2>Housings &amp; Packaging</h2>
     <p>
       All electronics are enclosed in custom 3D-printed housings. The housings need to
-      survive the vibration and impact environment of off-road racing — which is
+      survive the vibration and impact environment of off-road racing, which is
       significantly more demanding than a typical electronics enclosure application.
     </p>
 
     <figure>
-      <!-- Add: ../images/daq-housing.jpg — 3D printed housing photo or CAD -->
       <img src="../images/daq-housing.jpg" alt="3D printed DAQ housing" onerror="this.style.display='none'">
-      <div class="img-ph" id="ph-housing">../images/daq-housing.jpg — 3D printed enclosure</div>
-      <figcaption>Custom 3D-printed enclosure for the main electronics stack</figcaption>
+      <div class="img-ph" id="ph-housing">images/daq-housing.jpg</div>
     </figure>
 
     <p>
       Key design features of the housings:
     </p>
     <ul>
-      <li><strong>Bolt-through mounting</strong> to the roll cage — not adhesive. Adhesive connections fail under sustained vibration.</li>
-      <li><strong>Strain-relief grommets</strong> at all wire exits — preventing fatigue cracks at the conductor/insulation boundary</li>
-      <li><strong>Snap-fit + fastener closures</strong> — quick access for maintenance, but won't vibrate open</li>
-      <li><strong>Rubber isolation pads</strong> between the housing and the chassis — damps high-frequency vibration before it reaches the electronics</li>
+      <li><strong>Bolt-through mounting</strong> to the roll cage, not adhesive. Adhesive connections fail under sustained vibration.</li>
+      <li><strong>Strain-relief grommets</strong> at all wire exits, preventing fatigue cracks at the conductor/insulation boundary</li>
+      <li><strong>Snap-fit and fastener closures</strong> for quick access to maintenance, while staying secure against vibration</li>
+      <li><strong>Rubber isolation pads</strong> between the housing and the chassis, damping high-frequency vibration before it reaches the electronics</li>
     </ul>
 
     <h2>Current Status &amp; Roadmap</h2>
     <table class="spec-table">
       <tbody>
-        <tr><td>GPS</td><td>Active — logging position, speed, heading</td></tr>
-        <tr><td>IMU</td><td>Active — logging 6-axis motion data</td></tr>
-        <tr><td>Battery voltage</td><td>Active — logging with voltage divider</td></tr>
-        <tr><td>Hall effect speed</td><td>In progress — target ring geometry being finalized</td></tr>
-        <tr><td>Brake pressure</td><td>Planned — transducer selected, installation pending</td></tr>
-        <tr><td>Suspension travel</td><td>Planned — potentiometer selection in progress</td></tr>
-        <tr><td>Data display</td><td>Future — cockpit display for driver-visible data</td></tr>
+        <tr><td>GPS</td><td>Active: logging position, speed, heading</td></tr>
+        <tr><td>IMU</td><td>Active: logging 6-axis motion data</td></tr>
+        <tr><td>Battery voltage</td><td>Active: logging with voltage divider</td></tr>
+        <tr><td>Hall effect speed</td><td>In progress: target ring geometry being finalized</td></tr>
+        <tr><td>Brake pressure</td><td>Planned: transducer selected, installation pending</td></tr>
+        <tr><td>Suspension travel</td><td>Planned: potentiometer selection in progress</td></tr>
+        <tr><td>Data display</td><td>Future: cockpit display for driver-visible data</td></tr>
       </tbody>
     </table>
+
+    <div class="proj-next-nav">
+      <a href="robot.html">
+        Next: Autonomous Navigation Robot
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
 
   </div>
 </div>
 
 <footer>
-  <span>© 2025 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
   <div class="footer-links">
     <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
@@ -251,6 +257,14 @@
       const ph = img.nextElementSibling;
       if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
     }
+  });
+
+  // Dark mode toggle
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+    else { html.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
   });
 </script>
 </body>
