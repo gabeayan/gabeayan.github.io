@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle DAQ System — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li contenteditable="false" class=""><a href="../index.html">Projects</a></li>
+    <li contenteditable="false" class=""><a href="../about.html">About</a></li>
+    <li contenteditable="false" class=""><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      All Projects
+    </a>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2026 – Present</div></div>
+      <div class="meta-item"><div class="meta-label">Team</div><div class="meta-val">Stevens Baja SAE</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-val">Electrical Lead</div></div>
+      <div class="meta-item"><div class="meta-label">Status</div><div class="meta-val">In Progress</div></div>
+    </div>
+    <h1 contenteditable="false" class="">Baja SAE Vehicle Data Acquisition System</h1>
+    <p class="proj-lede" contenteditable="false">
+      The Stevens Baja car has always been designed off of feel and observations. This project aims to change that. It is a data
+      acquisition system built around a Teensy 4.1 micro controller that will be able to record almost any sensor we need it to. Paired with a custom browser-based dashboard for post-session analysis, it should lead to data driven design for future Baja SAE cars.&nbsp;</p>
+  </div>
+
+  <div class="proj-hero">
+    <img src="../images/daq-dashboard-summary.jpg" alt="Baja Data Viewer dashboard — summary view" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-hero" style="display: none;">daq-dashboard-summary.jpg</div>
+  </div>
+
+  <div class="proj-body">
+
+    <h2 contenteditable="false" class="">Hardware</h2>
+    <p contenteditable="false" class="">
+      The prototype runs on a breadboard. A&nbsp;<strong>Teensy 4.1</strong> reads a GPS module and 6-axis
+      IMU via I2C and serial, logs everything to an onboard SD card, and is powered through a
+      small buck converter that steps the car's 12V battery down to 5V so nothing fries.
+      That's the whole system today given its sensors that don't require the Baja SAE car for testing and I can build out the analysis dashboard at home.&nbsp;</p>
+
+    <div class="callout">
+      <strong>Why Teensy 4.1?</strong><br>
+      Four hardware serial ports, native SD card support, 3.3V logic that's compatible with
+      every sensor without level shifters, and far more processing headroom than data logging
+      needs — which leaves room to grow.
+    </div>
+
+    <figure>
+      <img src="../images/daq-proto.jpg" alt="DAQ prototype on breadboard — Teensy 4.1, GPS, and IMU" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-proto" style="display: none;">daq-proto.jpg — Teensy 4.1 + GPS + IMU on breadboard</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">The Dashboard</h2>
+    <p contenteditable="false" class="">The Teensy writes CSV files to the SD card. Then, those CSVs drop into a single-file HTML dashboard that runs
+      entirely in the browser. This was chosen to allow any team member to easily look at the data and open the site from just the SD card (the analysis tool can be kept with the car). The dashboard has six views: a summary with key statistics, a multi-channel graph viewer, a GPS replay with a map,
+      a notes panel for logging driver feedback(These are also stored on the SD card), a raw channel table, and a live serial
+      stream for future LoRa use.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/daq-dashboard-summary.jpg" alt="Dashboard summary view showing run metrics" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-dash-sum" style="display: none;">daq-dashboard-summary.jpg</div>
+        <figcaption contenteditable="false" class="">Summary view</figcaption>
+      </figure>
+      <figure>
+        <img src="../images/daq-dashboard-gps.jpg" alt="Dashboard GPS replay view with map" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-dash-gps" style="display: none;">daq-dashboard-gps.jpg</div>
+        <figcaption contenteditable="false" class="">GPS / Replay view</figcaption>
+      </figure>
+    </div>
+
+    <h2 contenteditable="false" class="">Current Status</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr><td contenteditable="false" class="">GPS</td><td contenteditable="false" class="">Active: logging position, speed, heading at 10 Hz</td></tr>
+        <tr><td contenteditable="false" class="">IMU</td><td contenteditable="false" class="">Active: logging 3-axis acceleration + gyro at up to 1 kHz</td></tr>
+        <tr><td contenteditable="false" class="">Battery voltage</td><td contenteditable="false" class="">In Progress: Adafruit INA219 board waiting installation on test bench.</td></tr>
+        <tr><td contenteditable="false" class="">Hall effect wheel speed</td><td contenteditable="false" class="">Planned: Waiting to have access to the car and shop to manufacture mounting system. May end up getting pushed to 2026-27 car.&nbsp;</td></tr>
+        <tr><td contenteditable="false" class="">Brake pressure</td><td contenteditable="false" class="">Planned: Waiting to after competition for installation and testing</td></tr>
+        <tr><td contenteditable="false" class="">Suspension travel</td><td contenteditable="false" class="">Future: Would love to have this sensor but need to get budget approval</td></tr>
+        <tr><td contenteditable="false" class="">Temperature</td><td contenteditable="false" class="">Planned: Waiting to after competition for installation and testing. Would be installed to measure CVT belt temperature.&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <div class="proj-next-nav">
+      <a href="robot.html">
+        Next: Autonomous Navigation Robot
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.style.display = 'none');
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+
+</script>
+  <script src="../edit-mode.js"></script>
+
+
+</body></html>

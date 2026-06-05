@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Plant Watering System — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.2rem 0;
+    }
+    .spec-table td {
+      padding: .6rem .9rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .spec-table tr:last-child td { border-bottom: none; }
+    .spec-table td:first-child {
+      width: 28%;
+      font-weight: 500;
+      opacity: .7;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .88rem;
+    }
+    .compare-table th {
+      padding: .5rem .9rem;
+      text-align: left;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .6;
+      border-bottom: 2px solid var(--border, #ddd);
+      font-weight: 500;
+    }
+    .compare-table td {
+      padding: .5rem .9rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .parts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.5rem 0;
+    }
+    .parts-table th {
+      text-align: left;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .6;
+      border-bottom: 2px solid var(--border, #ddd);
+      padding: .45rem .8rem;
+      font-weight: 500;
+    }
+    .parts-table td {
+      padding: .5rem .8rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .parts-table tr:last-child td { border-bottom: none; }
+
+    .sensor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .sensor-card {
+      border: 1px solid var(--border, #ddd);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+    }
+    .sensor-card .sc-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      opacity: .5;
+      margin-bottom: .3rem;
+    }
+    .sensor-card .sc-name {
+      font-weight: 600;
+      font-size: .95rem;
+      margin-bottom: .25rem;
+    }
+    .sensor-card .sc-desc {
+      font-size: .84rem;
+      opacity: .75;
+      line-height: 1.5;
+    }
+
+    .led-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.2rem 0;
+    }
+    .led-table th {
+      text-align: left;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .6;
+      border-bottom: 2px solid var(--border, #ddd);
+      padding: .4rem .7rem;
+      font-weight: 500;
+    }
+    .led-table td {
+      padding: .45rem .7rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: middle;
+    }
+    .led-table tr:last-child td { border-bottom: none; }
+    .led-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .led-blue { background: #3b82f6; }
+    .led-red  { background: #ef4444; }
+    .led-off  { background: #ccc; border: 1px solid #aaa; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li contenteditable="false" class=""><a href="../index.html">Projects</a></li>
+    <li contenteditable="false" class=""><a href="../about.html">About</a></li>
+    <li contenteditable="false" class=""><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      All Projects
+    </a>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Year</div><div class="meta-val" contenteditable="false">Fall 2025</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Course</div><div class="meta-val" contenteditable="false">ENGR 111 (Engineering Design 1)&nbsp;</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Role</div><div class="meta-val" contenteditable="false">Mechanical Design &amp; Electrical</div></div>
+    </div>
+    <h1 contenteditable="false" class="">IoT Plant Watering System</h1>
+    <p class="proj-lede" contenteditable="false"><br></p>
+  </div>
+
+  <div class="proj-hero">
+    <img src="../images/engr111-hero.jpeg" alt="IoT plant watering system deployed in Integration Lab" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-hero" style="display: none;">images/engr111-hero.jpeg</div>
+  </div>
+
+  <div class="proj-body">
+
+    <h2 contenteditable="false" class="">Problem Statement</h2>
+    <p contenteditable="false" class="">
+      Design and build a standalone IoT plant monitoring and watering system within a
+      5″ × 5″ × 10″ envelope. The system must measure atmospheric temperature, humidity, soil
+      moisture, and illumination level, and autonomously deliver 20 mL of water per day.
+      All sensor data must be published to Stevens' MQTT server at a defined sampling interval.
+      The device must be deployed in the Integration Lab for a week and must work. All components must be mechanically fastened; no loose parts if you pick it up.
+    </p>
+    <p contenteditable="false" class="">My role on the team covered mechanical design (SolidWorks), wiring, and a small portion of the software.</p>
+
+    <h2 contenteditable="false" class="">Concept Development</h2>
+    <p contenteditable="false" class="">My first instinct was to make a clip-on design that mounts directly to the plant pot. It would have been easy to hide behind the plant and not look out of place. The
+      constraint that the device had to be standalone ruled that out. From there we asked
+      what a standalone device next to a plant could look like that wouldn't be out of place, and the answer was another plant. A 3D-printed flower pot with a flower on top: the pot
+      houses all the electronics, the stem routes wires to the top, and the petals hold the
+      sensors. Nothing flashy, nothing that looks out of place in a lab with real plants.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/engr111-prev-years.jpg" alt="Previous years' designs" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-prev" style="display: none;">images/engr111-prev-years.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/engr111-flower-top.jpeg" alt="3D-printed flower top assembly" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-flower-top" style="display: none;">images/engr111-flower-top.jpeg</div>
+      </figure>
+    </div>
+
+    <h2 contenteditable="false" class="">Mechanical Design</h2>
+    <p contenteditable="false" class="">
+      The enclosure is 12 unique parts (14 total), all 3D-printed. Total print time on the
+      Adventurer 3 Series: 15 hours and 48 minutes. The finished product had a diameter ~1/16" under the maximum and was 1/4" under the maximum height.&nbsp;</p>
+
+    <table class="parts-table">
+      <thead>
+        <tr>
+          <th contenteditable="false" class="">Part</th>
+          <th contenteditable="false" class="">Function</th>
+          <th contenteditable="false" class="">Fastening method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">Pot</td>
+          <td contenteditable="false" class="">Main enclosure and houses the electronics sled and water bottle. Holes on the upper side route the soil sensor cable and water tube. The lower hole routes USB power to the ESP32.</td>
+          <td contenteditable="false" class="">Three heat-set inserts for lid attachment. Preserves threads across repeated removal, unlike 3D-printed holes.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Electronics sled</td>
+          <td contenteditable="false" class="">Holds all the electronics to allow them to all be wired together and then hidden away into the pot. It slides in and out for service as a single unit.</td>
+          <td contenteditable="false" class="">ESP32: slot + retention clip.&nbsp;<br>Breadboard: press fit<br>Motor driver: standoffs and screws.&nbsp;<br>Pump: press fit on motor body.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Water level sensor (2 parts)</td>
+          <td contenteditable="false" class="">Slides into the water bottle. Holds three wires at two detection heights and the water tube at the bottle bottom.</td>
+          <td contenteditable="false" class="">Press fit into the bottle neck.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Lid</td>
+          <td contenteditable="false" class="">Caps the pot and holds the stem. Slanted at 10° angle so water poured in runs to the center. From there, three channels direct flow to the bottle opening while keeping stem wires dry. Three wire channels route stem wires to the sled.</td>
+          <td contenteditable="false" class="">Three countersunk screws into the pot's heat-set inserts for a flush finish.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Stem + stem top</td>
+          <td contenteditable="false" class="">Stem routes all nine wires between the pot and the flower top. Stem top splits the nine wires to their respective petals via dovetail-jointed slots.</td>
+          <td contenteditable="false" class="">Screw attaches the stem and pot lid/<br>Dovetail joints join petals to stem.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Petals (multiple)</td>
+          <td contenteditable="false" class="">Each petal holds a specific sensor or LED. Unique geometry per function.</td>
+          <td contenteditable="false" class="">Dovetail press fit into stem top.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Flower center</td>
+          <td contenteditable="false" class="">Purely aesthetic; hides the dovetail joints. The only painted part of the design.</td>
+          <td contenteditable="false" class="">Press fit into stem top center hole.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img src="../images/engr111-assembly.jpeg" alt="Assembled flower device" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-assembly" style="display: none;">images/engr111-assembly.jpeg</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Electrical System</h2>
+    <p contenteditable="false" class="">The breadboard is mounted at the top of the electronics sled to allow for easy connection to the wires coming from the stem. Each of them terminate at the top of the breadboard, where solid-core jumper wires continue to the ESP32. This keeps the flexible
+      leads organized and makes troubleshooting straightforward.&nbsp;</p>
+
+    <h3 contenteditable="false" class="">Stem Wiring Challenge</h3>
+    <p contenteditable="false" class="">
+      The stem's 5.4 mm minor diameter forced us to reduce the wire count routed to the
+      flower top. The naive count for all LEDs, DHT-11, and photoresistor is 11 wires. I reduced it to 9 by sharing a common ground across all three LEDs, one ground instead
+      of three. All nine wires were given unique colors so they could be traced from the
+      soldered connections at the petal level back to the breadboard. The connectors were
+      cut off to fit through the stem and they were soldered directly to the components.
+    </p>
+
+    <h3 contenteditable="false" class="">Water Level Indicator LEDs</h3>
+    <p contenteditable="false" class="">
+      Because the water bottle is inside the pot and completely invisible, the design needed
+      a way to communicate fill level to the user. With the contraints given, I chose to make a custom sensor out of three wires. Using two analog pins and a ground pin, I was able to detect when water was connecting either of the two analog pins to ground. This then allowed for the following logic to be displayed on two of the LEDs visible on the flower:
+    </p>
+
+    <table class="led-table">
+      <thead>
+        <tr><th contenteditable="false" class="">Blue LED</th><th contenteditable="false" class="">Red LED</th><th contenteditable="false" class="">Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class=""><span class="led-dot led-off"></span>Off</td>
+          <td contenteditable="false" class=""><span class="led-dot led-off"></span>Off</td>
+          <td contenteditable="false" class="">Water level too low: refill needed</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class=""><span class="led-dot led-blue"></span>On</td>
+          <td contenteditable="false" class=""><span class="led-dot led-off"></span>Off</td>
+          <td contenteditable="false" class="">Normal: water level is good</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class=""><span class="led-dot led-blue"></span>On</td>
+          <td contenteditable="false" class=""><span class="led-dot led-red"></span>On</td>
+          <td contenteditable="false" class="">Full: stop adding water</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img src="../images/engr111-electronics-sled.jpeg" alt="Electronics sled with ESP32, breadboard, and wiring" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-sled" style="display: none;">images/engr111-electronics-sled.jpeg</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Software</h2>
+    <p contenteditable="false" class="">
+      The firmware runs on the ESP32 (Arduino framework), approximately 250 lines. The
+      main sections are global variable setup, sensor reading and publishing, and supplementary
+      utility functions.
+    </p>
+
+    <table class="spec-table">
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">Microcontroller</td>
+          <td contenteditable="false" class="">ESP32 (Arduino framework). Wi-Fi used for MQTT connection.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">MQTT server</td>
+          <td contenteditable="false" class="">Stevens' MQTT broker. All four sensor values published at each sampling interval in real time.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Sensor reads</td>
+          <td contenteditable="false" class=""><code>dht.readTemperature()</code> / <code>dht.readHumidity()</code> for DHT-11; <code>analogRead()</code> for photoresistor and soil sensor. Lux and °F values computed before publish; humidity and raw soil value published directly.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Watering logic</td>
+          <td contenteditable="false" class="">Pump runs once per day to deliver 20 mL regardless of soil readings. A timed pulse drives the mini pump via the motor driver. A manual reset command and a drain-all command were added as debug utilities.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Water level</td>
+          <td contenteditable="false" class="">Two analog reads on the voltage divider wires. Thresholds drive the blue and red LED states in real time; a warning is also printed to the serial monitor.</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Data smoothing</td>
+          <td contenteditable="false" class="">Lux and soil humidity averaged over recent readings to reduce sensor noise. Applied after early deployment revealed spikes in the first two days of data.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 contenteditable="false" class="">Deployment &amp; Results</h2>
+    <p contenteditable="false" class="">
+      The system was deployed in a Lab from December 1st through
+      December 10th, ten consecutive days exceeding the one week requirement.&nbsp;</p>
+    <p contenteditable="false" class="">
+      The first two days showed noisy lux and soil humidity readings with occasional spikes.
+      Switching to a rolling average over recent samples cleaned up the data significantly.
+      The daily watering ran reliably when the bottle was kept filled. The LED water level
+      indicator proved necessary: without a visible fill gauge, the lab assistant responsible for
+      refilling wasn't always sure when to add water. The two-LED system resolved that clearly.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/engr111-deployed-1.jpeg" alt="System deployed next to snake plant in Integration Lab" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-dep1" style="display: none;">images/engr111-deployed-1.jpeg</div>
+      </figure>
+      <figure>
+        <img src="../images/engr111-deployed-2.jpeg" alt="Deployed system showing electronics sled side" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-dep2" style="display: none;">images/engr111-deployed-2.jpeg</div>
+      </figure>
+    </div>
+
+    <figure>
+      <img src="../images/engr111.gif" alt="IoT plant watering system in action" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-gif" style="display: none;">images/engr111.gif</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Lessons Learned</h2>
+    <p contenteditable="false" class="">
+      Prioritizing aesthetics over ease of manufacture meant the design took significantly
+      more iteration than a box would have. A few improvements identified for a future revision:<br>1. The stem top could use curved wire channels rather than straight ones,
+      making assembly of the nine wires at the flower top easier to route without pinching.<br>2. Integrating strain relief for the USB cable would improve the durability. By the end of the lab testing session, we noticed that the USB port on the ESP32 was slightly bent.&nbsp;&nbsp;</p>
+    <p contenteditable="false" class="">
+      The heat-set inserts on the lid were the right call. The threads held through many
+      removal cycles during assembly and debugging without any degradation. The dovetail
+      joints on the petal connections were reliable but required close dimensional tolerance
+      from the printer. There was essentially no margin for over or under extrusion.
+    </p>
+
+    <div class="proj-next-nav">
+      <a href="../index.html">
+        All Projects
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    img.addEventListener('error', () => img.style.display = 'none');
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+    else { html.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
+  });
+</script>
+  <script src="../edit-mode.js"></script>
+
+
+</body></html>

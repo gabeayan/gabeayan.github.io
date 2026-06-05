@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automated Plant Watering System — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="../index.html">Projects</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      All Projects
+    </a>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">2024 – 2025</div></div>
+      <div class="meta-item"><div class="meta-label">Course</div><div class="meta-val">Engineering Design I</div></div>
+      <div class="meta-item"><div class="meta-label">Type</div><div class="meta-val">IoT / Product Design</div></div>
+    </div>
+    <h1>Automated Plant Watering System</h1>
+    <p class="proj-lede">
+      Most automated plant waterers are functional but ugly — they look like engineering
+      experiments on your windowsill. This project had two equal-weight goals: build a
+      system that actually keeps plants healthy, and design an enclosure that looks
+      like it belongs in someone's home.
+    </p>
+  </div>
+
+  <div class="proj-hero">
+    <!-- Add: ../images/plant-hero.jpg — best photo of the finished device -->
+    <img src="../images/plant-hero.jpg" alt="Automated plant watering system" onerror="this.style.display='none'">
+    <div class="img-ph" id="plant-hero-ph">../images/plant-hero.jpg — finished device photo</div>
+  </div>
+
+  <div class="proj-body">
+
+    <h2>Design Brief</h2>
+    <p>
+      The technical brief was straightforward: build a device that automatically waters
+      a plant and keeps it at an ideal moisture level without user intervention beyond
+      occasionally refilling the water tank.
+    </p>
+    <p>
+      But I added a constraint that the brief didn't require: the enclosure should be
+      designed so that a non-engineer walking into a room doesn't immediately identify it
+      as electronics. It should look like it belongs next to the plant, not like it's
+      monitoring it.
+    </p>
+    <p>
+      These two goals — functional accuracy and aesthetic integration — drove every
+      design decision from sensor selection to housing geometry.
+    </p>
+
+    <h2>Why Multiple Sensors?</h2>
+    <p>
+      The naive approach to automatic plant watering is a single soil moisture sensor:
+      if the soil is dry, water it. This works in a controlled environment, but fails in
+      real conditions because soil moisture alone is an incomplete picture.
+    </p>
+    <p>
+      Consider: a plant sitting in direct afternoon sun on a hot, dry day needs water
+      faster than the same plant in a north-facing window on a cool, humid day — even if
+      the soil reads the same moisture level. The plant in the sun is losing water faster
+      through its leaves via transpiration, and the soil is evaporating faster too.
+      A single-sensor system can't see any of that.
+    </p>
+    <p>
+      The solution is to fuse multiple environmental signals into the watering decision:
+    </p>
+
+    <table class="spec-table">
+      <tbody>
+        <tr>
+          <td>Soil moisture</td>
+          <td>
+            <strong>Capacitive sensor</strong> — primary signal. Measures the volumetric water
+            content of the soil. Capacitive sensors were chosen over resistive sensors because
+            resistive sensors pass current through the soil, which slowly electrolyzes the
+            probe tips over time. Capacitive sensors have no conductive parts in contact with
+            the soil.
+          </td>
+        </tr>
+        <tr>
+          <td>Temperature &amp; humidity</td>
+          <td>
+            <strong>DHT22</strong> — hot, dry air increases plant transpiration rate. At high
+            temperature and low relative humidity, plants lose water faster through their
+            stomata. This shortens the interval before the next watering is needed.
+          </td>
+        </tr>
+        <tr>
+          <td>Ambient light</td>
+          <td>
+            <strong>Phototransistor</strong> — light intensity correlates with photosynthesis
+            rate and temperature. High light means more metabolic activity, more growth,
+            and more water demand.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Watering Algorithm</h2>
+    <p>
+      The watering decision logic uses the soil moisture reading as the primary trigger,
+      with the environmental sensors adjusting the threshold dynamically:
+    </p>
+    <ul>
+      <li>A base soil moisture threshold triggers watering when the soil gets too dry</li>
+      <li>When temperature is high <em>and</em> humidity is low (high vapor pressure deficit, or VPD), the threshold is raised slightly — the system waters more preemptively before the soil gets as dry as it otherwise would</li>
+      <li>When light levels are high (indicating the plant is actively photosynthesizing), the threshold shifts in the same direction</li>
+      <li>At night or in low-light conditions, the threshold is relaxed — the plant isn't transpiring much, so there's less urgency</li>
+    </ul>
+    <p>
+      This is a simplified version of the evapotranspiration models used in precision
+      agriculture, adapted to work with inexpensive sensors and without full weather station data.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <!-- Add: ../images/plant-sensors.jpg — sensors laid out or installed -->
+        <img src="../images/plant-sensors.jpg" alt="Sensor suite" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-plant-sens">../images/plant-sensors.jpg<br>Sensor suite laid out</div>
+        
+      </figure>
+      <figure>
+        <!-- Add: ../images/plant-electronics.jpg — PCB/electronics inside or schematic -->
+        <img src="../images/plant-electronics.jpg" alt="Electronics" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-plant-elec">../images/plant-electronics.jpg<br>Electronics / wiring inside</div>
+        
+      </figure>
+    </div>
+
+    <h2>Water Delivery</h2>
+    <p>
+      Water is delivered by a small <strong>peristaltic pump</strong>. The choice of
+      peristaltic over a centrifugal or gear pump was deliberate:
+    </p>
+    <ul>
+      <li><strong>Self-priming</strong> — works even after sitting idle for days without needing to re-prime</li>
+      <li><strong>No metal parts in contact with water</strong> — avoids contamination and corrosion</li>
+      <li><strong>Consistent volume per pulse count</strong> — by counting motor pulses, the firmware knows exactly how much water was delivered without needing a flow sensor</li>
+      <li><strong>No minimum flow rate</strong> — can deliver small amounts precisely</li>
+    </ul>
+    <p>
+      The pump draws from a reservoir integrated into the base of the enclosure. The water
+      volume in a single watering event is calculated from the soil moisture reading: a
+      very dry plant gets a larger dose, a plant that's only slightly under threshold gets
+      a small one.
+    </p>
+
+    <h2>Enclosure Design</h2>
+    <p>
+      This is the part I spent the most time on, and the part I'm most proud of.
+    </p>
+    <p>
+      The design brief I gave myself: a non-engineer walking into a room should not
+      immediately recognize this as an electronics project. It should read as a decorative
+      object, appropriate for a windowsill with other plants.
+    </p>
+    <p>
+      The solution was to design the housing to resemble a <strong>sculptural succulent</strong>
+      — a layered, organic form with a visual language that fits the context of a plant shelf.
+      This wasn't an afterthought applied to an existing electronics box; the aesthetic
+      was the starting constraint, and the electronics were packaged to fit it.
+    </p>
+
+    <figure>
+      <!-- Add: ../images/plant-sketch.jpg — early sketches or CAD explorations -->
+      <img src="../images/plant-sketch.jpg" alt="Enclosure design sketches" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-plant-sketch">../images/plant-sketch.jpg — early design sketches or CAD explorations</div>
+      
+    </figure>
+
+    <p>
+      The housing prints in three parts:
+    </p>
+    <ul>
+      <li><strong>Upper decorative form</strong> — the "plant" shape. The leaf forms conceal the routing of the soil probe wires down into the pot. Printed in a matte green filament.</li>
+      <li><strong>Mid-ring</strong> — sits at the junction between the decorative form and the pot. Contains a frosted diffuser ring for the LED feedback strip. The LEDs pulse slowly when the tank is low — visible but not intrusive.</li>
+      <li><strong>Base / tank section</strong> — houses the water reservoir, pump, and electronics. Designed so the whole assembly lifts cleanly off the pot for tank refilling without disconnecting any wires.</li>
+    </ul>
+
+    <div class="fig-grid">
+      <figure>
+        <!-- Add: ../images/plant-cad.jpg — CAD model of the enclosure -->
+        <img src="../images/plant-cad.jpg" alt="Enclosure CAD model" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-plant-cad">../images/plant-cad.jpg<br>Enclosure CAD model</div>
+        
+      </figure>
+      <figure>
+        <!-- Add: ../images/plant-printed.jpg — 3D printed parts or assembly -->
+        <img src="../images/plant-printed.jpg" alt="3D printed enclosure" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-plant-print">../images/plant-printed.jpg<br>3D printed parts / assembly</div>
+        
+      </figure>
+    </div>
+
+    <h2>LED Feedback</h2>
+    <p>
+      The LED feedback system serves one purpose: tell the user when the water tank needs
+      refilling. The design goal was "noticeable without being annoying."
+    </p>
+    <p>
+      The LEDs are diffused through the frosted mid-ring, which spreads the light into a
+      soft ambient glow rather than a harsh point source. They pulse with a slow breathing
+      pattern (fade in over 2 seconds, hold, fade out over 2 seconds) — a pattern that
+      reads as "this needs attention" without being urgent or distracting.
+    </p>
+    <p>
+      When the tank is sufficiently full, the LEDs are off entirely. They only activate when
+      the reservoir drops below 20% capacity, giving the user a comfortable window to refill
+      before the system runs dry.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+      The device was tested over a four-week period with a pothos plant. The plant maintained
+      healthy soil moisture levels throughout without any manual watering. The LED feedback
+      triggered twice over the period, at which point refilling the tank took about 30 seconds.
+    </p>
+    <p>
+      The enclosure design achieved its aesthetic goal: several people who saw it on the
+      testing shelf initially assumed it was just a decorative object and didn't notice
+      the soil probe or the LED ring until pointed out.
+    </p>
+
+    <figure>
+      <!-- Add: ../images/plant-final.jpg — final device on shelf next to a real plant -->
+      <img src="../images/plant-final.jpg" alt="Finished device in context" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-plant-final">../images/plant-final.jpg — finished device on shelf in context</div>
+      
+    </figure>
+
+    <h2>Key Specifications</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr><td>Soil sensor</td><td>Capacitive moisture sensor (no corrosion)</td></tr>
+        <tr><td>Environment</td><td>DHT22 (temperature + humidity)</td></tr>
+        <tr><td>Light</td><td>Phototransistor</td></tr>
+        <tr><td>Pump</td><td>Peristaltic — self-priming, consistent volume per pulse</td></tr>
+        <tr><td>Housing</td><td>3-part 3D printed design, snap-fit assembly</td></tr>
+        <tr><td>Feedback</td><td>LED breathing pattern via frosted diffuser ring</td></tr>
+        <tr><td>Tank capacity</td><td>Integrated into base section; lifts off for refilling</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.style.display = 'none');
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+</script>
+  <script src="../edit-mode.js"></script>
+</body>
+</html>

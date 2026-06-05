@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Navigation Robot — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .calc-block {
+      background: var(--light);
+      border: 1px solid var(--border, #ddd);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: .86rem;
+      line-height: 1.8;
+    }
+    .calc-block .calc-title {
+      font-family: inherit;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      opacity: .5;
+      margin-bottom: .7rem;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .9rem;
+    }
+    .compare-table th {
+      background: var(--light);
+      padding: .55rem .9rem;
+      text-align: left;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .7;
+      border-bottom: 2px solid var(--border, #ddd);
+    }
+    .compare-table td {
+      padding: .55rem .9rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .col-reject { color: #b03030; }
+    .compare-table .col-select { color: #1a7a3a; font-weight: 600; }
+
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .9rem;
+    }
+    .score-table th {
+      background: var(--light);
+      padding: .55rem .9rem;
+      text-align: left;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .7;
+      border-bottom: 2px solid var(--border, #ddd);
+    }
+    .score-table td { padding: .55rem .9rem; border-bottom: 1px solid var(--border, #eee); }
+    .score-table tr:last-child td { border-bottom: none; font-weight: 700; }
+    .score-table .pts-col { text-align: right; font-weight: 600; }
+    .score-table .pts-pos { color: #1a7a3a; }
+    .score-table .pts-zero { color: #888; }
+
+    .sys-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 1.8rem 0;
+      font-size: .88rem;
+    }
+    .sf-box {
+      background: var(--light);
+      border: 1px solid var(--border, #ddd);
+      border-radius: 6px;
+      padding: .65rem .9rem;
+      text-align: center;
+      min-width: 105px;
+    }
+    .sf-box .sf-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; opacity: .5; margin-bottom: .2rem; }
+    .sf-box .sf-val { font-weight: 600; font-size: .88rem; }
+    .sf-box .sf-sub { font-size: .72rem; opacity: .6; margin-top: .15rem; }
+    .sf-arrow { padding: 0 .4rem; opacity: .45; font-size: 1.1rem; white-space: nowrap; }
+
+    .timeline {
+      border-left: 2px solid var(--border, #ddd);
+      margin: 1.5rem 0;
+      padding-left: 1.2rem;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 1.1rem;
+      font-size: .9rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1.2rem - 5px);
+      top: .35rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border, #ccc);
+    }
+    .tl-item.active::before { background: var(--black); }
+    .tl-date { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .5; margin-bottom: .15rem; }
+
+    /* ── DARK MODE OVERRIDES ── */
+    [data-theme="dark"] .calc-block,
+    [data-theme="dark"] .sf-box { background: var(--light); border-color: var(--border); }
+    [data-theme="dark"] .compare-table th,
+    [data-theme="dark"] .score-table th { background: var(--light); border-color: var(--border); }
+    [data-theme="dark"] .compare-table td,
+    [data-theme="dark"] .score-table td { border-color: var(--border); }
+    [data-theme="dark"] .compare-table .col-reject { color: #f08080; }
+    [data-theme="dark"] .compare-table .col-select { color: #6fcf97; font-weight: 600; }
+    [data-theme="dark"] .score-table .pts-pos { color: #6fcf97; }
+    [data-theme="dark"] .score-table .pts-zero { color: var(--subtle); }
+    [data-theme="dark"] .timeline { border-color: var(--border); }
+    [data-theme="dark"] .tl-item::before { background: var(--border); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li contenteditable="false" class=""><a href="../index.html">Projects</a></li>
+    <li contenteditable="false" class=""><a href="../about.html">About</a></li>
+    <li contenteditable="false" class=""><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      All Projects
+    </a>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Year</div><div class="meta-val" contenteditable="false">Spring 2026</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Course</div><div class="meta-val" contenteditable="false">ENGR 122 (Engineering Design 2)</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Role</div><div class="meta-val" contenteditable="false">Mechanical Design &amp; Electrical</div></div>
+    </div>
+    <h1 contenteditable="false" class="">Autonomous Navigation Robot</h1>
+    <p class="proj-lede" contenteditable="false">
+      For ENGR 122's autonomous robot competition at Stevens, our team took a different approach
+      from every other group in the class. While everyone else built on the provided Zumo chassis,
+      we designed and printed a custom chassis from scratch, made our own large-diameter hub wheels,
+      and hand-soldered a custom PCB. Navigation runs a hybrid SLAM and D* Lite stack: three
+      ultrasonic sensors dynamically build an 80mm occupancy grid as the robot moves, replanning on
+      the fly whenever new obstacles are detected. In competition, the robot hit all four targets
+      with zero collisions in 59 seconds - the top score in the class at 162.5 points out of
+      150 maximum.
+    </p>
+  </div>
+
+  <div class="proj-hero">
+    <img src="../images/robot-hero.jpg" alt="Completed autonomous navigation robot" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-robot-hero" style="display: none;">images/robot-hero.jpg — completed robot photo</div>
+  </div>
+
+  <div class="proj-body">
+
+    <!-- THE CHALLENGE -->
+    <h2 contenteditable="false" class="">The Challenge</h2>
+    <p contenteditable="false" class="">
+      ENGR 122 provided teams with a standard kit: Zumo chassis, two DC gearmotors, rubber tank
+      tracks, three HC-SR04 ultrasonic sensors, a WeMos D1 Mini (ESP8266), a FeeTech SMC-4CH motor
+      controller, and an SSD1306 OLED display. The assignment was to build a fully autonomous robot
+      that navigates a 96x36 inch arena, reaches four target coordinates in sequence, and avoids
+      five 3D-printed obstacles. The obstacle shapes are known ahead of time, but their placement
+      in the arena is randomized each competition day. The target coordinates are also random,
+      given to teams the morning of competition. Position data comes from an overhead camera tracking
+      ArUco markers on the robot, broadcast over MQTT at approximately 10 Hz.
+    </p>
+
+    <div class="callout">
+      <strong>Hard constraints from the brief:</strong> No breadboard - power distribution
+      via wired bus or custom PCB only. No remote control of any kind during the competition
+      run. No glue or tape - all components mechanically fastened. ArUco marker top surface
+      must not exceed 6.5 inches above ground. Robot must stop within 10 cm of each target
+      and remain stationary for at least 2 seconds before advancing.
+    </div>
+
+    <p contenteditable="false" class="">
+      The core engineering challenge is sensor fusion: global positioning (where am I in
+      the arena?) arrives from the MQTT/ArUco system at ~10 Hz with variable latency. Local
+      obstacle detection (what's in front of me?) comes from ultrasonic sensors at every
+      control loop iteration. The navigation system has to combine both, plan an efficient
+      path to the target, and replan smoothly when new obstacles are detected - all on a
+      WeMos D1 Mini with 80KB of usable RAM and no hardware floating-point unit.
+    </p>
+
+    <!-- DESIGN ALTERNATIVES -->
+    <h2 contenteditable="false" class="">Why We Replaced the Zumo Platform</h2>
+    <p contenteditable="false" class="">
+      An earlier course challenge required each team to drive around the arena perimeter twice
+      with no obstacles and no ArUco tracking - just wall-following. During that challenge, it
+      became clear we were going to hit a speed ceiling with the stock Zumo drive base. The
+      most direct fix would have been to increase motor voltage, but the SMC-4CH motor controller
+      was already at its operating limit. That left wheel geometry as the remaining lever: a larger
+      effective wheel radius means more linear travel per motor revolution at the same motor speed.
+    </p>
+    <p contenteditable="false" class="">
+      Once we committed to designing custom hub wheels, the question became whether to keep the
+      stock Zumo body. The stock platform would leave sensor positions hard to optimize and wiring
+      difficult to route cleanly. If we were already printing custom wheels, printing a chassis
+      that solved all three problems - speed, sensor placement, and wire management - was feasible
+      within the course's print time constraints. Electronics went on the bottom of the chassis,
+      battery on top as a separate removable piece. That layout made everything accessible and kept
+      wires bundled and easy to trace.
+    </p>
+    <p contenteditable="false" class="">
+      Three chassis approaches were evaluated. The first was the obvious starting point; the other
+      two were our own concepts.
+    </p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th contenteditable="false" class="">Alternative</th>
+          <th contenteditable="false" class="">Reason for Rejection / Selection</th>
+          <th contenteditable="false" class="">Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class=""><strong>A - Stock Zumo + 4 mini wheels</strong></td>
+          <td class="col-reject" contenteditable="false">
+            Speed-limited due to small wheel radius; no straightforward way to increase speed
+            without hardware changes outside our control. Limited space for 3 sensors, OLED,
+            PCB, and motor controller simultaneously. Open frame makes organized wiring
+            difficult, raising the risk of loose connections during operation.
+          </td>
+          <td class="col-reject" contenteditable="false">Rejected</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class=""><strong>B - Custom two-layer stacked chassis</strong></td>
+          <td class="col-reject" contenteditable="false">
+            Electronics on a lower deck, ArUco bracket on a separate upper deck. Total robot
+            height pushed the ArUco markers close to or above the 6.5-inch height constraint.
+            Higher center of gravity risked tipping during high-speed path corrections.
+            Two-piece design introduces joint flex that amplifies drivetrain vibration into
+            the sensor mounts.
+          </td>
+          <td class="col-reject" contenteditable="false">Rejected</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class=""><strong>C - Custom unibody + large-diameter hub wheels</strong></td>
+          <td class="col-select" contenteditable="false">
+            Single-piece design integrates battery housing, sensor mounts, ArUco platform,
+            and all component mounting features into one 3D-printed part - no inter-part
+            joints. Custom large-diameter hub wheels wrapped with the original rubber tracks
+            increase effective wheel circumference without hardware changes. Low-profile and
+            compact: ArUco markers well below the 6.5-inch limit, center of gravity close
+            to ground for stable high-speed cornering.
+          </td>
+          <td class="col-select" contenteditable="false">Selected ✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- MECHANICAL DESIGN -->
+    <h2 contenteditable="false" class="">Mechanical Design</h2>
+
+    <h3 contenteditable="false" class="">Unibody Chassis</h3>
+    <p contenteditable="false" class="">
+      I designed the chassis in CAD and printed it within the 5-hour total print time constraint
+      imposed by the course. The final part printed in 1 hour 31 minutes using 35.09g of material.
+      Early iterations needed dimensional corrections on the motor pocket tolerances and wheel hub
+      shaft fit, which were revised and reprinted within the allotted time.
+    </p>
+    <p contenteditable="false" class="">
+      Every mechanical function is built into one continuous print. The motor mounting pockets hold
+      the DC gearmotors on the underside with M3 screws. The battery recess locks the NiMH pack in
+      place without adhesive - directly satisfying the no-glue constraint. The front face has three
+      recesses at fixed angles for the ultrasonic sensors, so sensor orientation is set by the
+      structure rather than by hand-adjustment. The top surface integrates a flat flush platform
+      for the ArUco marker holder.
+    </p>
+    <p contenteditable="false" class="">
+      Eliminating inter-part joints also improves sensor reliability. Drivetrain vibration travels
+      through the chassis to the sensor mounts. Joint interfaces are flex points that amplify that
+      vibration and cause sensor mount drift over time. The unibody removes all of this - the
+      sensor positions are as rigid as the print itself.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/robot-cad-iso.jpg" alt="Early concept sketch exploring component placement" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-robot-cad-iso" style="display: none;">images/robot-cad-iso.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/robot-chassis-print.jpg" alt="Chassis in slicer" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-chassis-print" style="display: none;">images/robot-chassis-print.jpg</div>
+      </figure>
+    </div>
+
+    <h3 contenteditable="false" class="">Custom Large-Diameter Hub Wheels</h3>
+    <p contenteditable="false" class="">
+      The stock Zumo kit provides four small-diameter wheels per side in a multi-wheel track
+      configuration. I replaced these with custom 3D-printed large-diameter hub wheels - one per
+      side - that the original rubber tank tracks wrap around directly. The speed improvement
+      comes entirely from geometry: a larger effective wheel radius means more linear displacement
+      per motor revolution, with no motor or gearing change required.
+    </p>
+    <p contenteditable="false" class="">
+      To design the hub, I found Pololu's side-profile diagram of the 22T track on their site,
+      which shows the tooth geometry. I traced that tooth profile from the diagram, scaled it to
+      fit the belt teeth correctly, and then patterned it around the center to produce the full
+      hub cross-section. The outer diameter that resulted from that process was 64.167mm - compared
+      to the stock wheel's 35mm, a 1.84x increase in effective rolling radius.
+    </p>
+
+    <div class="calc-block">
+      <div class="calc-title">Wheel radius vs. linear speed - stock Pololu vs. custom hub</div>
+      v = w x r_eff<br>
+      <br>
+      Stock Pololu wheel (Zumo kit):  o35.0 mm  -&gt;  r_eff = 17.5 mm<br>
+      Custom hub + Pololu 22T track:  o64.167 mm -&gt;  r_eff = 32.08 mm<br>
+      <br>
+      Speed ratio at same motor RPM:  32.08 / 17.5 = <strong>1.84x</strong><br>
+      <br>
+      The original track wraps around the larger hub, engaging the same teeth -<br>
+      no new track required. The hub outer profile was designed to match the 22T<br>
+      track's 8.182 deg link pitch (22 links x 8.182 deg = 180 deg, half-wrap per side).<br>
+      <br>
+      Result: the robot crosses the 96-inch arena in roughly half the time<br>
+      the stock wheels would allow at the same motor speed.
+    </div>
+
+    <p contenteditable="false" class="">
+      The 22T track has a fixed link pitch; the hub outer diameter and tooth profile were sized to
+      match it exactly at 22 links at 8.182 degrees per link, so the track engages a full half-wrap
+      on each side. The five-spoke hub was designed around the Pololu track tooth geometry, with the
+      profile traced from Pololu's own dimension diagram and patterned around the center. A
+      first-print iteration needed minor dimensional correction before the track seated cleanly.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/robot-wheel-hub.jpg" alt="Custom hub wheel CAD render" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-wheel-hub" style="display: none;">images/robot-wheel-hub.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/robot-wheel-drawing.jpg" alt="Hub engineering drawing with dimensions" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-wheel-drawing" style="display: none;">images/robot-wheel-drawing.jpg</div>
+      </figure>
+    </div>
+
+    <!-- ELECTRICAL -->
+    <h2 contenteditable="false" class="">Electrical Design</h2>
+    <p contenteditable="false" class="">
+      The project explicitly prohibited breadboards - power distribution had to go through a
+      wired bus or custom PCB. The goal for our electrical design was to reduce failure points
+      and make it easy to spot a problem. Every connector is grouped together on the perfboard
+      so you can see at a glance whether something has come loose. Any component can still be
+      swapped out individually since everything connects via headers rather than being soldered
+      directly to the board.
+    </p>
+    <p contenteditable="false" class="">
+      The board itself is a simple perfboard with header pins that connect to the ESP8266 and
+      route out to all the needed connections: dedicated headers for all three HC-SR04 sensors,
+      the SSD1306 OLED display, and the NiMH battery pack. The FeeTech SMC-4CH motor controller
+      mounts directly to the underside of the board via a female pin connector, keeping the
+      assembly compact. The PCB is screwed to the chassis floor. All solder joints were verified
+      with a multimeter continuity test before any component was powered.
+    </p>
+
+    <div class="callout">
+      <strong>Why a soldered board matters for a mobile robot:</strong> A breadboard relies
+      on friction-fit contacts. In a robot, drivetrain vibration loosens those contacts
+      unpredictably - a sensor wire that reads correctly on a static bench can intermittently
+      disconnect during a turn or an obstacle contact. Moving to a soldered board with visible,
+      grouped connectors eliminated this failure mode entirely. The robot ran the full competition
+      without a single wiring-related fault.
+    </div>
+
+    <p contenteditable="false" class="">
+      All power lines use red wire; ground uses black throughout, so any wiring fault is
+      immediately visible. A slide switch on the positive battery line provides a clean hardware
+      shutoff for the entire system. All connections are mechanically fastened; no adhesive or
+      breadboard was used anywhere.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/robot-electronics.jpg" alt="PCB during soldering" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-robot-electronics" style="display: none;">images/robot-electronics.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/robot-pcb.jpg" alt="Completed robot with PCB installed" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-robot-pcb" style="display: none;">images/robot-pcb.jpg</div>
+      </figure>
+    </div>
+
+    <!-- SOFTWARE -->
+    <h2 contenteditable="false" class="">Software Architecture</h2>
+    <p contenteditable="false" class="">
+      The navigation stack was built by my teammates (Benjamin Umbrino and Alekos Antippas) and
+      runs entirely on the WeMos D1 Mini. At a high level: every control loop iteration reads
+      the latest MQTT position fix from the overhead ArUco camera, updates a SLAM occupancy grid
+      from the three ultrasonic sensors, reruns D* Lite path planning if the map changed, and
+      issues motor commands. The grid is 31x12 cells at 80mm per cell, covering the full 2438x914mm
+      arena. D* Lite builds a Dijkstra cost map from the goal outward and extracts the path by
+      greedy descent. When a new obstacle is detected and a cell is marked blocked, the cost map
+      is rebuilt and the path re-extracted on the next loop iteration.
+    </p>
+    <p contenteditable="false" class="">
+      The team also built a custom C++ visualization tool called Stevens Sonar Sim to validate the
+      full algorithm before deploying to hardware. The left panel renders the real arena at scale;
+      the right shows what the robot perceives in real time: the SLAM-built occupancy grid, the D*
+      Lite planned path, and target waypoints. Every competition configuration was tested in
+      simulation before any hardware runs.
+    </p>
+
+    <div class="sys-flow">
+      <div class="sf-box">
+        <div class="sf-label">MQTT</div>
+        <div class="sf-val">Position Fix</div>
+        <div class="sf-sub">x, y, heading ~10 Hz</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box">
+        <div class="sf-label">Sensors</div>
+        <div class="sf-val">SLAM Update</div>
+        <div class="sf-sub">3x sonar -&gt; grid</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box">
+        <div class="sf-label">Planner</div>
+        <div class="sf-val">D* Lite</div>
+        <div class="sf-sub">cost map -&gt; path</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box">
+        <div class="sf-label">Controller</div>
+        <div class="sf-val">Drive Motors</div>
+        <div class="sf-sub">proportional steer</div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="../images/robot-sim.jpg" alt="Stevens Sonar Sim visualization tool" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-robot-sim" style="display: none;">images/robot-sim.jpg</div>
+    </figure>
+
+    <!-- SENSOR PLACEMENT -->
+    <h2 contenteditable="false" class="">Sensor Placement: Why ±60°</h2>
+    <p contenteditable="false" class="">
+      All three HC-SR04 sensors share a single trigger pin (D7), with separate echo pins on
+      D3 (front), D2 (right), and D4 (left). Readings are taken sequentially with 20ms delays
+      between sensors to prevent acoustic crosstalk. The valid reading range is 40-1600mm;
+      readings outside this window are discarded. Obstacle inflation is only applied within 900mm
+      to avoid falsely marking arena walls at range.
+    </p>
+    <p contenteditable="false" class="">
+      The ±60° diagonal angle was chosen over the ±30° alternative. During preliminary robot
+      tests, a front-only sensor arrangement produced blind spots on diagonal obstacle approaches -
+      obstacles at an angle were not detected until the robot was nearly in contact, leaving
+      insufficient time for the planner to compute an avoidance path. The ±60° spread provides
+      a wide enough forward detection cone to catch obstacles offset from the direct travel path,
+      triggering map updates and replanning before the robot reaches the obstacle.
+    </p>
+
+    <!-- TESTING -->
+    <h2 contenteditable="false" class="">Testing &amp; Competition Results</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date" contenteditable="false">Weeks 1-7 - Straight-Line Road Test</div>
+        Preliminary robot required to drive from one end of the course to the other and return.
+        Validated MQTT reception and basic motor control. Front-only sensor configuration
+        confirmed to produce angled blind spots - this directly motivated the ±60° diagonal
+        placement in the final design.
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" contenteditable="false">Weeks 1-7 - Left-Hand Loop Test</div>
+        Robot navigated two full laps around the arena perimeter using wall-following only, with
+        no obstacles and no ArUco tracking. This test revealed the speed limitation of the stock
+        Zumo drive base - the starting point for the decision to design custom hub wheels and
+        ultimately a custom chassis.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">Weeks 11-12 - Full Algorithm Pre-Competition Test</div>
+        Full end-to-end runs on the final robot using competition target coordinates. SLAM
+        grid updates, D* Lite path computation, target arrival detection, and 2-second dwell
+        all verified using the visualization tool. All four targets reached successfully
+        in multiple pre-competition runs.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">Week 13 Competition - Trial 1</div>
+        All four targets reached in correct order. Minor collisions from a combination of
+        target coordinate calibration offset and sensor timing edge cases at specific approach
+        angles. No structural damage or hardware failure.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">Week 13 Competition - Trial 2 (Best Run)</div>
+        Recalibrated target coordinates to match competition-day positions; refined sensor
+        timing thresholds between trials using OLED display feedback. Zero collisions. All
+        four targets reached in sequence, mandatory 2-second dwell confirmed at each.
+        Total completion time: <strong>59 seconds.</strong> The run was captured by the
+        overhead ArUco tracking camera and is shown below.
+      </div>
+    </div>
+
+    <figure>
+      <video controls="" style="width:100%;border-radius:6px;margin-top:1rem;">
+        <source src="../images/robot-competition.mov" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </figure>
+
+    <!-- SCORING -->
+    <h2 contenteditable="false" class="">Scoring Results</h2>
+
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th contenteditable="false" class="">Performance Metric</th>
+          <th contenteditable="false" class="">Goal</th>
+          <th contenteditable="false" class="">Result</th>
+          <th class="pts-col" contenteditable="false">Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">Target Reaching</td>
+          <td contenteditable="false" class="">4 targets in order, 25 pts each</td>
+          <td contenteditable="false" class="">4 / 4 targets reached in sequence</td>
+          <td class="pts-col pts-pos" contenteditable="false">100 / 100</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Collision Avoidance</td>
+          <td contenteditable="false" class="">Zero crashes (-5 pts each)</td>
+          <td contenteditable="false" class="">Zero collisions in Trial 2</td>
+          <td class="pts-col pts-zero" contenteditable="false">0 deducted</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Time Bonus</td>
+          <td contenteditable="false" class="">Under 3 min: +0.5 pts/sec</td>
+          <td contenteditable="false" class="">59 sec - 121 sec under limit</td>
+          <td class="pts-col pts-pos" contenteditable="false">+60.5</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Custom PCB (Extra Credit)</td>
+          <td contenteditable="false" class="">Fully soldered circuit</td>
+          <td contenteditable="false" class="">Completed and approved</td>
+          <td class="pts-col pts-pos" contenteditable="false">+2</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class=""><strong>Total</strong></td>
+          <td contenteditable="false" class=""></td>
+          <td contenteditable="false" class=""></td>
+          <td class="pts-col pts-pos" contenteditable="false"><strong>162.5 / 150 max</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p contenteditable="false" class="">
+      The 59-second run was 121 seconds under the 3-minute scoring threshold, earning the
+      full time bonus. The speed advantage came directly from the mechanical decision to use
+      large-diameter hub wheels: the same motors, more linear travel per revolution. The zero
+      collision result in Trial 2 came from the combination of SLAM's obstacle persistence
+      (obstacles stay marked after they're detected) and the D* Lite replanner's ability to
+      route around them without stopping.
+    </p>
+
+    <div class="proj-next-nav">
+      <a href="engr111.html">
+        Next: IoT Plant Watering System
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    img.addEventListener('error', () => img.style.display = 'none');
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+</script>
+  <script src="../edit-mode.js"></script>
+
+
+</body></html>

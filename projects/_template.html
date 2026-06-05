@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+  ══════════════════════════════════════════════════════════════
+  PROJECT PAGE TEMPLATE  —  gabeayan.github.io
+  ══════════════════════════════════════════════════════════════
+
+  HOW TO ADD A NEW PROJECT
+  ────────────────────────
+  1. Copy this file to projects/your-project-name.html
+  2. Fill in every TODO comment below
+  3. Add a card to index.html (see CARD SNIPPET at the bottom)
+  4. Add images to the images/ folder
+  5. Update the "Next:" link on the previous project page to
+     point to this one, and set this page's "Next:" to point
+     to the project that follows (or to ../index.html if last)
+
+  SECTION COMPONENTS AVAILABLE
+  ─────────────────────────────
+  proj-hero      Full-width header image
+  h2             Centered section heading (auto top margin)
+  h3             Sub-section heading (inside proj-body)
+  .callout       Highlighted aside (left border, light background)
+  .calc-block    Monospace calculation block (use in gearbox.html as ref)
+  .fig-grid      Two-column image layout
+  .spec-table    Two-column key/value table
+  .proj-next-nav "Next project" link at page bottom (in style.css)
+
+  IMAGE TIPS
+  ──────────
+  Hero image:       aspect ratio ~16/9, ideally 1400px wide
+  fig-grid images:  shoot landscape, will be cropped 4/3
+  Single figures:   any aspect, max-height 480px in the hero
+
+  NAMING CONVENTION
+  ─────────────────
+  images/yourproject-hero.jpg    — top of page
+  images/yourproject-card.jpg    — homepage thumbnail (3:2)
+  images/yourproject-*.jpg/png   — body images
+  ══════════════════════════════════════════════════════════════
+  -->
+  <title>TODO: Project Title — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+
+  <!-- ── OPTIONAL: page-specific styles ── -->
+  <!-- Only add a <style> block if you need components not in style.css,
+       e.g. a custom table layout or a calculation block. Copy the
+       relevant CSS from gearbox.html as a starting point. -->
+  <style>
+    /* Example: calculation block (copy from gearbox.html if needed) */
+    /*
+    .calc-block {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: .86rem;
+      line-height: 1.8;
+    }
+    .calc-block .calc-title {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      opacity: .5;
+      margin-bottom: .7rem;
+    }
+    */
+  </style>
+
+  <!-- Dark mode: fires before paint to prevent flash -->
+</head>
+<body>
+
+<!-- ── NAV (identical on every page — do not modify) ── -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="../index.html">Projects</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <!-- ── HEADER ── -->
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      All Projects
+    </a>
+
+    <!-- Meta row: Year + up to 3 other fields (Team, Course, Role, Status…) -->
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">Year</div><div class="meta-val">TODO: 2026</div></div>
+      <div class="meta-item"><div class="meta-label">TODO: Team / Course</div><div class="meta-val">TODO: Value</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-val">TODO: Your Role</div></div>
+    </div>
+
+    <!-- Title: plain noun phrase, no subtitle needed -->
+    <h1>TODO: Project Title</h1>
+
+    <!-- Lede: 2–4 sentences. What it is, what you did, what made it notable.
+         Write for someone who will read only this paragraph. No em dashes. -->
+    <p class="proj-lede">
+      TODO: One strong paragraph summarizing the project. What problem was being solved,
+      what you built, and one concrete result or decision that makes it worth reading about.
+    </p>
+  </div>
+
+  <!-- ── HERO IMAGE ── -->
+  <!-- Use your best photo. Aim for 16:9, at least 1400px wide. -->
+  <div class="proj-hero">
+    <img src="../images/TODO-hero.jpg" alt="TODO: descriptive alt text" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-hero">images/TODO-hero.jpg</div>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="proj-body">
+
+    <!-- ════════════════════════════════════════
+    SECTION: Overview / Background
+    One paragraph of context. Why does this project exist?
+    What was the team, course, or competition context?
+    ════════════════════════════════════════ -->
+    <h2>Overview</h2>
+    <p>
+      TODO: Context paragraph. Keep to 3–5 sentences. Describe the setting
+      (competition, course, personal project), the team size, and the scope of
+      your own contribution.
+    </p>
+
+    <!-- ════════════════════════════════════════
+    SECTION: The Problem / Design Challenge
+    What specifically needed solving? What made it hard?
+    ════════════════════════════════════════ -->
+    <h2>The Problem</h2>
+    <p>
+      TODO: What was the actual engineering challenge? Be specific. Avoid vague
+      statements like "we needed to design something good." Name the constraint,
+      the failure mode, the tradeoff.
+    </p>
+
+    <!-- CALLOUT: use for constraints, hard requirements, or key insights -->
+    <div class="callout">
+      TODO: A key constraint or requirement worth highlighting. Example: "The
+      housing had to survive 40g shock loads while keeping total mass under 200g."
+      Delete this block if not needed.
+    </div>
+
+    <!-- ════════════════════════════════════════
+    SECTION: Design Approach
+    How did you solve it? Walk through decisions, not just outcomes.
+    ════════════════════════════════════════ -->
+    <h2>Design Approach</h2>
+    <p>
+      TODO: Explain your reasoning, not just your solution. What alternatives
+      did you consider? What drove the key decisions? Employers read this section
+      to understand how you think.
+    </p>
+
+    <!-- Two-column image pair -->
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/TODO-image-a.jpg" alt="TODO: alt text" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-a">images/TODO-image-a.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/TODO-image-b.jpg" alt="TODO: alt text" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-b">images/TODO-image-b.jpg</div>
+      </figure>
+    </div>
+
+    <!-- ════════════════════════════════════════
+    SECTION: Technical Details
+    Specs, analysis, materials, calculations.
+    Use h3 for sub-topics within this section.
+    ════════════════════════════════════════ -->
+    <h2>Technical Details</h2>
+
+    <h3>TODO: Sub-topic A</h3>
+    <p>
+      TODO: Specific technical content. Numbers, materials, methods.
+      Every claim should have a number behind it where possible.
+    </p>
+
+    <!-- Spec table: left column is the property name, right is the value/explanation -->
+    <table class="spec-table">
+      <tbody>
+        <tr>
+          <td>TODO: Property</td>
+          <td>TODO: Value and brief explanation</td>
+        </tr>
+        <tr>
+          <td>TODO: Property</td>
+          <td>TODO: Value and brief explanation</td>
+        </tr>
+        <tr>
+          <td>TODO: Property</td>
+          <td>TODO: Value and brief explanation</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>TODO: Sub-topic B</h3>
+    <p>
+      TODO: More technical content.
+    </p>
+
+    <!-- Single full-width image -->
+    <figure>
+      <img src="../images/TODO-detail.jpg" alt="TODO: alt text" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-detail">images/TODO-detail.jpg</div>
+    </figure>
+
+    <!-- ════════════════════════════════════════
+    SECTION: Results
+    What happened? Quantify outcomes where possible.
+    ════════════════════════════════════════ -->
+    <h2>Results</h2>
+    <p>
+      TODO: What did the project achieve? Be specific and concrete. "It worked"
+      is not enough. "Zero failures through 6 weeks of testing" or "top score in
+      the class at 162.5 out of 150 maximum" are the kinds of details that land.
+    </p>
+
+    <!-- Final image: the finished thing in context -->
+    <figure>
+      <img src="../images/TODO-final.jpg" alt="TODO: alt text" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-final">images/TODO-final.jpg</div>
+    </figure>
+
+    <!-- ── NEXT PROJECT NAV ── -->
+    <!-- Update href to the next project in sequence, or ../index.html if last -->
+    <div class="proj-next-nav">
+      <a href="TODO-next-project.html">
+        Next: TODO — Next Project Title
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+  </div><!-- /proj-body -->
+</div><!-- /project-page -->
+
+<!-- ── FOOTER (identical on every page — do not modify) ── -->
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS (identical on every page — do not modify) ── -->
+<script>
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    img.addEventListener('error', () => img.style.display = 'none');
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
+    else { html.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
+  });
+</script>
+
+<!--
+══════════════════════════════════════════════════════════════
+CARD SNIPPET FOR index.html
+Copy this block into the .grid div in index.html.
+Replace the href, image path, alt text, title, and year.
+══════════════════════════════════════════════════════════════
+
+    <a href="projects/your-project-name.html" class="card">
+      <div class="card-img">
+        <img src="images/yourproject-card.jpg" alt="TODO: Project Title" onerror="this.style.display='none'">
+        <div class="card-img-ph">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+            TODO: pick an icon from another card or use the generic one below
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          images/yourproject-card.jpg
+        </div>
+      </div>
+      <div class="card-meta">
+        <p class="card-title">TODO: Project Title</p>
+        <p class="card-year">2026</p>
+      </div>
+    </a>
+
+══════════════════════════════════════════════════════════════
+-->
+  <script src="../edit-mode.js"></script>
+</body>
+</html>

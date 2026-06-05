@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two-Stage Reduction Gearbox — Gabe Ayan</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .calc-block {
+      background: var(--light);
+      border: 1px solid var(--border, #ddd);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: .86rem;
+      line-height: 1.8;
+    }
+    .calc-block .calc-title {
+      font-family: inherit;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      opacity: .5;
+      margin-bottom: .7rem;
+    }
+
+    .dt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.5rem 0;
+    }
+    .dt-table th {
+      text-align: left;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .6;
+      border-bottom: 2px solid var(--border, #ddd);
+      padding: .45rem .8rem;
+      font-weight: 500;
+    }
+    .dt-table td {
+      padding: .5rem .8rem;
+      border-bottom: 1px solid var(--border, #eee);
+    }
+    .dt-table tr:last-child td { border-bottom: none; }
+
+    .fos-compare {
+      display: flex;
+      gap: 1.5rem;
+      margin: 1.8rem 0;
+      align-items: center;
+    }
+    .fos-block {
+      flex: 1;
+      padding: 1.2rem;
+      border: 1px solid var(--border, #ddd);
+      border-radius: 6px;
+      text-align: center;
+    }
+    .fos-number {
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .fos-number.old { opacity: .4; }
+    .fos-desc { font-size: .78rem; opacity: .6; line-height: 1.5; }
+    .fos-arrow { font-size: 1.4rem; opacity: .3; flex-shrink: 0; }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .88rem;
+    }
+    .compare-table th {
+      padding: .5rem .9rem;
+      text-align: left;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .6;
+      border-bottom: 2px solid var(--border, #ddd);
+      font-weight: 500;
+    }
+    .compare-table td {
+      padding: .5rem .9rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.2rem 0;
+    }
+    .spec-table td {
+      padding: .6rem .9rem;
+      border-bottom: 1px solid var(--border, #eee);
+      vertical-align: top;
+    }
+    .spec-table tr:last-child td { border-bottom: none; }
+    .spec-table td:first-child {
+      width: 28%;
+      font-weight: 500;
+      opacity: .7;
+    }
+
+    .timeline {
+      border-left: 2px solid var(--border, #ddd);
+      margin: 1.5rem 0;
+      padding-left: 1.2rem;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 1.1rem;
+      font-size: .9rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1.2rem - 5px);
+      top: .35rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border, #ccc);
+    }
+    .tl-item.active::before { background: var(--black); }
+    .tl-date {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      opacity: .5;
+      margin-bottom: .15rem;
+    }
+
+    .vid-block {
+      margin: 1.5rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #000;
+    }
+    .vid-block video {
+      width: 100%;
+      display: block;
+      max-height: 480px;
+      object-fit: contain;
+    }
+    .vid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 600px) { .vid-grid { grid-template-columns: 1fr; } }
+
+    /* ── DARK MODE OVERRIDES ── */
+    [data-theme="dark"] .calc-block { color: var(--body-txt); }
+    [data-theme="dark"] .dt-table td { color: var(--body-txt); }
+    [data-theme="dark"] .compare-table td { color: var(--body-txt); }
+    [data-theme="dark"] .fos-block { border-color: var(--border); }
+    [data-theme="dark"] .fos-number { color: var(--black); }
+    [data-theme="dark"] .spec-table td { color: var(--body-txt); }
+    [data-theme="dark"] .spec-table td:first-child { color: var(--gray); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li contenteditable="false" class=""><a href="../index.html">Projects</a></li>
+    <li contenteditable="false" class=""><a href="../about.html">About</a></li>
+    <li contenteditable="false" class=""><a href="mailto:gabeayan@gmail.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-page">
+
+  <div class="proj-header">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      All Projects
+    </a>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Year</div><div class="meta-val" contenteditable="false">Spring 2026</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Team</div><div class="meta-val" contenteditable="false">Stevens Baja SAE</div></div>
+      <div class="meta-item"><div class="meta-label" contenteditable="false">Role</div><div class="meta-val" contenteditable="false">Powertrain Lead</div></div>
+    </div>
+    <h1 contenteditable="false" class="">Two-Stage Reduction Gearbox</h1>
+    <p class="proj-lede" contenteditable="false"><br></p>
+  </div>
+
+  <div class="proj-hero">
+    <img src="../images/gearbox-gear-health.jpg" alt="Two-Stage Reduction Gearbox internal gear stack" onerror="this.style.display='none'">
+    <div class="img-ph" id="ph-gearbox-hero" style="display: none;">images/gearbox-gear-health.jpg</div>
+  </div>
+
+  <div class="proj-body">
+
+    <figure style="margin-top: 0; margin-bottom: 2rem;">
+      <img src="../images/gearbox-installed-car.jpg" alt="Car #89 in the shop with gearbox installed" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-installed-car" style="display: none;">images/gearbox-installed-car.jpg</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Overview</h2>
+    <p contenteditable="false" class="">During our spring testing session, the team had been running a transfer case pulled from a prior-year car. After driving for a few hours, it failed. Later analysis showed it was because the pinion gears were only 15 teeth, too small for the
+      diametral pitch, giving a Lewis factor of safety of about 0.4. I stepped in and made an iteration to the design, replacing the problematic 15-tooth gears with 19-tooth gears. I also increased the hardness from HRC 40 to HRC 50. This led to the new design having a FoS of 0.865 at the theoretical
+      worst-case load; engine at max torque, cvt at lowest ratio, and wheels not spinning. We have never seen the car reach this in operation.&nbsp;</p>
+
+    <h2 contenteditable="false" class="">Background</h2>
+    <p contenteditable="false" class="">
+      Baja SAE is a collegiate off-road racing competition run by SAE International.
+      Teams design and build a single-seat off-road vehicle around a spec engine, a
+      single cylinder making about 10 hp, and compete in events from a drag race style
+      acceleration run to a 4-hour endurance race. This year, Stevens competes as car #89.
+    </p>
+    <p contenteditable="false" class="">
+      The drivetrain layout is engine, CVT, gearbox, rear axle. I moved into Powertrain
+      Lead at the end of March 2026.
+    </p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date" contenteditable="false">June 2025</div>
+        A powertrain subteam started designing a new gearbox for car #89. Work continued
+        through the fall and winter.
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" contenteditable="false">Febuary 2026</div>
+        The powertrain subteam made a few design decisions that led to their transfercase not working in time for spring testing. A transfer case from a previous-year Stevens Baja car was
+        installed on car #89 to allow testing of other parts of the car to continue as planned.</div>
+      <div class="tl-item">
+        <div class="tl-date" contenteditable="false">March 28, 2026</div>
+        The transfer case failed during drivetrain testing. Gear teeth sheared off the
+        intermediate shaft. I took over as Powertrain Lead.
+      </div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">Early April&nbsp;</div>
+        I designed the replacement gearbox, ran the gear stress analysis,
+        and specified all materials and geometry. When my design passed design review by senior members of the team, manufacturing started.</div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">April – May 2026</div>
+        Gearbox machined, assembled, and installed. Full campus testing season completed
+        without mechanical failure.</div>
+      <div class="tl-item active">
+        <div class="tl-date" contenteditable="false">June 10–14, 2026</div>
+        Baja SAE competition.
+      </div>
+    </div>
+
+    <h2 contenteditable="false" class="">Failure Analysis</h2>
+    <p contenteditable="false" class="">
+      The transfer case failed through complete gear tooth fracture on the intermediate
+      shaft. This was a fast-fracture failure: the material was loaded past its ultimate
+      strength in a single event rather than fatiguing gradually. Teardown identified two
+      contributing factors.
+    </p>
+    <p contenteditable="false" class="">
+      The pinion gears in that unit were 15 teeth, well below the 19-tooth pinions in the
+      redesign. At the same diametral pitch (10), a smaller tooth count raises bending
+      stress in two ways. First, the pitch radius is smaller, so the same torque produces
+      a larger tangential force on each tooth. Second, fewer teeth means a lower Lewis form
+      factor Y, indicating higher stress concentration at the tooth root. Both effects push
+      stress in the same direction and they multiply.
+    </p>
+
+    <div class="calc-block">
+      <div class="calc-title">Effect of tooth count on bending stress — same torque, same DP, same face width</div>
+      15T pinion: r = 15/20 = 0.750 in,  Y = 0.276<br>
+      19T pinion: r = 19/20 = 0.950 in,  Y = 0.314<br>
+      <br>
+      σ = (W<sub>t</sub> × P) / (F × Y)<br>
+      <br>
+      Stress ratio (same torque):  σ<sub>15T</sub> / σ<sub>19T</sub>
+        = (r<sub>19</sub> × Y<sub>19</sub>) / (r<sub>15</sub> × Y<sub>15</sub>)
+        = (0.950 × 0.314) / (0.750 × 0.276)
+        = 0.2983 / 0.2070
+        = 1.44<br>
+      <br>
+      A 15-tooth pinion at DP 10 sees about 44% higher bending stress than a 19-tooth
+      pinion carrying the same torque.
+    </div>
+
+    <p contenteditable="false" class="">
+      The transfer case gears were also heat treated to approximately HRC 40 and had been
+      sitting in storage for months before installation. Lewis analysis gives a factor of
+      safety of about 0.4 under the worst-case static load. Increasing this to HRC 50 allowed us to get closer to a worst case factor of safety of 1.</p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/gearbox-fail-shaft.png" alt="Failed intermediate shaft" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-fail-shaft" style="display: none;">images/gearbox-fail-shaft.png</div>
+      </figure>
+      <figure>
+        <img src="../images/gearbox-fail-housing.jpg" alt="Failed transfer case" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-fail-housing" style="display: none;">images/gearbox-fail-housing.jpg</div>
+      </figure>
+    </div>
+
+    <h2 contenteditable="false" class="">Design Approach</h2>
+    <p contenteditable="false" class="">
+      The 55-tooth and 57-tooth driven gears had already been ordered and manufactured.
+      Working from that constraint, I chose 19-tooth pinions. Beyond fixing the FoS, the larger pinion also produces a more
+      favorable speed ratio. The car had consistently struggled to reach competitive top
+      speeds, and the 19-tooth mesh reduces the overall gear reduction compared to the
+      15-tooth setup.
+    </p>
+    <p contenteditable="false" class="">
+      Before committing to machining, I built a full CAD assembly and imported bearing and
+      shaft seal models from McMaster-Carr to verify fit and clearances. Getting everything
+      checked at the assembly level meant no surprises during manufacturing.
+    </p>
+    <p contenteditable="false" class="">
+      One key step was deriving center distances directly from the gear geometry rather than
+      relying on inherited values. Instead of blindly trusting built in CAD gear tools, I verified the center to center using diametrical pitch calculations below:</p>
+
+    <div class="calc-block">
+      <div class="calc-title">Required center distances — derived from gear geometry</div>
+      C = (T<sub>driver</sub> + T<sub>driven</sub>) / (2P)<br>
+      <br>
+      Stage 1 (19T → 57T): C₁ = (19 + 57) / (2 × 10) = 3.800 in<br>
+      Stage 2 (19T → 55T): C₂ = (19 + 55) / (2 × 10) = 3.700 in
+    </div>
+
+    <p contenteditable="false" class="">
+      These values set the bearing bore locations in the housing model. Getting center
+      distance wrong would be the end of this gearbox. Too tight would cause interference
+      and elevated contact stress and too loose creates excessive backlash and impact loads
+      each time a tooth pair comes into mesh.
+    </p>
+
+    <h2 contenteditable="false" class="">Drivetrain Load Analysis</h2>
+    <p contenteditable="false" class="">
+      Before sizing any gear, I traced the torque path from the engine to the axle under
+      the worst-case condition: engine at peak torque, CVT at its most torque-biased ratio,
+      wheels completely stationary. This is the highest load that can appear at any mesh
+      point.
+    </p>
+
+    <table class="dt-table">
+      <thead>
+        <tr>
+          <th contenteditable="false" class="">Stage</th>
+          <th contenteditable="false" class="">Ratio</th>
+          <th contenteditable="false" class="">Torque In</th>
+          <th contenteditable="false" class="">Torque Out</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">CVT (Comet-790)</td>
+          <td contenteditable="false" class="">3.38:1</td>
+          <td contenteditable="false" class="">18.5 ft·lb</td>
+          <td contenteditable="false" class="">62.5 ft·lb</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Stage 1 (19T → 57T)</td>
+          <td contenteditable="false" class="">3.00:1</td>
+          <td contenteditable="false" class="">62.5 ft·lb</td>
+          <td contenteditable="false" class="">187.5 ft·lb</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Stage 2 (19T → 55T)</td>
+          <td contenteditable="false" class="">2.89:1</td>
+          <td contenteditable="false" class="">187.5 ft·lb</td>
+          <td contenteditable="false" class="">~542 ft·lb</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p contenteditable="false" class="">
+      Total gearbox reduction: 3.0 × 2.89 = 8.68:1. Total drivetrain at peak CVT ratio:
+      3.38 × 8.68 = about 29.3:1. The Stage 2 input pinion carries the highest tangential
+      force in the system. It sits on the intermediate shaft after the 3:1 Stage 1
+      multiplication, so its load is 9 times engine torque.
+    </p>
+
+    <h2 contenteditable="false" class="">Gear Stress Analysis</h2>
+    <p contenteditable="false" class="">
+      The Lewis equation treats a gear tooth as a cantilever beam loaded at the tip. It is
+      a standard conservative model for bending stress at the tooth root:
+    </p>
+
+    <div class="callout">
+      σ = (W<sub>t</sub> × P) / (F × Y)<br><br>
+      <span style="opacity:.65; font-size:.88em;">
+        σ = root bending stress (psi) &nbsp;·&nbsp;
+        W<sub>t</sub> = tangential force (lb) &nbsp;·&nbsp;
+        P = diametral pitch &nbsp;·&nbsp;
+        F = face width (in) &nbsp;·&nbsp;
+        Y = Lewis form factor
+      </span>
+    </div>
+
+    <p contenteditable="false" class="">
+      All gears: diametral pitch 10, face width 0.375 in, 20° full-depth involute. Y = 0.314
+      for 19 teeth at 20° from the standard Lewis table. Worst-case load at the Stage 2
+      pinion under full stall:
+    </p>
+
+    <div class="calc-block">
+      <div class="calc-title">Stage 2 Pinion — Full Stall Load</div>
+      T<sub>in</sub> = 222 in·lb × 3.38 (CVT) × 3.0 (Stage 1) = 2,251 in·lb<br>
+      r<sub>pinion</sub> = 19 / (2 × 10) = 0.950 in<br>
+      W<sub>t</sub> = 2,251 / 0.950 = 2,369.6 lb<br>
+      <br>
+      σ = (2,369.6 × 10) / (0.375 × 0.314) = 201,236 psi<br>
+      <br>
+      Allowable bending stress at HRC 50: 174,045 psi<br>
+      Lewis FoS = 174,045 / 201,236 = 0.865
+    </div>
+
+    <p contenteditable="false" class="">
+      The FoS of 0.865 is against the theoretical maximum load: full drivetrain stall with
+      the engine at peak torque and the CVT locked at its lowest ratio. This condition is
+      never sustained in operation. The CVT begins to upshift before stall, tire slip limits
+      torque transfer, and the engine unloads before reaching peak torque at stall RPM. The
+      Lewis equation is also conservative by design, assuming full load at a single tooth
+      tip and ignores load sharing between adjacent teeth.
+    </p>
+
+    <div class="fos-compare">
+      <div class="fos-block">
+        <div class="fos-number old">0.40</div>
+        <div class="fos-desc">Old transfer case<br>15T pinions, HRC 40</div>
+      </div>
+      <div class="fos-arrow">→</div>
+      <div class="fos-block">
+        <div class="fos-number new">0.865</div>
+        <div class="fos-desc">New design<br>19T pinions, HRC 50</div>
+      </div>
+    </div>
+    <p style="font-size: .78rem; opacity: .5; margin-top: -.8rem; margin-bottom: 1.5rem;" contenteditable="false" class=""><br></p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th contenteditable="false" class="">Parameter</th>
+          <th contenteditable="false" class="">Old Transfer Case</th>
+          <th contenteditable="false" class="">New Design</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">Pinion tooth count</td>
+          <td contenteditable="false" class="">15T</td>
+          <td contenteditable="false" class="">19T</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Driven gear (Stage 1)</td>
+          <td contenteditable="false" class="">53T</td>
+          <td contenteditable="false" class="">57T</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Pinion pitch radius</td>
+          <td contenteditable="false" class="">0.750 in</td>
+          <td contenteditable="false" class="">0.950 in</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Lewis form factor Y</td>
+          <td contenteditable="false" class="">0.276</td>
+          <td contenteditable="false" class="">0.314</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Heat treatment</td>
+          <td contenteditable="false" class="">~HRC 40, months in storage</td>
+          <td contenteditable="false" class="">HRC 50</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Allowable bending stress</td>
+          <td contenteditable="false" class="">~130,000 psi</td>
+          <td contenteditable="false" class="">174,045 psi</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Lewis FoS at stall</td>
+          <td contenteditable="false" class="">~0.40 (failed at testing)</td>
+          <td contenteditable="false" class="">0.865</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Oil seal</td>
+          <td contenteditable="false" class="">RTV silicone (leaked)</td>
+          <td contenteditable="false" class="">Laser-cut Buna-N gasket</td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Outcome</td>
+          <td contenteditable="false" class="">Tooth fracture at testing</td>
+          <td contenteditable="false" class="">No failures during on campus testing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img src="../images/gearbox-gearset.jpg" alt="Complete gear set" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-gearset" style="display: none;">images/gearbox-gearset.jpg</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Materials</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr>
+          <td contenteditable="false" class="">Housing</td>
+          <td contenteditable="false" class="">
+            6061-T6 aluminum. The housing carries bearing loads and
+            maintains shaft alignment. 6061 machines
+            easily and is strong enough for the structural loads. It was machined on our Fanuc CNC mill.
+          </td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Gears</td>
+          <td contenteditable="false" class="">
+            4140 chromoly steel, HRC 50. 4140 through-hardens at these section sizes and
+            stays tough at high hardness. Specifying HRC 50 rather than the HRC 40 of the
+            old transfer case moved the allowable bending stress from about 130,000 psi to
+            174,045 psi.
+          </td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Bearings</td>
+          <td contenteditable="false" class="">
+            Deep groove ball bearings at each of the six shaft locations, sized for the
+            combined radial and thrust loads at each position.
+          </td>
+        </tr>
+        <tr>
+          <td contenteditable="false" class="">Gasket</td>
+          <td contenteditable="false" class="">
+            Laser-cut Buna-N nitrile rubber. See oil seal section below.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 contenteditable="false" class="">CAD</h2>
+    <p contenteditable="false" class="">
+      The gearbox was fully modeled before any machining began. This allowed for us to avoid any problems with clearances and it went through a full design review process. All of the shelf parts were imported into CAD to allow for exact fitment.&nbsp;</p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/gearbox-cad-ortho.jpg" alt="Gearbox CAD front view" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-cad-ortho" style="display: none;">images/gearbox-cad-ortho.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/gearbox-cad-assembled.jpg" alt="Gearbox CAD isometric view" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-cad-assembled" style="display: none;">images/gearbox-cad-assembled.jpg</div>
+      </figure>
+    </div>
+
+    <figure>
+      <img src="../images/gearbox-cad-exploded.jpg" alt="Gearbox CAD exploded view" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-cad-exploded" style="display: none;">images/gearbox-cad-exploded.jpg</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Prototyping</h2>
+    <p contenteditable="false" class="">Before milling the aluminum housing, I 3D-printed half of the housing shell to check mounting
+      fit on the car's frame. My goal was to see if the geometry in CAD aligned with the real frame of the car. After a few adjustments to the tabs, I found ones that fit.&nbsp;</p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/gearbox-prototype.jpg" alt="3D-printed housing half-shell" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-proto" style="display: none;">images/gearbox-prototype.jpg</div>
+      </figure>
+      <figure>
+        <img src="../images/gearbox-installed.png" alt="Prototype test fit on car" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-installed" style="display: none;">images/gearbox-installed.png</div>
+      </figure>
+    </div>
+
+    <h2 contenteditable="false" class="">Machining</h2>
+    <p contenteditable="false" class="">
+      I handled all design and CAD work but due to the timeline, parts of the manufacturing were delegated to other team members.&nbsp;</p>
+    <p contenteditable="false" class="">
+      The transfer case halves were machined on the team's Fanuc CNC mill. I helped run the
+      machine for one operation but didn't write the CAM. The case required two operations, and to
+      set up the second, I made a fixture plate on the Bridgeport manual mill to hold the
+      case at the correct reference position. The second image below shows one half after
+      the first operation, before that second setup.
+    </p>
+    <p contenteditable="false" class="">
+      The bearing carrier was turned on the CNC lathe, which I ran. The first image below
+      shows it mid-operation. Both 19-tooth pinion gears, the input
+      shaft pinion and the intermediate shaft pinion, I cut on the Bridgeport mill. The two large driven gears, the 57-tooth and 55-tooth, were outsourced
+      to an external shop specializing in gear manufacturing earlier in the year.</p>
+    <p contenteditable="false" class="">
+      Assembly required press fits throughout. Gears were pressed onto shafts that had
+      polygonal profiles cut into them for torque transfer. The polygon interface distributes
+      torque through form contact across the shaft cross-section rather than concentrating
+      it at a single keyway.
+    </p>
+    <p contenteditable="false" class="">We had one quality issue came up during manufacturing the input shaft. When we sent it out for heat treatment, it came back at HRC 17 instead of the specified HRC 50. We looked into it and discovered that material was mislabel and it led to it being cut out of 1018 steel. A replacement was made from 4140
+      and sent for heat treatment. The 1018 shaft was run during campus testing while the
+      correct part was being processed, then swapped out before competition.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <img src="../images/gearbox-lathe.png" alt="Bearing carrier on lathe" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-lathe" style="display: none;">images/gearbox-lathe.png</div>
+      </figure>
+      <figure>
+        <img src="../images/gearbox-mill.png" alt="Transfer case half after first operation" onerror="this.style.display='none'">
+        <div class="img-ph tall" id="ph-mill" style="display: none;">images/gearbox-mill.png</div>
+      </figure>
+    </div>
+
+    <h2 contenteditable="false" class="">Fixing the Oil Leak</h2>
+    <p contenteditable="false" class="">
+      Every previous Stevens gearbox used RTV silicone applied as a bead around the mating
+      housing faces. RTV degrades with thermal cycling, and compression depends on how
+      carefully it was applied that day. We have struggled with getting a consistent seal from a
+      hand-applied bead, which has led to every gearbox leaking oil.&nbsp;</p>
+    <p contenteditable="false" class="">I wanted to try and fix this so I researched types of gaskets we could use. I laned on using a Buna-N nitrile rubber gasket laser-cut from the same CAD file
+      that defined the housing mating face so everything would line up. From my research, I found that nitrile is a standard for oil seals and is almost exactly what we need for our application. The gearbox after assembly was left in a clean oil pan with shop towels to check for leaks overnight. It was dry the next day and we will see how it holds up during competition.&nbsp;</p>
+
+    <div class="vid-block">
+      <video controls="" preload="none" poster="">
+        <source src="../images/gearbox-gasket-laser.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <figure>
+      <img src="../images/gearbox-gasket.png" alt="Laser-cut Buna-N gasket" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-gasket" style="display: none;">images/gearbox-gasket.png</div>
+    </figure>
+
+    <h2 contenteditable="false" class="">Results</h2>
+    <p contenteditable="false" class="">
+      The gearbox ran through a full campus testing season without mechanical failure, oil
+      leaks, or any sign of tooth distress. It also set a new speed record for our team of 25 mph.&nbsp;</p>
+
+    <p contenteditable="false" class="">
+      Testing included full-throttle acceleration runs and braking at speed on campus.
+    </p>
+
+    <div class="vid-block">
+      <video controls="" preload="none">
+        <source src="../images/gearbox-test-topspeed.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="vid-block">
+      <video controls="" preload="none">
+        <source src="../images/gearbox-test-run.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <p contenteditable="false" class="">
+      After the testing season we disassembled the gearbox to check gear condition. The
+      photo below shows the housing opened on the welding table. During disassembly, the gasket broke apart, so we
+      laser-cut a replacement from the same CAD file.
+    </p>
+
+    <figure>
+      <img src="../images/gearbox-disassembly.jpg" alt="Gearbox disassembly inspection — intact teeth, deformed gasket visible on housing face" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-disassembly" style="display: none;">images/gearbox-disassembly.jpg</div>
+    </figure>
+
+    <p contenteditable="false" class="">Car #89 is entered in Baja SAE competition, June 10–14, 2026.</p>
+
+    <figure>
+      <img src="../images/car-photo.jpeg" alt="Car #89 on campus" onerror="this.style.display='none'">
+      <div class="img-ph" id="ph-car-photo" style="display: none;">images/car-photo.jpeg</div>
+    </figure>
+
+    <div class="proj-next-nav">
+      <a href="baja-daq.html">
+        Next: Vehicle Data Acquisition System
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabe Ayan &nbsp;·&nbsp; Stevens Institute of Technology</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/gabe-ayan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/gabeayan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Dark mode toggle
+  var html = document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
+    else { html.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
+  });
+
+  // Hide image placeholders when images load
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', () => {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    });
+    img.addEventListener('error', () => img.style.display = 'none');
+    if (img.complete && img.naturalWidth > 0) {
+      const ph = img.nextElementSibling;
+      if (ph && ph.classList.contains('img-ph')) ph.style.display = 'none';
+    }
+  });
+</script>
+  <script src="../edit-mode.js"></script>
+
+
+</body></html>
