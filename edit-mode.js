@@ -6,6 +6,7 @@
  */
 (function () {
   'use strict';
+  if (location.protocol !== 'file:') return;
 
   /* ── Styles ──────────────────────────────────────────────────────────── */
   const style = document.createElement('style');

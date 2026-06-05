@@ -297,6 +297,105 @@ nav {
 /* ── ABOUT PAGE ── */
 .about-page { padding-top: var(--nav-h); }
 
+.resume-embed {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 0 var(--pad) 48px;
+}
+.resume-doc {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 48px 56px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--black);
+}
+.resume-header {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--black);
+}
+.resume-name {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.resume-contact {
+  font-size: 13px;
+  color: var(--gray);
+}
+.resume-contact a { color: var(--gray); text-decoration: none; }
+.resume-contact a:hover { color: var(--black); }
+.resume-section {
+  margin-bottom: 24px;
+}
+.resume-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px;
+  margin-bottom: 14px;
+}
+.resume-entry {
+  margin-bottom: 14px;
+}
+.resume-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+.resume-date {
+  font-size: 12px;
+  color: var(--gray);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.resume-location {
+  font-size: 12px;
+  color: var(--gray);
+  flex-shrink: 0;
+}
+.resume-note {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--gray);
+  margin-top: 3px;
+}
+.resume-bullets {
+  margin: 5px 0 0 18px;
+  padding: 0;
+}
+.resume-bullets li {
+  margin-bottom: 3px;
+  color: var(--black);
+}
+.resume-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.resume-download-btn {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 9px 20px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  text-decoration: none;
+  transition: border-color .15s, background .15s;
+}
+.resume-download-btn:hover {
+  border-color: var(--black);
+  background: var(--light);
+}
+
 .about-body {
   max-width: var(--max-w); margin: 0 auto;
   padding: 0 var(--pad) 80px;
